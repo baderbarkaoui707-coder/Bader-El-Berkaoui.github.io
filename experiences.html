@@ -2,154 +2,268 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <title>Expériences Professionnelles - Mon Portfolio</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expériences | Bader el Berkaoui</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* --- STYLE GLOBAL (Dark Theme) --- */
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --primary: #38bdf8; /* Bleu Ciel */
+            --secondary: #818cf8; /* Indigo */
+            --accent: #2dd4bf; /* Teal */
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            /* Fond subtil avec dégradé */
+            background-image: linear-gradient(to bottom, #0f172a, #1e293b);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            padding: 20px 5%; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border-bottom: var(--glass-border);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; }
+        .logo span { color: var(--primary); }
+        .back-btn { 
+            color: var(--text-muted); text-decoration: none; font-weight: 600; transition: 0.3s;
+            display: flex; align-items: center; gap: 8px; font-size: 0.9rem;
+        }
+        .back-btn:hover { color: var(--primary); }
+
+        /* --- HEADER PAGE --- */
+        .page-header {
+            text-align: center; padding: 80px 20px 40px;
+        }
+        .page-header h1 { font-size: 3rem; margin-bottom: 10px; background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .page-header p { color: var(--text-muted); max-width: 600px; margin: 0 auto; font-size: 1.1rem; }
+
+        /* --- TIMELINE CONTAINER --- */
+        .timeline-section {
+            padding: 40px 10% 100px;
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* La ligne verticale centrale */
+        .timeline-section::before {
+            content: '';
+            position: absolute;
+            left: 50%; top: 0; bottom: 0;
+            width: 2px;
+            background: rgba(255,255,255,0.1);
+            transform: translateX(-50%);
+        }
+
+        /* --- TIMELINE ITEM --- */
+        .timeline-item {
+            margin-bottom: 60px;
+            position: relative;
+            width: 50%;
+        }
+
+        /* Alternance Gauche / Droite */
+        .timeline-item:nth-child(odd) { left: 0; padding-right: 40px; text-align: right; }
+        .timeline-item:nth-child(even) { left: 50%; padding-left: 40px; text-align: left; }
+
+        /* Le point sur la ligne */
+        .timeline-dot {
+            position: absolute;
+            top: 20px;
+            width: 20px; height: 20px;
+            background: var(--bg-dark);
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: 0 0 15px var(--primary);
+        }
+        .timeline-item:nth-child(odd) .timeline-dot { right: -10px; }
+        .timeline-item:nth-child(even) .timeline-dot { left: -10px; }
+
+        /* La Carte de contenu */
+        .timeline-content {
+            background: var(--bg-card);
+            border: var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            transition: 0.4s;
+            position: relative;
+        }
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Détails */
+        .date-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+        
+        .role { font-size: 1.5rem; color: #fff; margin-bottom: 5px; font-weight: 700; }
+        .company { font-size: 1.1rem; color: var(--secondary); margin-bottom: 15px; display: block; font-weight: 600; }
+        
+        .description { color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; margin-bottom: 20px; }
+
+        /* Liste des tâches */
+        .task-list { list-style: none; display: inline-block; text-align: left; }
+        .timeline-item:nth-child(odd) .task-list { text-align: right; } /* Alignement spécifique pour le côté gauche */
+        /* Correction pour la lisibilité sur les bullet points à gauche */
+        .timeline-item:nth-child(odd) .task-list li { flex-direction: row-reverse; }
+
+        .task-list li {
+            margin-bottom: 8px;
+            color: #e2e8f0;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .task-list i { color: var(--accent); font-size: 0.8rem; }
+
+        /* Tags Technos */
+        .tech-tags { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+        .timeline-item:nth-child(even) .tech-tags { justify-content: flex-start; }
+        
+        .tag {
+            font-size: 0.75rem; padding: 4px 12px; background: rgba(255,255,255,0.05);
+            border-radius: 4px; color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* --- RESPONSIVE MOBILE --- */
+        @media (max-width: 768px) {
+            .timeline-section::before { left: 20px; }
+            
+            .timeline-item { width: 100%; padding-left: 50px; padding-right: 0; text-align: left; }
+            .timeline-item:nth-child(odd) { left: 0; text-align: left; }
+            .timeline-item:nth-child(even) { left: 0; }
+            
+            .timeline-dot { left: 10px; right: auto; }
+            .timeline-item:nth-child(odd) .timeline-dot { left: 10px; right: auto; }
+            
+            .timeline-item:nth-child(odd) .task-list { text-align: left; }
+            .timeline-item:nth-child(odd) .task-list li { flex-direction: row; }
+            
+            .tech-tags { justify-content: flex-start; }
+            .timeline-item:nth-child(odd) .tech-tags { justify-content: flex-start; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation mise à jour -->
+
     <nav>
-        <div class="nav-container">
-            <a href="index.html" class="logo">Mon Portfolio</a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="parcours.html">Parcours</a></li>
-                <li><a href="experiences.html" class="active">Expériences</a></li>
-                <li><a href="projets.html">Projets</a></li>
-                <li><a href="competences.html">Compétences</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-            <button class="burger" id="burgerBtn" aria-label="Menu" aria-expanded="false">
-                <span class="line1"></span>
-                <span class="line2"></span>
-                <span class="line3"></span>
-            </button>
-        </div>
+        <a href="index.html" class="logo">BE.<span>Elec</span></a>
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Retour Accueil</a>
     </nav>
 
-    <!-- Section Expériences -->
-    <main class="experiences">
-        <div class="container">
-            <h1>Mes Expériences Professionnelles</h1>
-            
-            <div class="experience-timeline">
-                <!-- Expérience 1 -->
-                <article class="experience-card">
-                    <div class="experience-header">
-                        <div class="company-logo">
-                            <img src="assets/images/logo-auto-hall.png" alt="Logo Groupe Auto-hall" loading="lazy">
-                        </div>
-                        <div class="company-info">
-                            <h2>Groupe Auto-hall (Ford)</h2>
-                            <div class="experience-meta">
-                                <p class="duration"><i class="fas fa-calendar-alt"></i> Stage d'observation | 2023</p>
-                                <p class="department"><i class="fas fa-building"></i> Service: Pièces de Rechange (PDR)</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="experience-content">
-                        <h3>Découvertes clés :</h3>
-                        <ul class="experience-list">
-                            <li><i class="fas fa-check-circle"></i> Apprentissage des Incoterms utilisés dans la chaîne logistique</li>
-                            <li><i class="fas fa-check-circle"></i> Observation du processus de lancement des projets de commande</li>
-                            <li><i class="fas fa-check-circle"></i> Visite de l'atelier mécanique et analyse des flux</li>
-                        </ul>
-                    </div>
-                    <div class="experience-media">
-                        <img src="assets/images/auto-hall-stage.jpg" alt="Atelier mécanique Auto-hall" loading="lazy">
-                    </div>
-                </article>
+    <header class="page-header" data-aos="fade-down">
+        <h1>Expériences Professionnelles</h1>
+        <p>Mon parcours en entreprise, axé sur la maintenance haute tension, les bureaux d'études et l'ingénierie électrique.</p>
+    </header>
 
-                <!-- Expérience 2 -->
-                <article class="experience-card">
-                    <div class="experience-header">
-                        <div class="company-logo">
-                            <img src="assets/images/logo-cobicab.png" alt="Logo Coficab" loading="lazy">
-                        </div>
-                        <div class="company-info">
-                            <h2>Coficab</h2>
-                            <div class="experience-meta">
-                                <p class="duration"><i class="fas fa-calendar-alt"></i> Stage d'Ingénieur | 2024</p>
-                                <p class="department"><i class="fas fa-building"></i> Service: Logistique</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="experience-content">
-                        <h3>Projet réalisé : Optimisation des écarts dans la gestion des déchets</h3>
-                        <ul class="experience-list">
-                            <li><i class="fas fa-check-circle"></i> Collecte et analyse des données terrain</li>
-                            <li><i class="fas fa-check-circle"></i> Visualisation des données avec Power BI</li>
-                            <li><i class="fas fa-check-circle"></i> Application de la méthode des 5M (Main-d'œuvre, Matières, Méthodes, Milieu, Machines)</li>
-                            <li><i class="fas fa-check-circle"></i> Proposition de solutions correctives</li>
-                        </ul>
-                    </div>
-                    <div class="experience-media">
-                        <img src="assets/images/cobicab-logistique.jpg" alt="Optimisation logistique Coficab" loading="lazy">
-                    </div>
-                </article>
+    <div class="timeline-section">
 
-                <!-- Expérience 3 -->
-                <article class="experience-card">
-                    <div class="experience-header">
-                        <div class="company-logo">
-                            <img src="assets/images/logo-aptiv.png" alt="Logo Aptiv" loading="lazy">
-                        </div>
-                        <div class="company-info">
-                            <h2>APTIV</h2>
-                            <div class="experience-meta">
-                                <p class="duration"><i class="fas fa-calendar-alt"></i> Stage d'Ingénieur | 2025</p>
-                                <p class="department"><i class="fas fa-building"></i> Service: Maintenance</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="experience-content">
-                        <h3>Projet réalisé : Digitalisation du suivi énergétique (ISO 14001)</h3>
-                        <ul class="experience-list">
-                            <li><i class="fas fa-check-circle"></i> Conception d'un système centralisé de suivi</li>
-                            <li><i class="fas fa-check-circle"></i> Mise en place d'alertes automatiques pour dépassements de seuil</li>
-                            <li><i class="fas fa-check-circle"></i> Création de checklists pour techniciens</li>
-                            <li><i class="fas fa-check-circle"></i> Génération automatique de rapports</li>
-                            <li><i class="fas fa-check-circle"></i> Archivage digital des documents</li>
-                        </ul>
-                    </div>
-                    <div class="experience-media">
-                        <div class="video-link">
-                            <a href="https://drive.google.com/file/d/1LYv8dsjPooPkzfY58xu4Lk73DB6fBZHb/view?usp=sharing" 
-                               target="_blank" 
-                               rel="noopener noreferrer" 
-                               class="btn-video">
-                                <i class="fas fa-play-circle"></i> Voir la vidéo du projet APTIV
-                            </a>
-                        </div>
-                    </div>
-                </article>
+        <div class="timeline-item" data-aos="fade-right">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <span class="date-badge">Juil. 2025 - Août 2025</span>
+                <h3 class="role">Stagiaire Technique (Ingénieur)</h3>
+                <span class="company"><i class="fas fa-building"></i> SRM Casablanca</span>
+                <p class="description">
+                    Stage technique au sein des postes sources (HTB/HTA). Mission critique axée sur la maintenance préventive des transformateurs de puissance pour assurer la continuité de service.
+                </p>
+                <ul class="task-list">
+                    <li><i class="fas fa-check"></i> Analyse des gaz dissous (DGA) sur transformateurs 225KV/60KV.</li>
+                    <li><i class="fas fa-check"></i> Diagnostic de l'état des isolants (huile/papier).</li>
+                    <li><i class="fas fa-check"></i> Contribution aux plans de maintenance préventive.</li>
+                </ul>
+                <div class="tech-tags">
+                    <span class="tag">Haute Tension</span>
+                    <span class="tag">Maintenance</span>
+                    <span class="tag">Chimie des Isolants</span>
+                </div>
             </div>
         </div>
-    </main>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>&copy; <span id="current-year">2025</span> Mon Portfolio. Tous droits réservés.</p>
-            <div class="social-links">
-                <a href="https://www.linkedin.com/in/younes-tamouh-b84335253/" 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   aria-label="LinkedIn">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-                <a href="mailto:younesstamouh1@gmail.com" aria-label="Envoyer un email">
-                    <i class="fas fa-envelope"></i>
-                </a>
+        <div class="timeline-item" data-aos="fade-left">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <span class="date-badge">Mars 2024 - Juin 2024</span>
+                <h3 class="role">Stagiaire PFA (Bureau d'Études)</h3>
+                <span class="company"><i class="fas fa-bolt"></i> Groupe EM Énergie</span>
+                <p class="description">
+                    Projet de Fin d'Année (Licence). Étude complète CFO/CFA (Courants Forts/Faibles) pour l'installation électrique d'un plateau de bureaux moderne.
+                </p>
+                <ul class="task-list">
+                    <li><i class="fas fa-check"></i> Dimensionnement des câbles et protections (Caneco BT).</li>
+                    <li><i class="fas fa-check"></i> Élaboration des plans d'implantation (AutoCAD).</li>
+                    <li><i class="fas fa-check"></i> Simulation et optimisation de l'éclairage (Dialux ÉVO).</li>
+                </ul>
+                <div class="tech-tags">
+                    <span class="tag">Caneco BT</span>
+                    <span class="tag">AutoCAD</span>
+                    <span class="tag">Dialux</span>
+                    <span class="tag">Norme NFC 15-100</span>
+                </div>
             </div>
         </div>
-    </footer>
 
-    <script src="assets/js/script.js"></script>
+        <div class="timeline-item" data-aos="fade-right">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <span class="date-badge">2023 (1 mois)</span>
+                <h3 class="role">Stage d'Initiation</h3>
+                <span class="company"><i class="fas fa-industry"></i> [Nom de l'Entreprise]</span>
+                <p class="description">
+                    Première immersion dans le monde industriel. Observation des processus de maintenance et découverte du fonctionnement d'un service technique.
+                </p>
+                <ul class="task-list">
+                    <li><i class="fas fa-check"></i> Découverte des chaînes de production/réparation.</li>
+                    <li><i class="fas fa-check"></i> Assistance aux techniciens de maintenance.</li>
+                    <li><i class="fas fa-check"></i> Initiation aux règles de sécurité (HSE).</li>
+                </ul>
+                <div class="tech-tags">
+                    <span class="tag">Maintenance</span>
+                    <span class="tag">Sécurité Indus.</span>
+                    <span class="tag">Observation</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Mise à jour automatique de l'année
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
     </script>
 </body>
 </html>
