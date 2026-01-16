@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bader el Berkaoui | Ingénieur Génie Électrique et Controle industriel </title>
+    <title>Bader el Berkaoui | Ingénieur Génie Électrique</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -11,9 +11,9 @@
 
     <style>
         :root {
-            --bg-dark: #020617; /* Noir bleuté très profond */
-            --primary: #38bdf8; /* Bleu Ciel */
-            --secondary: #6366f1; /* Indigo vibrant */
+            --bg-dark: #020617;
+            --primary: #38bdf8;
+            --secondary: #6366f1;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
         }
@@ -25,11 +25,11 @@
             background-color: var(--bg-dark);
             color: var(--text-main);
             height: 100vh;
-            overflow: hidden; /* Pas de scroll sur l'accueil pour l'effet "Poster" */
+            overflow: hidden;
             position: relative;
         }
 
-        /* --- FOND ANIMÉ (Le "Décor" amélioré) --- */
+        /* --- FOND ANIMÉ --- */
         .background-glow {
             position: absolute; width: 600px; height: 600px;
             background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
@@ -81,7 +81,6 @@
             padding: 0 10%; max-width: 1400px; margin: 0 auto;
         }
 
-        /* Texte (Gauche) */
         .hero-content { flex: 1; z-index: 2; padding-right: 20px; }
         
         .tagline {
@@ -109,16 +108,17 @@
         }
         .btn-glass:hover { border-color: var(--primary); background: rgba(56, 189, 248, 0.1); color: var(--primary); }
 
-        /* Photo (Droite) */
-       <img src="assets/profil.png" alt="Bader" class="hero-img">
+        /* --- C'EST ICI QUE J'AI CORRIGÉ LE CSS --- */
+        .hero-image-container { 
+            flex: 1; display: flex; justify-content: center; position: relative; 
+            animation: float 6s ease-in-out infinite;
         }
-        
+
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); }
         }
 
-        /* Le cercle lumineux derrière la photo */
         .hero-image-bg {
             position: absolute; width: 450px; height: 450px;
             background: radial-gradient(closest-side, rgba(56, 189, 248, 0.15), transparent);
@@ -127,10 +127,9 @@
         }
 
         .hero-img {
-            width: 420px; /* Taille ajustée */
+            width: 420px;
             height: auto;
-            /* Pas de border-radius 50% ici si l'image est détourée (transparente), sinon remettre 50% */
-            filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.3)); /* Ombre portée lumineuse */
+            filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.3));
             transition: 0.5s;
         }
         .hero-img:hover { filter: drop-shadow(0 0 50px rgba(99, 102, 241, 0.5)); transform: scale(1.02); }
@@ -144,7 +143,7 @@
             .hero-btns { justify-content: center; }
             .hero-img { width: 300px; margin-bottom: 40px; }
             .background-glow { width: 300px; height: 300px; }
-            .nav-links { display: none; } /* Menu caché sur mobile */
+            .nav-links { display: none; }
         }
     </style>
 </head>
@@ -182,8 +181,10 @@
 
         <div class="hero-image-container" data-aos="fade-left">
             <div class="hero-image-bg"></div>
-            <img src="profil.png" alt="Bader el Berkaoui" class="hero-img" onerror="this.style.display='none'; alert('Image profil.png non trouvée ! Vérifie le nom sur GitHub.');">
-        </div>
+            
+            <img src="assets/profil.png" alt="Bader el Berkaoui" class="hero-img">
+            
+            </div>
 
     </section>
 
@@ -193,4 +194,3 @@
     </script>
 </body>
 </html>
-
