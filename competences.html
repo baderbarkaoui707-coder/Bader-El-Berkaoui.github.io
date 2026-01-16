@@ -5,23 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compétences | Bader el Berkaoui</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         :root {
-            --bg-dark: #02040a;
-            --glass: rgba(10, 15, 30, 0.65);
-            --border: rgba(255, 255, 255, 0.05);
-            --text-main: #ffffff;
-            --text-muted: #8b9bb4;
+            --bg-dark: #020617;
+            --primary: #00f2ff;
+            --secondary: #4361ee;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass: rgba(15, 23, 42, 0.6);
+            --border: rgba(255, 255, 255, 0.08);
             
-            /* Couleurs Néon Intenses */
-            --neon-cyan: #00f3ff;
-            --neon-purple: #bc13fe;
-            --neon-orange: #ff9e00;
-            --neon-green: #0aff64;
+            /* Couleurs Spécifiques par domaine */
+            --col-elec: #00f2ff; /* Cyan */
+            --col-dev: #bd00ff;  /* Violet */
+            --col-sim: #ffae00;  /* Orange */
+            --col-cao: #00ff88;  /* Vert */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,167 +34,149 @@
             background-color: var(--bg-dark);
             color: var(--text-main);
             overflow-x: hidden;
-            perspective: 1000px;
+            perspective: 1000px; /* Nécessaire pour la 3D */
         }
 
-        /* --- FOND 3D ANIMÉ "GRID" --- */
-        .cyber-grid {
-            position: fixed; top: 0; left: 0; width: 100%; height: 200%;
-            background-image: 
-                linear-gradient(rgba(0, 243, 255, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 243, 255, 0.1) 1px, transparent 1px);
-            background-size: 60px 60px;
-            transform: perspective(500px) rotateX(60deg) translateY(-100px) translateZ(-200px);
-            animation: gridMove 20s linear infinite;
-            z-index: -2; opacity: 0.3;
-            mask-image: linear-gradient(to bottom, transparent 0%, black 40%, black 100%);
+        /* --- BACKGROUND COMPATIBLE (Le même que Expériences) --- */
+        .tech-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 50% 0%, #1e293b 0%, #020617 100%);
         }
-        
-        @keyframes gridMove {
-            0% { transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-200px); }
-            100% { transform: perspective(500px) rotateX(60deg) translateY(60px) translateZ(-200px); }
-        }
-
-        /* VIGNETTE SOMBRE */
-        .vignette {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, transparent 0%, #02040a 90%);
-            z-index: -1; pointer-events: none;
+        .grid-overlay {
+            position: absolute; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px; opacity: 0.5;
         }
 
         /* --- NAV --- */
         nav {
-            position: fixed; top: 0; width: 100%; z-index: 1000; padding: 20px 5%;
+            position: fixed; top: 0; width: 100%; z-index: 1000; padding: 15px 5%;
             display: flex; justify-content: center;
-            backdrop-filter: blur(15px); border-bottom: 1px solid var(--border);
-            background: rgba(2, 4, 10, 0.8);
+            backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+            background: rgba(2, 6, 23, 0.9);
         }
-        .nav-links { display: flex; gap: 35px; list-style: none; }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
         .nav-links a { 
-            color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem;
+            color: #94a3b8; text-decoration: none; font-weight: 600; font-size: 0.85rem;
             text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
-            display: flex; align-items: center; gap: 8px; position: relative;
+            display: flex; align-items: center; gap: 8px;
         }
-        .nav-links a::after {
-            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
-            background: var(--neon-cyan); transition: 0.3s;
-        }
-        .nav-links a:hover { color: #fff; text-shadow: 0 0 15px var(--neon-cyan); }
-        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
-        .nav-links a i { color: var(--neon-cyan); }
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+        .nav-links a i { color: var(--primary); opacity: 0.8; }
 
         /* --- HEADER --- */
         .header-section {
-            padding: 160px 20px 80px; text-align: center; max-width: 1000px; margin: 0 auto;
+            padding: 140px 20px 60px; text-align: center; max-width: 900px; margin: 0 auto;
         }
         .header-section h1 { 
-            font-size: 4.5rem; font-weight: 900; margin-bottom: 15px; letter-spacing: -2px; text-transform: uppercase;
-            background: linear-gradient(180deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+            font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; letter-spacing: -1px; text-transform: uppercase;
+            background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .subtitle { font-size: 1.2rem; color: var(--text-muted); font-weight: 300; letter-spacing: 1px; }
+        .intro-text { font-size: 1.15rem; color: #cbd5e1; font-weight: 300; max-width: 700px; margin: 0 auto; }
 
-        /* --- GRILLE DES SKILLS --- */
+        /* --- GRILLE DES COMPÉTENCES --- */
         .skills-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 40px; max-width: 1300px; margin: 0 auto 100px; padding: 0 30px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px; max-width: 1200px; margin: 0 auto 100px; padding: 0 25px;
         }
 
-        /* --- CARTE "CYBER-PANEL" --- */
-        .tech-card {
+        /* --- CARTE "HOLOGRAPHIQUE" 3D --- */
+        .skill-card {
             background: var(--glass); border: 1px solid var(--border);
-            border-radius: 20px; padding: 40px; position: relative;
-            backdrop-filter: blur(20px); overflow: hidden;
-            transition: 0.4s ease;
+            border-radius: 24px; padding: 35px; position: relative;
+            transform-style: preserve-3d; /* Active la 3D interne */
+            transform: perspective(1000px);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Variantes de couleurs pour les bordures et ombres */
+        .card-elec:hover { border-color: var(--col-elec); box-shadow: 0 0 30px rgba(0, 242, 255, 0.15); }
+        .card-dev:hover { border-color: var(--col-dev); box-shadow: 0 0 30px rgba(189, 0, 255, 0.15); }
+        .card-sim:hover { border-color: var(--col-sim); box-shadow: 0 0 30px rgba(255, 174, 0, 0.15); }
+        .card-cao:hover { border-color: var(--col-cao); box-shadow: 0 0 30px rgba(0, 255, 136, 0.15); }
+
+        /* EN-TÊTE DE LA CARTE */
+        .card-header { 
+            display: flex; align-items: center; gap: 20px; margin-bottom: 30px;
+            transform: translateZ(20px); /* L'en-tête flotte au-dessus */
+        }
+        .icon-box {
+            width: 55px; height: 55px; border-radius: 14px;
+            display: flex; justify-content: center; align-items: center; font-size: 1.6rem;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         
-        /* Effet "Scanner" (Lumière qui passe) */
-        .tech-card::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            transform: skewX(-25deg); transition: 0.5s; pointer-events: none;
-        }
-        .tech-card:hover::before { left: 150%; transition: 1s; }
-
-        .tech-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
-
-        /* Couleurs dynamiques par carte */
-        .card-cyan:hover { border-color: var(--neon-cyan); box-shadow: 0 0 30px rgba(0, 243, 255, 0.1); }
-        .card-purple:hover { border-color: var(--neon-purple); box-shadow: 0 0 30px rgba(188, 19, 254, 0.1); }
-        .card-orange:hover { border-color: var(--neon-orange); box-shadow: 0 0 30px rgba(255, 158, 0, 0.1); }
-        .card-green:hover { border-color: var(--neon-green); box-shadow: 0 0 30px rgba(10, 255, 100, 0.1); }
-
-        /* EN-TÊTE CARTE */
-        .card-header { display: flex; align-items: center; gap: 20px; margin-bottom: 35px; }
-        .icon-box {
-            width: 60px; height: 60px; border-radius: 12px;
-            display: flex; justify-content: center; align-items: center; font-size: 1.8rem;
-            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-        }
-        .card-cyan .icon-box { color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan); }
-        .card-purple .icon-box { color: var(--neon-purple); text-shadow: 0 0 10px var(--neon-purple); }
-        .card-orange .icon-box { color: var(--neon-orange); text-shadow: 0 0 10px var(--neon-orange); }
-        .card-green .icon-box { color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green); }
+        /* Couleurs des icônes */
+        .card-elec .icon-box { color: var(--col-elec); box-shadow: 0 0 20px rgba(0, 242, 255, 0.15); }
+        .card-dev .icon-box { color: var(--col-dev); box-shadow: 0 0 20px rgba(189, 0, 255, 0.15); }
+        .card-sim .icon-box { color: var(--col-sim); box-shadow: 0 0 20px rgba(255, 174, 0, 0.15); }
+        .card-cao .icon-box { color: var(--col-cao); box-shadow: 0 0 20px rgba(0, 255, 136, 0.15); }
 
         .card-title h2 { font-size: 1.6rem; margin: 0; color: #fff; letter-spacing: -0.5px; }
-        .card-title span { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+        .card-title span { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* LISTE COMPÉTENCES */
-        .skill-list { display: flex; flex-direction: column; gap: 25px; }
-        
+        /* LISTE DES LOGICIELS */
+        .skill-list { 
+            display: flex; flex-direction: column; gap: 20px; 
+            transform: translateZ(30px); /* Les barres flottent encore plus haut */
+        }
+
         .skill-item { position: relative; }
-        .skill-info { display: flex; justify-content: space-between; margin-bottom: 8px; }
-        .skill-name { font-weight: 600; color: #e2e8f0; font-size: 1rem; }
-        .counter { font-weight: 700; font-family: monospace; font-size: 1rem; }
         
-        .card-cyan .counter { color: var(--neon-cyan); }
-        .card-purple .counter { color: var(--neon-purple); }
-        .card-orange .counter { color: var(--neon-orange); }
-        .card-green .counter { color: var(--neon-green); }
+        .skill-info { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .skill-name { font-weight: 500; color: #e2e8f0; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+        .skill-name i { opacity: 0.7; font-size: 0.9rem; }
+        .skill-percent { font-weight: 700; font-size: 0.85rem; opacity: 0.9; }
 
-        /* BARRE DE PROGRESSION ANIMÉE (DATA FLOW) */
+        /* BARRES DE PROGRESSION ANIMÉES */
         .progress-track {
-            width: 100%; height: 8px; background: rgba(255,255,255,0.05);
-            border-radius: 4px; overflow: hidden; position: relative;
+            width: 100%; height: 6px; background: rgba(255,255,255,0.05);
+            border-radius: 10px; overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%; border-radius: 10px; width: 0; /* Commence à 0 pour l'animation */
+            position: relative; overflow: hidden;
+            transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1); /* Animation fluide */
         }
         
-        .progress-bar {
-            height: 100%; width: 0; border-radius: 4px; position: relative;
-            background-size: 20px 20px;
-            background-image: linear-gradient(
-                45deg, 
-                rgba(255,255,255,0.2) 25%, 
-                transparent 25%, 
-                transparent 50%, 
-                rgba(255,255,255,0.2) 50%, 
-                rgba(255,255,255,0.2) 75%, 
-                transparent 75%, 
-                transparent
-            );
-            animation: flow 1s linear infinite; /* Animation de flux */
-            transition: width 2s cubic-bezier(0.22, 0.61, 0.36, 1); /* Animation de remplissage */
+        /* Effet de brillance qui traverse la barre */
+        .progress-fill::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: translateX(-100%);
+            animation: shine 2s infinite;
         }
 
-        @keyframes flow { from { background-position: 0 0; } to { background-position: 40px 0; } }
+        @keyframes shine { 100% { transform: translateX(100%); } }
 
-        .card-cyan .progress-bar { background-color: var(--neon-cyan); box-shadow: 0 0 15px var(--neon-cyan); }
-        .card-purple .progress-bar { background-color: var(--neon-purple); box-shadow: 0 0 15px var(--neon-purple); }
-        .card-orange .progress-bar { background-color: var(--neon-orange); box-shadow: 0 0 15px var(--neon-orange); }
-        .card-green .progress-bar { background-color: var(--neon-green); box-shadow: 0 0 15px var(--neon-green); }
+        /* Couleurs des barres */
+        .card-elec .progress-fill { background: linear-gradient(90deg, #00f2ff, #006aff); box-shadow: 0 0 10px var(--col-elec); }
+        .card-elec .skill-percent { color: var(--col-elec); }
+
+        .card-dev .progress-fill { background: linear-gradient(90deg, #bd00ff, #7000ff); box-shadow: 0 0 10px var(--col-dev); }
+        .card-dev .skill-percent { color: var(--col-dev); }
+
+        .card-sim .progress-fill { background: linear-gradient(90deg, #ffae00, #ff4800); box-shadow: 0 0 10px var(--col-sim); }
+        .card-sim .skill-percent { color: var(--col-sim); }
+
+        .card-cao .progress-fill { background: linear-gradient(90deg, #00ff88, #00b8ff); box-shadow: 0 0 10px var(--col-cao); }
+        .card-cao .skill-percent { color: var(--col-cao); }
 
         /* MOBILE */
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .skills-grid { grid-template-columns: 1fr; padding: 0 20px; }
-            .header-section h1 { font-size: 3rem; }
+            .skills-grid { grid-template-columns: 1fr; padding: 0 15px; }
+            .header-section h1 { font-size: 2.8rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="cyber-grid"></div>
-    <div class="vignette"></div>
+    <div class="tech-bg"><div class="grid-overlay"></div></div>
 
     <nav>
         <ul class="nav-links">
@@ -204,14 +189,16 @@
         </ul>
     </nav>
 
-    <section class="header-section" data-aos="zoom-out">
-        <h1>Arsenal Technique</h1>
-        <p class="subtitle">Vue d'ensemble de mon expertise : Dimensionnement, Embarqué, Simulation & Conception.</p>
+    <section class="header-section" data-aos="zoom-in">
+        <h1>Arsenal <span class="highlight">Technique</span></h1>
+        <p class="intro-text">
+            Une maîtrise complète des outils d'ingénierie moderne, de la simulation avancée à la conception industrielle.
+        </p>
     </section>
 
     <div class="skills-grid">
 
-        <article class="tech-card card-cyan" data-aos="fade-up">
+        <div class="skill-card card-elec js-tilt" data-aos="fade-up">
             <div class="card-header">
                 <div class="icon-box"><i class="fas fa-bolt"></i></div>
                 <div class="card-title">
@@ -221,25 +208,25 @@
             </div>
             <div class="skill-list">
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Caneco BT</span><span class="counter" data-target="95">0%</span></div>
-                    <div class="progress-track"><div class="progress-bar" data-width="95%"></div></div>
+                    <div class="skill-info"><span class="skill-name"><i class="fas fa-file-powerpoint"></i> Caneco BT</span><span class="skill-percent">Expert</span></div>
+                    <div class="progress-track"><div class="progress-fill" style="width: 95%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Dialux Evo</span><span class="counter" data-target="90">0%</span></div>
-                    <div class="progress-track"><div class="progress-bar" data-width="90%"></div></div>
+                    <div class="skill-info"><span class="skill-name"><i class="fas fa-lightbulb"></i> Dialux Evo</span><span class="skill-percent">Avancé</span></div>
+                    <div class="progress-track"><div class="progress-fill" style="width: 90%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Ecodial</span><span class="counter" data-target="85">0%</span></div>
-                    <div class="progress-track"><div class="progress-bar" data-width="85%"></div></div>
+                    <div class="skill-info"><span class="skill-name"><i class="fas fa-calculator"></i> Ecodial</span><span class="skill-percent">Intermédiaire</span></div>
+                    <div class="progress-track"><div class="progress-fill" style="width: 80%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Eplan Electric</span><span class="counter" data-target="80">0%</span></div>
-                    <div class="progress-track"><div class="progress-bar" data-width="80%"></div></div>
+                    <div class="skill-info"><span class="skill-name"><i class="fas fa-project-diagram"></i> Eplan P8</span><span class="skill-percent">Intermédiaire</span></div>
+                    <div class="progress-track"><div class="progress-fill" style="width: 75%"></div></div>
                 </div>
             </div>
-        </article>
+        </div>
 
-        <article class="tech-card card-purple" data-aos="fade-up" data-aos-delay="100">
+        <div class="skill-card card-dev js-tilt" data-aos="fade-up" data-aos-delay="100">
             <div class="card-header">
                 <div class="icon-box"><i class="fas fa-microchip"></i></div>
                 <div class="card-title">
@@ -249,27 +236,23 @@
             </div>
             <div class="skill-list">
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">STM32 CubeIDE</span><span class="counter" data-target="90">0%</span></div>
-                    <div class="progress-track"><div class="progress-bar" data-width="90%"></div></div>
+                    <div class="skill-info"><span class="skill-name"><i class="fas fa-memory"></i> STM32 CubeIDE</span><span class="skill-percent">Avancé</span></div>
+                    <div class="progress-track"><div class="progress-fill" style="width: 90%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Quartus (VHDL/FPGA)</span><span class="counter" data-target="85">0%</span></div>
-                    <div class="progress-track"><div class="progress-bar" data-width="85%"></div></div>
+                    <div class="skill-info"><span class="skill-name"><i class="fas fa-square-full"></i> Quartus (VHDL)</span><span class="skill-percent">Avancé</span></div>
+                    <div class="progress-track"><div class="progress-fill" style="width: 85%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">C / C++ / Python</span><span class="counter" data-target="88">0%</span></div>
-                    <div class="progress-track"><div class="progress-bar" data-width="88%"></div></div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Gazebo</span><span class="counter" data-target="75">0%</span></div>
-                    <div class="progress-track"><div class="progress-bar" data-width="75%"></div></div>
+                    <div class="skill-info"><span class="skill-name"><i class="fab fa-python"></i> Python / C++</span><span class="skill-percent">Polyvalent</span></div>
+                    <div class="progress-track"><div class="progress-fill" style="width: 88%"></div></div>
                 </div>
             </div>
-        </article>
+        </div>
 
-        <article class="tech-card card-orange" data-aos="fade-up" data-aos-delay="200">
+        <div class="skill-card card-sim js-tilt" data-aos="fade-up" data-aos-delay="200">
             <div class="card-header">
-                <div class="icon-box"><i class="fas fa-network-wired"></i></div>
+                <div class="icon-box"><i class="fas fa-chart-line"></i></div>
                 <div class="card-title">
                     <h2>Simulation & Réseaux</h2>
                     <span>Modélisation Industrielle</span>
@@ -277,101 +260,75 @@
             </div>
             <div class="skill-list">
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Matlab & Simulink</span><span class="counter" data-target="92">0%</span></div>
-                    <div class="progress-track"><div class="progress-bar" data-width="92%"></div></div>
+                    <div class="skill-info"><span class="skill-name"><i class="fas fa-wave-square"></i> Matlab Simulink</span><span class="skill-percent">Expert</span></div>
+                    <div class="progress-track"><div class="progress-fill" style="width: 92%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Cisco Packet Tracer</span><span class="counter" data-target="80">0%</span></div>
-                    <div class="progress-track"><div class="progress-bar" data-width="80%"></div></div>
+                    <div class="skill-info"><span class="skill-name"><i class="fas fa-network-wired"></i> Cisco Packet Tracer</span><span class="skill-percent">Avancé</span></div>
+                    <div class="progress-track"><div class="progress-fill" style="width: 85%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">PVsyst (Solaire)</span><span class="counter" data-target="85">0%</span></div>
-                    <div class="progress-track"><div class="progress-bar" data-width="85%"></div></div>
+                    <div class="skill-info"><span class="skill-name"><i class="fas fa-solar-panel"></i> PVsyst</span><span class="skill-percent">Avancé</span></div>
+                    <div class="progress-track"><div class="progress-fill" style="width: 88%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Proteus ISIS</span><span class="counter" data-target="90">0%</span></div>
-                    <div class="progress-track"><div class="progress-bar" data-width="90%"></div></div>
+                    <div class="skill-info"><span class="skill-name"><i class="fas fa-robot"></i> Gazebo</span><span class="skill-percent">Intermédiaire</span></div>
+                    <div class="progress-track"><div class="progress-fill" style="width: 75%"></div></div>
                 </div>
             </div>
-        </article>
+        </div>
 
-        <article class="tech-card card-green" data-aos="fade-up" data-aos-delay="300">
+        <div class="skill-card card-cao js-tilt" data-aos="fade-up" data-aos-delay="300">
             <div class="card-header">
                 <div class="icon-box"><i class="fas fa-drafting-compass"></i></div>
                 <div class="card-title">
                     <h2>Conception (CAO)</h2>
-                    <span>Dessin Technique & 3D</span>
+                    <span>Dessin Technique & BIM</span>
                 </div>
             </div>
             <div class="skill-list">
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">AutoCAD Electrical</span><span class="counter" data-target="95">0%</span></div>
-                    <div class="progress-track"><div class="progress-bar" data-width="95%"></div></div>
+                    <div class="skill-info"><span class="skill-name"><i class="fas fa-pen-ruler"></i> AutoCAD Electrical</span><span class="skill-percent">Expert</span></div>
+                    <div class="progress-track"><div class="progress-fill" style="width: 95%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Revit MEP (BIM)</span><span class="counter" data-target="70">0%</span></div>
-                    <div class="progress-track"><div class="progress-bar" data-width="70%"></div></div>
+                    <div class="skill-info"><span class="skill-name"><i class="fas fa-building"></i> Revit MEP</span><span class="skill-percent">Intermédiaire</span></div>
+                    <div class="progress-track"><div class="progress-fill" style="width: 70%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">SolidWorks</span><span class="counter" data-target="85">0%</span></div>
-                    <div class="progress-track"><div class="progress-bar" data-width="85%"></div></div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">CATIA V5</span><span class="counter" data-target="70">0%</span></div>
-                    <div class="progress-track"><div class="progress-bar" data-width="70%"></div></div>
+                    <div class="skill-info"><span class="skill-name"><i class="fas fa-cube"></i> SolidWorks</span><span class="skill-percent">Avancé</span></div>
+                    <div class="progress-track"><div class="progress-fill" style="width: 85%"></div></div>
                 </div>
             </div>
-        </article>
+        </div>
 
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
+    
     <script>
+        // Init Scroll Animation
         AOS.init({ duration: 800, once: true });
 
-        // SCRIPT D'ANIMATION DES CHIFFRES ET DES BARRES
-        document.addEventListener("DOMContentLoaded", () => {
-            
-            const counters = document.querySelectorAll('.counter');
-            const bars = document.querySelectorAll('.progress-bar');
+        // Init 3D Tilt Effect (Carte qui bouge avec la souris)
+        VanillaTilt.init(document.querySelectorAll(".js-tilt"), {
+            max: 10,           // Inclinaison max
+            speed: 400,        // Vitesse
+            glare: true,       // Reflet lumineux
+            "max-glare": 0.2   // Intensité du reflet
+        });
 
-            // Observer pour déclencher l'animation quand on scrolle dessus
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        
-                        // 1. Animer les barres
-                        bars.forEach(bar => {
-                            const width = bar.getAttribute('data-width');
-                            bar.style.width = width;
-                        });
-
-                        // 2. Animer les compteurs (0% -> 90%)
-                        counters.forEach(counter => {
-                            const target = +counter.getAttribute('data-target');
-                            const speed = 2000 / target; // Vitesse adaptative
-                            
-                            const updateCount = () => {
-                                const count = +counter.innerText.replace('%', '');
-                                const inc = 1;
-                                
-                                if (count < target) {
-                                    counter.innerText = (count + inc) + "%";
-                                    setTimeout(updateCount, 15); // Vitesse de défilement
-                                } else {
-                                    counter.innerText = target + "%";
-                                }
-                            };
-                            updateCount();
-                        });
-
-                        observer.disconnect(); // On arrête d'observer une fois animé
-                    }
-                });
-            }, { threshold: 0.2 });
-
-            // On observe la grille de compétences
-            observer.observe(document.querySelector('.skills-grid'));
+        // Animation des Barres de Progression au chargement
+        window.addEventListener('load', () => {
+            const bars = document.querySelectorAll('.progress-fill');
+            bars.forEach(bar => {
+                const targetWidth = bar.style.width;
+                bar.style.width = '0'; // On met à 0
+                setTimeout(() => {
+                    bar.style.width = targetWidth; // On remet la vraie valeur pour animer
+                }, 300);
+            });
         });
     </script>
 </body>
