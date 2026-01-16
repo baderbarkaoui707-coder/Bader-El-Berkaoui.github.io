@@ -29,13 +29,13 @@
             overflow-x: hidden;
         }
 
-        /* --- FOND --- */
+        /* FOND */
         .tech-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #020617 80%);
         }
 
-        /* --- NAV --- */
+        /* NAV */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000; padding: 20px 5%;
             display: flex; justify-content: center;
@@ -51,7 +51,7 @@
         .nav-links a:hover, .nav-links a.active { color: #fff; }
         .nav-links a i { color: var(--primary); }
 
-        /* --- HEADER --- */
+        /* HEADER */
         .header-section {
             padding: 140px 20px 80px; text-align: center; max-width: 900px; margin: 0 auto;
         }
@@ -59,64 +59,71 @@
         .highlight { color: var(--primary); }
         .intro-text { font-size: 1.1rem; color: #cbd5e1; font-weight: 300; }
 
-        /* --- CONTAINER --- */
+        /* CONTAINER */
         .exp-container {
-            max-width: 1200px; margin: 0 auto 100px; padding: 0 20px;
+            max-width: 900px; margin: 0 auto 100px; padding: 0 20px;
             display: flex; flex-direction: column; gap: 80px;
         }
 
-        /* --- CARTE SPLIT (IMAGE GAUCHE / TEXTE DROITE) --- */
+        /* CARTE (Design Vertical - Image entière) */
         .exp-card {
-            display: flex; background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 20px; overflow: hidden; min-height: 400px;
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 16px; overflow: hidden;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3); transition: 0.3s;
         }
         .exp-card:hover { transform: translateY(-5px); border-color: var(--primary); }
 
-        /* IMAGE */
-        .exp-image {
-            width: 45%; position: relative; overflow: hidden; border-right: 1px solid var(--border);
+        /* IMAGE ENTIÈRE (Pas de crop) */
+        .exp-image-container {
+            width: 100%;
+            background: #000; /* Fond noir si l'image a de la transparence */
+            border-bottom: 1px solid var(--border);
+            position: relative;
         }
-        .exp-image img {
-            width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s;
+        .exp-image-container img {
+            width: 100%;
+            height: auto; /* C'EST LA CLÉ : La hauteur s'adapte à l'image */
+            display: block;
         }
-        .exp-card:hover .exp-image img { transform: scale(1.05); }
 
-        /* TEXTE */
-        .exp-content { width: 55%; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+        /* CONTENU TEXTE */
+        .exp-content { padding: 40px; }
 
-        .exp-header h2 { font-size: 2rem; margin-bottom: 5px; color: #fff; }
-        .role { color: var(--primary); font-weight: 700; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; margin-bottom: 20px; display: block; }
+        .exp-header { 
+            border-bottom: 1px solid rgba(255,255,255,0.05); 
+            padding-bottom: 20px; margin-bottom: 20px; 
+        }
+        .exp-header h2 { font-size: 2.2rem; margin-bottom: 5px; color: #fff; }
+        .role { 
+            color: var(--primary); font-weight: 700; text-transform: uppercase; 
+            font-size: 0.95rem; letter-spacing: 1px; display: block; 
+        }
         
+        /* LISTE DE DÉTAILS */
         .description-list { list-style: none; margin-bottom: 30px; }
         .description-list li {
             position: relative; padding-left: 25px; margin-bottom: 12px;
-            color: #cbd5e1; line-height: 1.6; font-size: 1rem;
+            color: #cbd5e1; line-height: 1.6; font-size: 1.05rem;
         }
         .description-list li::before {
-            content: '▹'; position: absolute; left: 0; color: var(--primary); font-size: 1.2rem;
+            content: '▹'; position: absolute; left: 0; color: var(--primary); font-size: 1.2rem; top: -2px;
         }
         .description-list strong { color: #fff; font-weight: 600; }
 
         /* TAGS */
-        .tech-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; }
+        .tech-tags { display: flex; flex-wrap: wrap; gap: 10px; }
         .tag {
-            padding: 6px 14px; background: rgba(255,255,255,0.05); border-radius: 4px;
-            font-size: 0.8rem; color: #94a3b8; border: 1px solid var(--border);
+            padding: 8px 16px; background: rgba(255,255,255,0.05); border-radius: 6px;
+            font-size: 0.85rem; color: #94a3b8; border: 1px solid var(--border);
         }
-        .tag:hover { color: var(--primary); border-color: var(--primary); }
-
-        /* ALTERNANCE (Image à droite pour 1 sur 2) */
-        .exp-card.reverse { flex-direction: row-reverse; }
-        .exp-card.reverse .exp-image { border-right: none; border-left: 1px solid var(--border); }
+        .tag:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 242, 255, 0.05); }
 
         /* MOBILE */
         @media (max-width: 900px) {
             .nav-links { display: none; }
-            .exp-card, .exp-card.reverse { flex-direction: column; }
-            .exp-image { width: 100%; height: 250px; border-right: none; border-bottom: 1px solid var(--border); }
-            .exp-content { width: 100%; padding: 25px; }
+            .exp-content { padding: 25px; }
             .header-section h1 { font-size: 2.5rem; }
+            .exp-header h2 { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -138,15 +145,39 @@
     <section class="header-section" data-aos="fade-down">
         <h1>Expériences <span class="highlight">Professionnelles</span></h1>
         <p class="intro-text">
-            Un parcours technique riche, alliant conception en bureau d'études, maintenance haute tension et gestion de projets innovants.
+            Ingénierie de terrain, bureau d'études et leadership technique.
         </p>
     </section>
 
     <div class="exp-container">
 
         <article class="exp-card" data-aos="fade-up">
-            <div class="exp-image">
-                <img src="em.jpg" alt="Bureau d'études EM Energie" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+EM+Energie'">
+            <div class="exp-image-container">
+                <img src="srm.jpg" alt="SRM Maintenance" onerror="this.src='https://via.placeholder.com/800x400?text=Image+SRM'">
+            </div>
+            <div class="exp-content">
+                <div class="exp-header">
+                    <h2>SRM</h2>
+                    <span class="role">Stage Technique - Maintenance & Analyse Gaz</span>
+                </div>
+                <ul class="description-list">
+                    <li><strong>Analyse de Gaz (DGA) :</strong> Diagnostic approfondi de l'état des transformateurs de puissance via l'analyse des gaz dissous dans l'huile, permettant de détecter les défauts thermiques et électriques internes.</li>
+                    <li><strong>Maintenance HTB/HTA :</strong> Interventions sur les postes haute tension, vérification des organes de coupure et maintenance préventive pour assurer la continuité de service.</li>
+                    <li><strong>Gestion GMAO :</strong> Utilisation d'outils informatiques pour planifier les interventions, suivre l'historique des pannes et optimiser la gestion des actifs industriels.</li>
+                    <li><strong>Sécurité & Fiabilité :</strong> Application stricte des protocoles de sécurité électrique lors des interventions sur sites critiques.</li>
+                </ul>
+                <div class="tech-tags">
+                    <span class="tag">Analyse DGA</span>
+                    <span class="tag">Maintenance HTB/HTA</span>
+                    <span class="tag">GMAO</span>
+                    <span class="tag">Diagnostic</span>
+                </div>
+            </div>
+        </article>
+
+        <article class="exp-card" data-aos="fade-up">
+            <div class="exp-image-container">
+                <img src="em.jpg" alt="EM Energie PFE" onerror="this.src='https://via.placeholder.com/800x400?text=Image+EM'">
             </div>
             <div class="exp-content">
                 <div class="exp-header">
@@ -154,71 +185,47 @@
                     <span class="role">Stage PFE - Ingénieur Électrique</span>
                 </div>
                 <ul class="description-list">
-                    <li><strong>Conception Intégrale :</strong> Étude technique d'une installation électrique industrielle complexe (CFO/CFA).</li>
-                    <li><strong>Dimensionnement Avancé :</strong> Calculs de sections de câbles et protections selon les normes NFC 15-100 avec <strong>Caneco BT</strong>.</li>
-                    <li><strong>Optimisation Énergétique :</strong> Simulation d'éclairage photométrique sur <strong>Dialux Evo</strong> pour maximiser le confort visuel et réduire la consommation.</li>
-                    <li><strong>Plans d'Exécution :</strong> Réalisation des schémas unifilaires et plans d'implantation détaillés sur <strong>AutoCAD</strong>.</li>
+                    <li><strong>Étude Complète :</strong> Conception d'une installation électrique industrielle de A à Z (Courants Forts & Faibles).</li>
+                    <li><strong>Dimensionnement Caneco BT :</strong> Calculs normatifs des sections de câbles, choix des disjoncteurs et sélectivité des protections.</li>
+                    <li><strong>Plans AutoCAD :</strong> Réalisation des schémas unifilaires, synoptiques de distribution et plans d'implantation des équipements.</li>
+                    <li><strong>Simulation Dialux :</strong> Étude d'éclairage pour garantir la conformité aux normes d'éclairement et l'efficacité énergétique.</li>
                 </ul>
                 <div class="tech-tags">
                     <span class="tag">Caneco BT</span>
                     <span class="tag">AutoCAD</span>
                     <span class="tag">Dialux Evo</span>
-                    <span class="tag">Normes NFC</span>
-                </div>
-            </div>
-        </article>
-
-        <article class="exp-card reverse" data-aos="fade-up">
-            <div class="exp-image">
-                <img src="srm.jpg" alt="Maintenance Transformateur SRM" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+SRM'">
-            </div>
-            <div class="exp-content">
-                <div class="exp-header">
-                    <h2>SRM</h2>
-                    <span class="role">Stage Technique - Maintenance HTB/HTA</span>
-                </div>
-                <ul class="description-list">
-                    <li><strong>Diagnostic des Transformateurs :</strong> Réalisation de l'<strong>Analyse des Gaz Dissous (DGA)</strong> dans l'huile isolante pour détecter les défauts internes (arcs, surchauffes).</li>
-                    <li><strong>Maintenance Préventive :</strong> Inspection et entretien des postes sources et des équipements de coupure (disjoncteurs, sectionneurs).</li>
-                    <li><strong>Gestion GMAO :</strong> Implémentation et suivi des bons de travaux via un logiciel de Gestion de Maintenance Assistée par Ordinateur.</li>
-                    <li><strong>Fiabilité :</strong> Analyse des causes racines des pannes pour améliorer la disponibilité des équipements critiques.</li>
-                </ul>
-                <div class="tech-tags">
-                    <span class="tag">Analyse DGA</span>
-                    <span class="tag">Haute Tension</span>
-                    <span class="tag">GMAO</span>
-                    <span class="tag">Transformateurs</span>
+                    <span class="tag">Bureau d'Études</span>
                 </div>
             </div>
         </article>
 
         <article class="exp-card" data-aos="fade-up">
-            <div class="exp-image">
-                <img src="zahri.jpg" alt="Armoire Irrigation" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+Ezzahri'">
+            <div class="exp-image-container">
+                <img src="zahri.jpg" alt="Ezzahri Techno" onerror="this.src='https://via.placeholder.com/800x400?text=Image+Ezzahri'">
             </div>
             <div class="exp-content">
                 <div class="exp-header">
                     <h2>EZZAHRI TECHNO SARL</h2>
-                    <span class="role">Automatisation & Pompage Solaire</span>
+                    <span class="role">Câblage & Automatisation</span>
                 </div>
                 <ul class="description-list">
-                    <li><strong>Projet Agricole :</strong> Conception du système d'irrigation pour l'École d'Agriculture de Settat.</li>
-                    <li><strong>Câblage Industriel :</strong> Montage d'armoires de commande intégrant des <strong>variateurs de vitesse</strong> pour le contrôle précis des pompes.</li>
-                    <li><strong>Énergie Renouvelable :</strong> Dimensionnement et raccordement de systèmes de pompage solaire photovoltaïque.</li>
-                    <li><strong>Mise en Service :</strong> Tests fonctionnels sur site et paramétrage des automates de gestion.</li>
+                    <li><strong>Projet Agricole :</strong> Installation de systèmes d'irrigation intelligente pour l'École d'Agriculture de Settat.</li>
+                    <li><strong>Câblage d'Armoires :</strong> Montage, câblage et raccordement des armoires de commande et de puissance.</li>
+                    <li><strong>Pompage Solaire :</strong> Intégration de variateurs de vitesse couplés à des panneaux photovoltaïques pour une irrigation autonome.</li>
+                    <li><strong>Mise en Service :</strong> Tests fonctionnels, réglage des variateurs et formation des utilisateurs.</li>
                 </ul>
                 <div class="tech-tags">
-                    <span class="tag">Variateurs de Vitesse</span>
-                    <span class="tag">Câblage</span>
-                    <span class="tag">Solaire</span>
-                    <span class="tag">Instrumentation</span>
+                    <span class="tag">Câblage Industriel</span>
+                    <span class="tag">Pompage Solaire</span>
+                    <span class="tag">Variateurs</span>
+                    <span class="tag">Irrigation</span>
                 </div>
             </div>
         </article>
 
-        <article class="exp-card reverse" data-aos="fade-up" style="border-color: rgba(67, 97, 238, 0.5);">
-            <div class="exp-image">
-                <img src="club.jpg" alt="Club Robotique" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+Club'">
+        <article class="exp-card" data-aos="fade-up" style="border-color: rgba(67, 97, 238, 0.4);">
+            <div class="exp-image-container">
+                <img src="club.jpg" alt="Club Robothings" onerror="this.src='https://via.placeholder.com/800x400?text=Image+Club'">
             </div>
             <div class="exp-content">
                 <div class="exp-header">
@@ -226,16 +233,14 @@
                     <span class="role" style="color: #4361ee;">Vice-Président & Chef de Projet</span>
                 </div>
                 <ul class="description-list">
-                    <li><strong>Leadership :</strong> Gestion d'une équipe pluridisciplinaire d'étudiants ingénieurs. Planification des activités annuelles.</li>
-                    <li><strong>Supervision Technique :</strong> Encadrement de la conception de robots pour les compétitions nationales (Suiveurs de ligne, Sumo).</li>
-                    <li><strong>Formation :</strong> Animation d'ateliers pratiques sur la programmation <strong>Arduino/C++</strong> et la modélisation 3D (SolidWorks).</li>
-                    <li><strong>Événementiel :</strong> Organisation de hackathons et de journées portes ouvertes technologiques.</li>
+                    <li><strong>Leadership :</strong> Gestion administrative et technique du club. Coordination des équipes pour les compétitions nationales.</li>
+                    <li><strong>Formation :</strong> Animation d'ateliers techniques pour les étudiants (Arduino, Impression 3D, Conception Mécanique).</li>
+                    <li><strong>Projets Innovants :</strong> Supervision de la réalisation de robots suiveurs de ligne et robots sumo.</li>
                 </ul>
                 <div class="tech-tags">
                     <span class="tag" style="color:#4361ee; border-color:#4361ee">Leadership</span>
-                    <span class="tag">Arduino</span>
-                    <span class="tag">Gestion de Projet</span>
-                    <span class="tag">Impression 3D</span>
+                    <span class="tag">Robotique</span>
+                    <span class="tag">Formation</span>
                 </div>
             </div>
         </article>
