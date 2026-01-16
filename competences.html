@@ -5,19 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compétences | Bader el Berkaoui</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         :root {
-            --bg-dark: #020617;
-            --primary: #00f2ff;
-            --secondary: #4361ee;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --glass: rgba(15, 23, 42, 0.6);
+            --bg-dark: #050a14;
+            --panel-bg: rgba(20, 25, 40, 0.7);
+            --text-main: #ffffff;
+            --text-muted: #a0aab5;
             --border: rgba(255, 255, 255, 0.08);
+            
+            /* Couleurs par domaine */
+            --col-elec: #00f2ff; /* Cyan */
+            --col-dev: #bd00ff;  /* Violet */
+            --col-sim: #ffae00;  /* Orange */
+            --col-cao: #00ff88;  /* Vert */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -29,17 +33,18 @@
             overflow-x: hidden;
         }
 
-        /* FOND TECH */
+        /* FOND MATRIX */
         .tech-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: radial-gradient(circle at 50% 0%, #1e293b 0%, #020617 100%);
+            background: radial-gradient(circle at center, #0f172a 0%, #000000 100%);
         }
-        .grid-overlay {
+        .grid-lines {
             position: absolute; width: 100%; height: 100%;
             background-image: 
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 40px 40px; opacity: 0.5;
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(circle, black 40%, transparent 80%);
         }
 
         /* NAV */
@@ -47,95 +52,108 @@
             position: fixed; top: 0; width: 100%; z-index: 1000; padding: 15px 5%;
             display: flex; justify-content: center;
             backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
-            background: rgba(2, 6, 23, 0.9);
+            background: rgba(5, 10, 20, 0.9);
         }
         .nav-links { display: flex; gap: 30px; list-style: none; }
         .nav-links a { 
-            color: #94a3b8; text-decoration: none; font-weight: 600; font-size: 0.85rem;
+            color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem;
             text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
             display: flex; align-items: center; gap: 8px;
         }
         .nav-links a:hover, .nav-links a.active { color: #fff; }
-        .nav-links a i { color: var(--primary); opacity: 0.8; }
+        .nav-links a i { color: var(--col-elec); }
 
         /* HEADER */
         .header-section {
-            padding: 140px 20px 60px; text-align: center; max-width: 900px; margin: 0 auto;
+            padding: 140px 20px 60px; text-align: center; max-width: 1000px; margin: 0 auto;
         }
-        .header-section h1 { font-size: 3.5rem; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; letter-spacing: -1px; }
-        .highlight { 
-            background: linear-gradient(120deg, #fff, var(--primary)); 
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        .header-section h1 { 
+            font-size: 4rem; font-weight: 900; margin-bottom: 15px; letter-spacing: -2px; text-transform: uppercase;
+            background: linear-gradient(to bottom, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .intro-text { font-size: 1.1rem; color: #cbd5e1; font-weight: 300; max-width: 700px; margin: 0 auto; }
+        .subtitle { font-size: 1.2rem; color: var(--text-muted); font-weight: 300; letter-spacing: 1px; }
 
-        /* --- CONTAINER COMPÉTENCES --- */
-        .skills-container {
-            max-width: 1200px; margin: 0 auto 100px; padding: 0 25px;
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 40px;
-        }
-
-        /* --- CARTE CATÉGORIE --- */
-        .skill-category {
-            background: rgba(15, 23, 42, 0.5); border: 1px solid var(--border);
-            border-radius: 20px; padding: 35px; backdrop-filter: blur(10px);
-            transition: 0.3s; position: relative; overflow: hidden;
-        }
-        .skill-category:hover { 
-            border-color: var(--primary); transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 242, 255, 0.1); 
+        /* --- LAYOUT GRILLE --- */
+        .dashboard-container {
+            max-width: 1300px; margin: 0 auto 100px; padding: 0 20px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
 
-        /* Titre de catégorie */
-        .cat-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .cat-icon { 
-            width: 50px; height: 50px; background: rgba(0, 242, 255, 0.1); border-radius: 12px;
-            display: flex; justify-content: center; align-items: center; color: var(--primary); font-size: 1.5rem;
-            border: 1px solid rgba(0, 242, 255, 0.2);
+        /* --- CARTE DE CATÉGORIE --- */
+        .tech-panel {
+            background: var(--panel-bg); border: 1px solid var(--border);
+            border-radius: 20px; padding: 30px; position: relative;
+            backdrop-filter: blur(10px); transition: 0.3s;
+            overflow: hidden;
         }
-        .cat-title h2 { font-size: 1.5rem; margin: 0; color: #fff; }
-        .cat-title span { font-size: 0.85rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+        .tech-panel:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); }
 
-        /* Grille des outils */
-        .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        /* Barre lumineuse en haut de chaque carte */
+        .tech-panel::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+        }
 
-        /* --- ITEM OUTIL (Le Software) --- */
-        .tool-item {
-            display: flex; align-items: center; gap: 15px;
-            background: rgba(255,255,255,0.03); padding: 12px 15px; border-radius: 10px;
+        /* Titre Catégorie */
+        .panel-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+        .icon-box {
+            width: 50px; height: 50px; border-radius: 12px;
+            display: flex; justify-content: center; align-items: center; font-size: 1.5rem;
+            background: rgba(255,255,255,0.03); color: var(--accent-color);
+            box-shadow: 0 0 20px rgba(0,0,0,0.5); border: 1px solid var(--border);
+        }
+        .panel-title h2 { font-size: 1.4rem; color: #fff; margin: 0; }
+        .panel-title span { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* GRILLE DES SKILLS (JAUGES) */
+        .skills-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+        }
+
+        .skill-item {
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px;
             border: 1px solid transparent; transition: 0.3s;
         }
-        .tool-item:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.1); }
+        .skill-item:hover { border-color: var(--accent-color); background: rgba(255,255,255,0.02); }
 
-        .tool-icon { color: var(--secondary); font-size: 1.2rem; min-width: 25px; text-align: center; }
-        
-        .tool-info { flex: 1; }
-        .tool-name { display: block; font-weight: 600; color: #e2e8f0; font-size: 0.95rem; margin-bottom: 4px; }
-        
-        /* Barre de niveau (Fake mais stylée) */
-        .progress-bg { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--secondary), var(--primary)); width: 0; transition: width 1.5s ease-out; }
+        /* CERCLE DE PROGRESSION (CSS PUR) */
+        .circle-progress {
+            width: 70px; height: 70px; border-radius: 50%;
+            background: conic-gradient(var(--accent-color) var(--percent), rgba(255,255,255,0.05) 0deg);
+            display: flex; justify-content: center; align-items: center;
+            position: relative; margin-bottom: 10px;
+            transition: --percent 1s ease-out; /* Note: animation nécessite JS pour trigger */
+        }
+        .circle-progress::after {
+            content: ''; position: absolute; width: 60px; height: 60px;
+            background: var(--bg-dark); border-radius: 50%;
+        }
+        .circle-icon {
+            position: absolute; z-index: 2; font-size: 1.2rem; color: #fff;
+        }
 
-        /* Couleurs spécifiques par catégorie */
-        .cat-elec .cat-icon { color: #ffd700; background: rgba(255, 215, 0, 0.1); border-color: rgba(255, 215, 0, 0.2); }
-        .cat-elec .progress-fill { background: linear-gradient(90deg, #ffd700, #ff8c00); }
-        
-        .cat-emb .cat-icon { color: #00ff88; background: rgba(0, 255, 136, 0.1); border-color: rgba(0, 255, 136, 0.2); }
-        .cat-emb .progress-fill { background: linear-gradient(90deg, #00ff88, #00f2ff); }
+        .skill-name { font-size: 0.9rem; font-weight: 600; color: #e2e8f0; }
+        .skill-level { font-size: 0.75rem; color: var(--accent-color); opacity: 0.8; margin-top: 2px; }
+
+        /* VARIANTES DE COULEURS */
+        .panel-elec { --accent-color: var(--col-elec); }
+        .panel-emb { --accent-color: var(--col-dev); }
+        .panel-sim { --accent-color: var(--col-sim); }
+        .panel-cao { --accent-color: var(--col-cao); }
 
         /* MOBILE */
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .skills-container { grid-template-columns: 1fr; padding: 0 15px; }
-            .tools-grid { grid-template-columns: 1fr; }
-            .header-section h1 { font-size: 2.5rem; }
+            .skills-grid { grid-template-columns: 1fr 1fr; } /* Garder 2 colonnes sur mobile */
+            .header-section h1 { font-size: 2.8rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="tech-bg"><div class="grid-overlay"></div></div>
+    <div class="tech-bg"><div class="grid-lines"></div></div>
 
     <nav>
         <ul class="nav-links">
@@ -148,170 +166,178 @@
         </ul>
     </nav>
 
-    <section class="header-section" data-aos="fade-down">
-        <h1>Arsenal <span class="highlight">Technique</span></h1>
-        <p class="intro-text">
-            Maîtrise d'une suite complète d'outils d'ingénierie, de la conception électrique à la simulation de systèmes embarqués complexes.
-        </p>
+    <section class="header-section" data-aos="zoom-in">
+        <h1>Arsenal Technique</h1>
+        <p class="subtitle">Vue d'ensemble de mes compétences en ingénierie et développement.</p>
     </section>
 
-    <div class="skills-container">
+    <div class="dashboard-container">
 
-        <div class="skill-category cat-elec" data-aos="fade-up">
-            <div class="cat-header">
-                <div class="cat-icon"><i class="fas fa-bolt"></i></div>
-                <div class="cat-title">
+        <article class="tech-panel panel-elec" data-aos="fade-up">
+            <div class="panel-header">
+                <div class="icon-box"><i class="fas fa-bolt"></i></div>
+                <div class="panel-title">
                     <h2>Génie Électrique</h2>
-                    <span>Dimensionnement & Études (CFO/CFA)</span>
+                    <span>Dimensionnement & Normes</span>
                 </div>
             </div>
-            <div class="tools-grid">
-                <div class="tool-item">
-                    <i class="fas fa-file-powerpoint tool-icon"></i>
-                    <div class="tool-info">
-                        <span class="tool-name">Caneco BT</span>
-                        <div class="progress-bg"><div class="progress-fill" style="width: 95%"></div></div>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <div class="circle-progress" style="--percent: 95deg; background: conic-gradient(var(--col-elec) 95%, rgba(255,255,255,0.1) 0);">
+                        <i class="fas fa-file-powerpoint circle-icon"></i>
                     </div>
+                    <span class="skill-name">Caneco BT</span>
+                    <span class="skill-level">Avancé</span>
                 </div>
-                <div class="tool-item">
-                    <i class="fas fa-lightbulb tool-icon"></i>
-                    <div class="tool-info">
-                        <span class="tool-name">Dialux Evo</span>
-                        <div class="progress-bg"><div class="progress-fill" style="width: 90%"></div></div>
+                <div class="skill-item">
+                    <div class="circle-progress" style="--percent: 90deg; background: conic-gradient(var(--col-elec) 90%, rgba(255,255,255,0.1) 0);">
+                        <i class="fas fa-lightbulb circle-icon"></i>
                     </div>
+                    <span class="skill-name">Dialux Evo</span>
+                    <span class="skill-level">Avancé</span>
                 </div>
-                <div class="tool-item">
-                    <i class="fas fa-calculator tool-icon"></i>
-                    <div class="tool-info">
-                        <span class="tool-name">Ecodial</span>
-                        <div class="progress-bg"><div class="progress-fill" style="width: 85%"></div></div>
+                <div class="skill-item">
+                    <div class="circle-progress" style="--percent: 85deg; background: conic-gradient(var(--col-elec) 85%, rgba(255,255,255,0.1) 0);">
+                        <i class="fas fa-calculator circle-icon"></i>
                     </div>
+                    <span class="skill-name">Ecodial</span>
+                    <span class="skill-level">Intermédiaire</span>
                 </div>
-                <div class="tool-item">
-                    <i class="fas fa-project-diagram tool-icon"></i>
-                    <div class="tool-info">
-                        <span class="tool-name">Eplan Electric</span>
-                        <div class="progress-bg"><div class="progress-fill" style="width: 80%"></div></div>
+                <div class="skill-item">
+                    <div class="circle-progress" style="--percent: 80deg; background: conic-gradient(var(--col-elec) 80%, rgba(255,255,255,0.1) 0);">
+                        <i class="fas fa-project-diagram circle-icon"></i>
                     </div>
+                    <span class="skill-name">Eplan P8</span>
+                    <span class="skill-level">Intermédiaire</span>
                 </div>
             </div>
-        </div>
+        </article>
 
-        <div class="skill-category cat-emb" data-aos="fade-up" data-aos-delay="100">
-            <div class="cat-header">
-                <div class="cat-icon"><i class="fas fa-microchip"></i></div>
-                <div class="cat-title">
+        <article class="tech-panel panel-emb" data-aos="fade-up" data-aos-delay="100">
+            <div class="panel-header">
+                <div class="icon-box"><i class="fas fa-microchip"></i></div>
+                <div class="panel-title">
                     <h2>Systèmes Embarqués</h2>
                     <span>Microcontrôleurs & FPGA</span>
                 </div>
             </div>
-            <div class="tools-grid">
-                <div class="tool-item">
-                    <i class="fas fa-memory tool-icon"></i>
-                    <div class="tool-info">
-                        <span class="tool-name">STM32 CubeIDE</span>
-                        <div class="progress-bg"><div class="progress-fill" style="width: 90%"></div></div>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <div class="circle-progress" style="--percent: 90deg; background: conic-gradient(var(--col-dev) 90%, rgba(255,255,255,0.1) 0);">
+                        <i class="fas fa-memory circle-icon"></i>
                     </div>
+                    <span class="skill-name">STM32 CubeIDE</span>
+                    <span class="skill-level">Avancé</span>
                 </div>
-                <div class="tool-item">
-                    <i class="fas fa-square-full tool-icon"></i>
-                    <div class="tool-info">
-                        <span class="tool-name">Quartus (FPGA)</span>
-                        <div class="progress-bg"><div class="progress-fill" style="width: 85%"></div></div>
+                <div class="skill-item">
+                    <div class="circle-progress" style="--percent: 85deg; background: conic-gradient(var(--col-dev) 85%, rgba(255,255,255,0.1) 0);">
+                        <i class="fas fa-square-full circle-icon"></i>
                     </div>
+                    <span class="skill-name">Quartus (FPGA)</span>
+                    <span class="skill-level">Intermédiaire</span>
                 </div>
-                <div class="tool-item">
-                    <i class="fab fa-python tool-icon"></i>
-                    <div class="tool-info">
-                        <span class="tool-name">Python / C++</span>
-                        <div class="progress-bg"><div class="progress-fill" style="width: 88%"></div></div>
+                <div class="skill-item">
+                    <div class="circle-progress" style="--percent: 88deg; background: conic-gradient(var(--col-dev) 88%, rgba(255,255,255,0.1) 0);">
+                        <i class="fab fa-python circle-icon"></i>
                     </div>
+                    <span class="skill-name">Python / C++</span>
+                    <span class="skill-level">Polyvalent</span>
                 </div>
-                <div class="tool-item">
-                    <i class="fas fa-robot tool-icon"></i>
-                    <div class="tool-info">
-                        <span class="tool-name">Gazebo (Simu)</span>
-                        <div class="progress-bg"><div class="progress-fill" style="width: 75%"></div></div>
+                <div class="skill-item">
+                    <div class="circle-progress" style="--percent: 75deg; background: conic-gradient(var(--col-dev) 75%, rgba(255,255,255,0.1) 0);">
+                        <i class="fas fa-robot circle-icon"></i>
                     </div>
+                    <span class="skill-name">Gazebo</span>
+                    <span class="skill-level">Simulation</span>
                 </div>
             </div>
-        </div>
+        </article>
 
-        <div class="skill-category" data-aos="fade-up" data-aos-delay="200">
-            <div class="cat-header">
-                <div class="cat-icon"><i class="fas fa-cogs"></i></div>
-                <div class="cat-title">
-                    <h2>Simulation & Auto.</h2>
-                    <span>Modélisation & Réseaux</span>
+        <article class="tech-panel panel-sim" data-aos="fade-up" data-aos-delay="200">
+            <div class="panel-header">
+                <div class="icon-box"><i class="fas fa-chart-area"></i></div>
+                <div class="panel-title">
+                    <h2>Simulation & Réseaux</h2>
+                    <span>Modélisation Industrielle</span>
                 </div>
             </div>
-            <div class="tools-grid">
-                <div class="tool-item">
-                    <i class="fas fa-chart-line tool-icon"></i>
-                    <div class="tool-info">
-                        <span class="tool-name">Matlab & Simulink</span>
-                        <div class="progress-bg"><div class="progress-fill" style="width: 92%"></div></div>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <div class="circle-progress" style="--percent: 92deg; background: conic-gradient(var(--col-sim) 92%, rgba(255,255,255,0.1) 0);">
+                        <i class="fas fa-chart-line circle-icon"></i>
                     </div>
+                    <span class="skill-name">Matlab/Simulink</span>
+                    <span class="skill-level">Expert</span>
                 </div>
-                <div class="tool-item">
-                    <i class="fas fa-network-wired tool-icon"></i>
-                    <div class="tool-info">
-                        <span class="tool-name">Cisco Packet Tracer</span>
-                        <div class="progress-bg"><div class="progress-fill" style="width: 80%"></div></div>
+                <div class="skill-item">
+                    <div class="circle-progress" style="--percent: 80deg; background: conic-gradient(var(--col-sim) 80%, rgba(255,255,255,0.1) 0);">
+                        <i class="fas fa-network-wired circle-icon"></i>
                     </div>
+                    <span class="skill-name">Packet Tracer</span>
+                    <span class="skill-level">Réseaux</span>
                 </div>
-                <div class="tool-item">
-                    <i class="fas fa-solar-panel tool-icon"></i>
-                    <div class="tool-info">
-                        <span class="tool-name">PVsyst (Solaire)</span>
-                        <div class="progress-bg"><div class="progress-fill" style="width: 85%"></div></div>
+                <div class="skill-item">
+                    <div class="circle-progress" style="--percent: 85deg; background: conic-gradient(var(--col-sim) 85%, rgba(255,255,255,0.1) 0);">
+                        <i class="fas fa-solar-panel circle-icon"></i>
                     </div>
+                    <span class="skill-name">PVsyst</span>
+                    <span class="skill-level">Solaire</span>
+                </div>
+                <div class="skill-item">
+                    <div class="circle-progress" style="--percent: 90deg; background: conic-gradient(var(--col-sim) 90%, rgba(255,255,255,0.1) 0);">
+                        <i class="fas fa-microchip circle-icon"></i>
+                    </div>
+                    <span class="skill-name">Proteus ISIS</span>
+                    <span class="skill-level">Avancé</span>
                 </div>
             </div>
-        </div>
+        </article>
 
-        <div class="skill-category" data-aos="fade-up" data-aos-delay="300" style="border-color: rgba(67, 97, 238, 0.4);">
-            <div class="cat-header">
-                <div class="cat-icon" style="color:#4361ee; background:rgba(67, 97, 238, 0.1); border-color:rgba(67, 97, 238, 0.3);"><i class="fas fa-drafting-compass"></i></div>
-                <div class="cat-title">
+        <article class="tech-panel panel-cao" data-aos="fade-up" data-aos-delay="300">
+            <div class="panel-header">
+                <div class="icon-box"><i class="fas fa-drafting-compass"></i></div>
+                <div class="panel-title">
                     <h2>Conception (CAO)</h2>
                     <span>Dessin Technique & BIM</span>
                 </div>
             </div>
-            <div class="tools-grid">
-                <div class="tool-item">
-                    <i class="fas fa-pen-ruler tool-icon"></i>
-                    <div class="tool-info">
-                        <span class="tool-name">AutoCAD Electrical</span>
-                        <div class="progress-bg"><div class="progress-fill" style="width: 95%; background: linear-gradient(90deg, #4361ee, #00f2ff);"></div></div>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <div class="circle-progress" style="--percent: 95deg; background: conic-gradient(var(--col-cao) 95%, rgba(255,255,255,0.1) 0);">
+                        <i class="fas fa-pen-ruler circle-icon"></i>
                     </div>
+                    <span class="skill-name">AutoCAD Elec</span>
+                    <span class="skill-level">Expert</span>
                 </div>
-                <div class="tool-item">
-                    <i class="fas fa-building tool-icon"></i>
-                    <div class="tool-info">
-                        <span class="tool-name">Revit MEP</span>
-                        <div class="progress-bg"><div class="progress-fill" style="width: 70%; background: linear-gradient(90deg, #4361ee, #00f2ff);"></div></div>
+                <div class="skill-item">
+                    <div class="circle-progress" style="--percent: 75deg; background: conic-gradient(var(--col-cao) 75%, rgba(255,255,255,0.1) 0);">
+                        <i class="fas fa-building circle-icon"></i>
                     </div>
+                    <span class="skill-name">Revit MEP</span>
+                    <span class="skill-level">Intermédiaire</span>
+                </div>
+                <div class="skill-item">
+                    <div class="circle-progress" style="--percent: 85deg; background: conic-gradient(var(--col-cao) 85%, rgba(255,255,255,0.1) 0);">
+                        <i class="fas fa-cube circle-icon"></i>
+                    </div>
+                    <span class="skill-name">SolidWorks</span>
+                    <span class="skill-level">3D Design</span>
+                </div>
+                <div class="skill-item">
+                    <div class="circle-progress" style="--percent: 70deg; background: conic-gradient(var(--col-cao) 70%, rgba(255,255,255,0.1) 0);">
+                        <i class="fas fa-cogs circle-icon"></i>
+                    </div>
+                    <span class="skill-name">CATIA V5</span>
+                    <span class="skill-level">Base</span>
                 </div>
             </div>
-        </div>
+        </article>
 
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 800, once: true, offset: 50 });
-        
-        // Petite animation des barres au chargement
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.querySelectorAll('.progress-fill').forEach(bar => {
-                    const width = bar.style.width;
-                    bar.style.width = '0';
-                    setTimeout(() => bar.style.width = width, 100);
-                });
-            }, 500);
-        });
+        AOS.init({ duration: 800, once: true });
     </script>
 </body>
 </html>
