@@ -53,7 +53,7 @@
 
         /* HEADER */
         .header-section {
-            padding: 140px 20px 80px; text-align: center; max-width: 900px; margin: 0 auto;
+            padding: 140px 20px 60px; text-align: center; max-width: 900px; margin: 0 auto;
         }
         .header-section h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 15px; }
         .highlight { color: var(--primary); }
@@ -61,52 +61,54 @@
 
         /* CONTAINER */
         .exp-container {
-            max-width: 900px; margin: 0 auto 100px; padding: 0 20px;
+            max-width: 800px; /* Un peu plus étroit pour un look "Blog/Article" propre */
+            margin: 0 auto 100px; padding: 0 20px;
             display: flex; flex-direction: column; gap: 80px;
         }
 
-        /* CARTE (Design Vertical - Image entière) */
+        /* CARTE VERTICALE (IMAGE EN HAUT, TEXTE EN BAS) */
         .exp-card {
             background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 16px; overflow: hidden;
+            border-radius: 20px; overflow: hidden;
+            display: flex; flex-direction: column; /* C'est ça qui met l'image au-dessus */
             box-shadow: 0 10px 40px rgba(0,0,0,0.3); transition: 0.3s;
         }
         .exp-card:hover { transform: translateY(-5px); border-color: var(--primary); }
 
-        /* IMAGE ENTIÈRE (Pas de crop) */
+        /* ZONE IMAGE (Zéro Rognage) */
         .exp-image-container {
             width: 100%;
-            background: #000; /* Fond noir si l'image a de la transparence */
+            height: auto; /* La hauteur s'adapte à l'image */
+            background: #000;
             border-bottom: 1px solid var(--border);
-            position: relative;
         }
         .exp-image-container img {
             width: 100%;
-            height: auto; /* C'EST LA CLÉ : La hauteur s'adapte à l'image */
+            height: auto; /* Affiche toute l'image sans couper */
             display: block;
         }
 
-        /* CONTENU TEXTE */
+        /* ZONE TEXTE */
         .exp-content { padding: 40px; }
 
         .exp-header { 
-            border-bottom: 1px solid rgba(255,255,255,0.05); 
-            padding-bottom: 20px; margin-bottom: 20px; 
+            border-bottom: 1px solid rgba(255,255,255,0.1); 
+            padding-bottom: 20px; margin-bottom: 25px; 
         }
-        .exp-header h2 { font-size: 2.2rem; margin-bottom: 5px; color: #fff; }
+        .exp-header h2 { font-size: 2.2rem; margin-bottom: 8px; color: #fff; }
         .role { 
             color: var(--primary); font-weight: 700; text-transform: uppercase; 
-            font-size: 0.95rem; letter-spacing: 1px; display: block; 
+            font-size: 1rem; letter-spacing: 1px; display: block; 
         }
         
-        /* LISTE DE DÉTAILS */
+        /* LISTE */
         .description-list { list-style: none; margin-bottom: 30px; }
         .description-list li {
-            position: relative; padding-left: 25px; margin-bottom: 12px;
+            position: relative; padding-left: 25px; margin-bottom: 15px;
             color: #cbd5e1; line-height: 1.6; font-size: 1.05rem;
         }
         .description-list li::before {
-            content: '▹'; position: absolute; left: 0; color: var(--primary); font-size: 1.2rem; top: -2px;
+            content: '▹'; position: absolute; left: 0; color: var(--primary); font-size: 1.2rem; top: 0;
         }
         .description-list strong { color: #fff; font-weight: 600; }
 
@@ -153,7 +155,7 @@
 
         <article class="exp-card" data-aos="fade-up">
             <div class="exp-image-container">
-                <img src="srm.jpg" alt="SRM Maintenance" onerror="this.src='https://via.placeholder.com/800x400?text=Image+SRM'">
+                <img src="srm.jpg" alt="SRM Maintenance" onerror="this.src='https://via.placeholder.com/800x400?text=Photo+SRM'">
             </div>
             <div class="exp-content">
                 <div class="exp-header">
@@ -164,7 +166,7 @@
                     <li><strong>Analyse de Gaz (DGA) :</strong> Diagnostic approfondi de l'état des transformateurs de puissance via l'analyse des gaz dissous dans l'huile, permettant de détecter les défauts thermiques et électriques internes.</li>
                     <li><strong>Maintenance HTB/HTA :</strong> Interventions sur les postes haute tension, vérification des organes de coupure et maintenance préventive pour assurer la continuité de service.</li>
                     <li><strong>Gestion GMAO :</strong> Utilisation d'outils informatiques pour planifier les interventions, suivre l'historique des pannes et optimiser la gestion des actifs industriels.</li>
-                    <li><strong>Sécurité & Fiabilité :</strong> Application stricte des protocoles de sécurité électrique lors des interventions sur sites critiques.</li>
+                    <li><strong>Sécurité :</strong> Application stricte des protocoles de sécurité électrique lors des interventions sur sites critiques.</li>
                 </ul>
                 <div class="tech-tags">
                     <span class="tag">Analyse DGA</span>
@@ -177,7 +179,7 @@
 
         <article class="exp-card" data-aos="fade-up">
             <div class="exp-image-container">
-                <img src="em.jpg" alt="EM Energie PFE" onerror="this.src='https://via.placeholder.com/800x400?text=Image+EM'">
+                <img src="em.jpg" alt="EM Energie PFE" onerror="this.src='https://via.placeholder.com/800x400?text=Photo+EM'">
             </div>
             <div class="exp-content">
                 <div class="exp-header">
@@ -201,7 +203,7 @@
 
         <article class="exp-card" data-aos="fade-up">
             <div class="exp-image-container">
-                <img src="zahri.jpg" alt="Ezzahri Techno" onerror="this.src='https://via.placeholder.com/800x400?text=Image+Ezzahri'">
+                <img src="zahri.jpg" alt="Ezzahri Techno" onerror="this.src='https://via.placeholder.com/800x400?text=Photo+Ezzahri'">
             </div>
             <div class="exp-content">
                 <div class="exp-header">
@@ -225,7 +227,7 @@
 
         <article class="exp-card" data-aos="fade-up" style="border-color: rgba(67, 97, 238, 0.4);">
             <div class="exp-image-container">
-                <img src="club.jpg" alt="Club Robothings" onerror="this.src='https://via.placeholder.com/800x400?text=Image+Club'">
+                <img src="club.jpg" alt="Club Robothings" onerror="this.src='https://via.placeholder.com/800x400?text=Photo+Club'">
             </div>
             <div class="exp-content">
                 <div class="exp-header">
