@@ -11,12 +11,11 @@
 
     <style>
         :root {
-            --bg-dark: #0a0a0a;
-            --primary: #00d2ff; /* Cyan électrique */
-            --secondary: #3a7bd5; /* Bleu profond */
-            --accent: #7b2ff7; /* Violet néon */
+            --bg-dark: #050a14; /* Noir très profond */
+            --primary: #00f2ff; /* Cyan électrique ultra vif */
+            --secondary: #4facfe; /* Bleu doux */
             --text-main: #ffffff;
-            --text-muted: #a0a0a0;
+            --text-muted: #b3b3b3;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -30,194 +29,153 @@
             position: relative;
         }
 
-        /* --- FOND PARTICULES (CSS Pur) --- */
-        .background {
-            position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: -2;
-            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-            overflow: hidden;
-        }
-        .star {
-            position: absolute; width: 2px; height: 2px; background: white; border-radius: 50%;
-            animation: twinkle 5s infinite linear;
-        }
-        @keyframes twinkle {
-            0% { opacity: 0; transform: translateY(0); }
-            50% { opacity: 1; }
-            100% { opacity: 0; transform: translateY(-50px); }
-        }
-
-        /* Cercles lumineux d'ambiance */
-        .glow-1 {
-            position: absolute; top: -10%; right: -5%; width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(0, 210, 255, 0.15), transparent 70%);
-            border-radius: 50%; z-index: -1; animation: float 10s infinite alternate;
-        }
-        .glow-2 {
-            position: absolute; bottom: -10%; left: -10%; width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(123, 47, 247, 0.15), transparent 70%);
-            border-radius: 50%; z-index: -1; animation: float 8s infinite alternate-reverse;
+        /* --- FOND RÉSEAU (CANVAS) --- */
+        #network-canvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; opacity: 0.6; /* Transparence pour ne pas gêner le texte */
         }
 
         /* --- NAVIGATION --- */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000;
-            padding: 25px 8%;
+            padding: 20px 5%;
             display: flex; justify-content: space-between; align-items: center;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .logo { font-size: 1.8rem; font-weight: 900; color: #fff; text-decoration: none; letter-spacing: -1px; }
+        .logo { font-size: 1.6rem; font-weight: 800; color: #fff; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
         .logo span { color: var(--primary); }
 
-        .nav-links { display: flex; gap: 35px; list-style: none; }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
         .nav-links a { 
             color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.9rem;
-            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; position: relative;
+            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
         }
-        .nav-links a::after {
-            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
-            background: var(--primary); transition: 0.3s;
-        }
-        .nav-links a:hover { color: #fff; }
-        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
 
         .btn-contact {
-            padding: 12px 30px; 
-            background: linear-gradient(90deg, var(--secondary), var(--primary));
-            color: #fff; border-radius: 50px; text-decoration: none; font-weight: 700;
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.3); transition: 0.3s; border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px 25px; 
+            background: transparent; border: 2px solid var(--primary);
+            color: var(--primary); border-radius: 50px; text-decoration: none; font-weight: 700;
+            transition: 0.3s; box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
         }
-        .btn-contact:hover { transform: translateY(-3px); box-shadow: 0 0 40px rgba(0, 210, 255, 0.6); }
+        .btn-contact:hover { background: var(--primary); color: #000; box-shadow: 0 0 30px rgba(0, 242, 255, 0.6); }
 
-        /* --- HERO SECTION --- */
+        /* --- HERO SECTION CENTRÉE --- */
         .hero {
-            height: 100vh; display: flex; align-items: center; justify-content: space-between;
-            padding: 0 10%; max-width: 1600px; margin: 0 auto;
+            height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
         }
 
-        .hero-content { flex: 1; z-index: 2; padding-right: 40px; }
-        
-        .badge {
-            display: inline-block; padding: 8px 16px; border-radius: 30px;
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--primary); font-size: 0.85rem; font-weight: 600; letter-spacing: 2px;
-            margin-bottom: 20px; text-transform: uppercase; backdrop-filter: blur(5px);
+        /* Badge Bienvenue */
+        .welcome-badge {
+            display: inline-block; padding: 10px 25px; border-radius: 50px;
+            background: rgba(0, 242, 255, 0.1); border: 1px solid var(--primary);
+            color: var(--primary); font-size: 0.9rem; font-weight: 700; letter-spacing: 2px;
+            text-transform: uppercase; margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
         }
 
-        .hero h1 { 
-            font-size: 5rem; line-height: 1.1; margin-bottom: 10px; font-weight: 800;
+        /* Photo Circulaire Parfaite */
+        .profile-container {
+            width: 280px; height: 280px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden; /* C'est ça qui coupe le bas de la photo proprement ! */
+            margin-bottom: 30px;
+            box-shadow: 0 0 50px rgba(0, 242, 255, 0.15);
+            background: radial-gradient(circle, rgba(255,255,255,0.05), transparent);
+            transition: 0.5s;
         }
-        .hero h1 span { color: var(--text-muted); font-size: 3rem; display: block; font-weight: 300; }
-        
-        /* Effet de texte qui change */
-        .typewriter {
-            font-size: 2rem; color: var(--primary); font-weight: 700; margin-bottom: 30px;
-            height: 40px; display: flex; align-items: center;
-        }
-        .cursor { display: inline-block; width: 3px; height: 30px; background: #fff; margin-left: 5px; animation: blink 1s infinite; }
-
-        .hero p { color: var(--text-muted); font-size: 1.2rem; line-height: 1.6; margin-bottom: 40px; max-width: 600px; }
-
-        .hero-btns { display: flex; gap: 20px; }
-        .btn-outline {
-            padding: 14px 35px; border: 1px solid rgba(255,255,255,0.2); color: #fff;
-            border-radius: 50px; text-decoration: none; font-weight: 600; transition: 0.3s;
-            background: rgba(255,255,255,0.02); backdrop-filter: blur(5px);
-        }
-        .btn-outline:hover { border-color: var(--primary); color: var(--primary); background: rgba(0, 210, 255, 0.05); }
-
-        /* --- PHOTO AVEC AURA --- */
-        .hero-image-container { 
-            flex: 1; display: flex; justify-content: center; position: relative; 
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-        @keyframes blink { 50% { opacity: 0; } }
-
-        /* Cercles concentriques derrière la photo */
-        .circle-bg {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            border-radius: 50%; border: 1px solid rgba(255,255,255,0.05); z-index: -1;
-        }
-        .c1 { width: 400px; height: 400px; animation: spin 20s linear infinite; border-color: rgba(0, 210, 255, 0.1); }
-        .c2 { width: 550px; height: 550px; animation: spin 30s linear infinite reverse; border-style: dashed; }
-        .c3 { width: 700px; height: 700px; border-color: rgba(123, 47, 247, 0.05); }
-
-        @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+        .profile-container:hover { transform: scale(1.05); border-color: var(--primary); box-shadow: 0 0 60px rgba(0, 242, 255, 0.4); }
 
         .hero-img {
-            width: 420px; height: auto;
-            /* Ombre portée néon cyan */
-            filter: drop-shadow(0 0 50px rgba(0, 210, 255, 0.4));
-            transition: 0.5s; mask-image: linear-gradient(black 80%, transparent 100%);
+            width: 100%; height: 100%;
+            object-fit: cover; /* Remplit bien le cercle */
+            object-position: center top; /* Centre sur le visage */
+            transform: scale(1.1) translateY(10px); /* Ajustement fin pour bien te cadrer */
         }
-        .hero-img:hover { filter: drop-shadow(0 0 80px rgba(0, 210, 255, 0.6)); transform: scale(1.03); }
+
+        /* Textes */
+        .hero h1 { 
+            font-size: 4.5rem; line-height: 1.1; margin-bottom: 15px; font-weight: 900;
+            background: linear-gradient(to bottom, #fff, #a1c4fd);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        
+        .hero h2 {
+            font-size: 1.5rem; color: var(--text-muted); font-weight: 400; margin-bottom: 40px;
+            max-width: 700px;
+        }
+        .hero h2 span { color: var(--primary); font-weight: 600; }
+
+        /* Boutons */
+        .hero-btns { display: flex; gap: 20px; justify-content: center; }
+        
+        .btn-main {
+            padding: 15px 40px; background: linear-gradient(90deg, var(--secondary), var(--primary));
+            color: #fff; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1.1rem;
+            box-shadow: 0 0 25px rgba(0, 242, 255, 0.4); transition: 0.3s;
+        }
+        .btn-main:hover { transform: translateY(-5px); box-shadow: 0 0 50px rgba(0, 242, 255, 0.7); }
+
+        .btn-glass {
+            padding: 15px 40px; border: 1px solid rgba(255,255,255,0.3); color: #fff;
+            border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1.1rem;
+            background: rgba(255,255,255,0.05); transition: 0.3s;
+        }
+        .btn-glass:hover { background: #fff; color: #000; }
 
         /* MOBILE */
-        @media (max-width: 1024px) {
-            .hero { flex-direction: column-reverse; justify-content: center; text-align: center; padding: 120px 5% 50px; height: auto; }
-            .hero h1 { font-size: 3.5rem; }
-            .hero h1 span { font-size: 2rem; }
-            .typewriter { justify-content: center; font-size: 1.5rem; }
-            .hero-content { padding-right: 0; margin-top: 40px; }
-            .hero-btns { justify-content: center; }
-            .hero-img { width: 300px; }
-            .c1, .c2, .c3 { display: none; } /* On cache les cercles sur mobile pour alléger */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .profile-container { width: 220px; height: 220px; }
             .nav-links { display: none; }
+            .hero-btns { flex-direction: column; gap: 15px; width: 100%; max-width: 300px; }
+            .btn-main, .btn-glass { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <div class="background" id="star-container"></div>
-    <div class="glow-1"></div>
-    <div class="glow-2"></div>
+    <canvas id="network-canvas"></canvas>
 
     <nav>
-        <a href="index.html" class="logo">Bader<span>.Dev</span></a>
+        <a href="index.html" class="logo">Bader<span>.Elec</span></a>
         <ul class="nav-links">
-            <li><a href="index.html" class="active">Accueil</a></li>
-            <li><a href="parcours.html">Formation</a></li>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="parcours.html">Parcours</a></li>
             <li><a href="experiences.html">Expérience</a></li>
             <li><a href="projets.html">Projets</a></li>
             <li><a href="competences.html">Compétences</a></li>
         </ul>
-        <a href="contact.html" class="btn-contact">Me Contacter</a>
+        <a href="contact.html" class="btn-contact">Contact</a>
     </nav>
 
-    <section class="hero">
+    <section class="hero" data-aos="zoom-in">
         
-        <div class="hero-content" data-aos="fade-right">
-            <span class="badge">Portfolio Officiel</span>
-            <h1>Bader el<br>Berkaoui</h1>
-            
-            <div class="typewriter">
-                Je suis <span id="typing-text" style="margin-left:10px; color:#fff;"></span><span class="cursor"></span>
-            </div>
-
-            <p>
-                Ingénieur passionné par l'innovation durable, l'automatisme avancé et les systèmes intelligents. 
-                Prêt à relever les défis de l'industrie 4.0.
-            </p>
-
-            <div class="hero-btns">
-                <a href="projets.html" class="btn-contact">Découvrir mes Projets</a>
-                <a href="assets/docs/CV-Bader.pdf" download class="btn-outline"><i class="fas fa-download"></i> Mon CV</a>
-            </div>
+        <div class="profile-container">
+            <img src="profilee.png" alt="Bader el Berkaoui" class="hero-img" 
+                 onerror="alert('Image profilee.png introuvable !');">
         </div>
 
-        <div class="hero-image-container" data-aos="fade-left">
-            <div class="circle-bg c1"></div>
-            <div class="circle-bg c2"></div>
-            <div class="circle-bg c3"></div>
-            
-            <img src="profilee.png" alt="Bader el Berkaoui" class="hero-img" 
-                 onerror="this.style.display='none'; alert('Attention : L\'image profilee.png (avec 2 E) est introuvable à la racine !');">
+        <span class="welcome-badge">Bienvenue sur mon portfolio</span>
+
+        <h1>Bader el Berkaoui</h1>
+
+        <h2>
+            Ingénieur <span>Génie Électrique</span> & Contrôle Industriel.<br>
+            Conception de systèmes durables et intelligents.
+        </h2>
+
+        <div class="hero-btns">
+            <a href="projets.html" class="btn-main">Voir mes Projets</a>
+            <a href="parcours.html" class="btn-glass">Mon Parcours</a>
         </div>
 
     </section>
@@ -226,48 +184,82 @@
     <script>
         AOS.init({ duration: 1000, once: true });
 
-        // Script pour les étoiles en fond
-        const container = document.getElementById('star-container');
-        for(let i=0; i<50; i++){
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 5 + 's';
-            container.appendChild(star);
+        // --- SCRIPT POUR LE FOND "RÉSEAU ÉLECTRIQUE" ---
+        const canvas = document.getElementById('network-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        // Configuration
+        const particleCount = 60; // Nombre de points
+        const connectionDistance = 150; // Distance pour connecter les lignes
+        const speed = 0.5; // Vitesse de mouvement
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
         }
 
-        // Script pour l'effet "Machine à écrire"
-        const textElement = document.getElementById('typing-text');
-        const texts = ["Ingénieur G.E", "Expert Automatisme", "Développeur IoT", "Innovateur"];
-        let count = 0;
-        let index = 0;
-        let currentText = "";
-        let letter = "";
-
-        (function type() {
-            if (count === texts.length) { count = 0; }
-            currentText = texts[count];
-            letter = currentText.slice(0, ++index);
-
-            textElement.textContent = letter;
-            if (letter.length === currentText.length) {
-                setTimeout(() => {
-                    // Effacer
-                    let deleteInterval = setInterval(() => {
-                        letter = currentText.slice(0, --index);
-                        textElement.textContent = letter;
-                        if(index === 0) {
-                            clearInterval(deleteInterval);
-                            count++;
-                            type();
-                        }
-                    }, 50);
-                }, 2000); // Temps d'attente avant d'effacer
-            } else {
-                setTimeout(type, 100);
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * speed;
+                this.vy = (Math.random() - 0.5) * speed;
+                this.size = Math.random() * 2 + 1;
             }
-        })();
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                // Rebondir sur les bords
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.fillStyle = '#00f2ff'; // Couleur des points
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Dessiner les lignes entre les points proches
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(0, 242, 255, ${1 - distance / connectionDistance})`; // Lignes bleues qui s'effacent
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => { resize(); init(); });
+        resize();
+        init();
+        animate();
     </script>
 </body>
 </html>
