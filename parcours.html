@@ -2,213 +2,139 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <title>Parcours Académique - Younes Tamouh | Ingénieur Industriel</title>
-    <meta name="description" content="Parcours académique complet de Younes Tamouh, ingénieur industriel spécialisé en génie industriel et amélioration des processus">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parcours Académique | Bader el Berkaoui</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* --- DESIGN SYSTEM (Cohérent avec le reste) --- */
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --primary: #38bdf8;
+            --secondary: #818cf8;
+            --accent: #2dd4bf;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 20% 20%, rgba(129, 140, 248, 0.15) 0%, transparent 40%);
+        }
+
+        /* --- NAV --- */
+        nav {
+            padding: 20px 5%; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border-bottom: var(--glass-border);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; }
+        .logo span { color: var(--primary); }
+        .back-btn { 
+            color: var(--text-muted); text-decoration: none; font-weight: 600; transition: 0.3s;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .back-btn:hover { color: var(--primary); }
+
+        /* --- HEADER --- */
+        .page-header { text-align: center; padding: 80px 20px 50px; }
+        .page-header h1 { font-size: 3rem; margin-bottom: 15px; }
+        .page-header p { color: var(--text-muted); max-width: 600px; margin: 0 auto; font-size: 1.1rem; }
+
+        /* --- TIMELINE ACADÉMIQUE --- */
+        .academic-container {
+            max-width: 900px; margin: 0 auto; padding: 0 20px 100px;
+            position: relative;
+        }
+        
+        /* Ligne verticale */
+        .academic-container::before {
+            content: ''; position: absolute; left: 40px; top: 0; bottom: 0;
+            width: 3px; background: rgba(255,255,255,0.1);
+        }
+
+        .school-card {
+            background: var(--bg-card); border: var(--glass-border); border-radius: 20px;
+            padding: 30px; margin-bottom: 50px; margin-left: 80px; position: relative;
+            transition: 0.3s; display: flex; flex-direction: column; gap: 15px;
+        }
+        .school-card:hover { transform: translateX(10px); border-color: var(--primary); background: rgba(30, 41, 59, 0.9); }
+
+        /* Logo de l'école (Cercle à gauche) */
+        .school-logo-wrapper {
+            position: absolute; left: -100px; top: 20px;
+            width: 80px; height: 80px; border-radius: 50%;
+            background: #1e293b; border: 2px solid var(--primary);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; z-index: 2; box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+        }
+        /* Image du logo (ou icône par défaut) */
+        .school-logo-wrapper img { width: 100%; height: 100%; object-fit: contain; padding: 5px; background: #fff; }
+        .school-logo-wrapper i { font-size: 2rem; color: var(--primary); }
+
+        /* Contenu */
+        .years { 
+            display: inline-block; padding: 5px 15px; background: var(--primary); color: #0f172a; 
+            border-radius: 50px; font-weight: 700; font-size: 0.85rem; width: fit-content;
+        }
+        .degree { font-size: 1.5rem; color: #fff; margin-bottom: 5px; }
+        .school-name { font-size: 1.1rem; color: var(--text-muted); font-weight: 400; text-transform: uppercase; letter-spacing: 1px; }
+        .details { color: #cbd5e1; line-height: 1.6; font-size: 0.95rem; margin-top: 10px; }
+
+        /* Badge Major de Promo */
+        .honor-badge {
+            background: linear-gradient(45deg, #fbbf24, #d97706);
+            color: #fff; padding: 5px 12px; border-radius: 5px;
+            font-size: 0.8rem; font-weight: bold; display: inline-flex; align-items: center; gap: 5px;
+            box-shadow: 0 4px 10px rgba(251, 191, 36, 0.3); margin-top: 10px; width: fit-content;
+        }
+
+        /* --- MOBILE --- */
+        @media (max-width: 768px) {
+            .academic-container::before { left: 20px; }
+            .school-card { margin-left: 50px; padding: 20px; }
+            .school-logo-wrapper { 
+                width: 50px; height: 50px; left: -65px; top: 20px;
+            }
+            .school-logo-wrapper i { font-size: 1.2rem; }
+            .degree { font-size: 1.2rem; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation mise à jour -->
+
     <nav>
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <img src="assets/images/logo-portfolio.png" alt="Logo Portfolio" class="logo-img" loading="lazy">
-            </a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="parcours.html" class="active">Parcours</a></li>
-                <li><a href="experiences.html">Expériences</a></li>
-                <li><a href="projets.html">Projets</a></li>
-                <li><a href="competences.html">Compétences</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-            <button class="burger" id="burgerBtn" aria-label="Menu" aria-expanded="false">
-                <span class="line1"></span>
-                <span class="line2"></span>
-                <span class="line3"></span>
-            </button>
-        </div>
+        <a href="index.html" class="logo">BE.<span>Elec</span></a>
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Retour Accueil</a>
     </nav>
 
-    <!-- Section Parcours académique -->
-    <main class="parcours">
-        <div class="container">
-            <h1>Mon Parcours Académique</h1>
+    <header class="page-header" data-aos="fade-down">
+        <h1>Cursus Académique</h1>
+        <p>Une formation d'excellence en Génie Électrique, alliant théorie avancée et pratique industrielle.</p>
+    </header>
+
+    <main class="academic-container">
+
+        <article class="school-card" data-aos="fade-left">
+            <div class="school-logo-wrapper">
+                <img src="https://placehold.co/100x100/1e293b/38bdf8?text=FSTM" alt="Logo FST Mohammedia">
+            </div>
             
-            <div class="timeline">
-                <!-- Baccalauréat -->
-                <article class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h2>Baccalauréat en Sciences et Technologies Mécaniques</h2>
-                            <div class="timeline-meta">
-                                <p class="mention"><i class="fas fa-medal"></i> Mention : Bien</p>
-                                <p class="date"><i class="fas fa-calendar-alt"></i> 2015 - 2016</p>
-                            </div>
-                        </div>
-                        <div class="timeline-details">
-                            <p>Formation intensive combinant sciences de l'ingénieur, mathématiques et physique-chimie avec des coefficients importants.</p>
-                            <h3>Principaux acquis :</h3>
-                            <ul class="timeline-skills">
-                                <li><i class="fas fa-check"></i> <strong>Conception mécanique</strong> : Lecture et interprétation de plans techniques, principes d'assemblage</li>
-                                <li><i class="fas fa-check"></i> <strong>Production industrielle</strong> : Procédés de fabrication, métrologie, traitement thermique</li>
-                                <li><i class="fas fa-check"></i> <strong>CFAO</strong> : Modélisation 3D avec CATIA V5 et SolidWorks</li>
-                                <li><i class="fas fa-check"></i> <strong>Cotation ISO GPS</strong> : Normes de tolérancement géométrique</li>
-                            </ul>
-                        </div>
-                    </div>
-                </article>
-                
-                <!-- CPGE -->
-                <article class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h2>Classes Préparatoires aux Grandes Écoles (CPGE)</h2>
-                            <div class="timeline-meta">
-                                <p class="mention"><i class="fas fa-university"></i> Lycée Mohammed V - Casablanca</p>
-                                <p class="date"><i class="fas fa-calendar-alt"></i> 2016 - 2018</p>
-                            </div>
-                        </div>
-                        <div class="timeline-details">
-                            <p>Formation exigeante en TSI (Technologie et Sciences Industrielles) préparant aux concours d'entrée aux grandes écoles d'ingénieurs.</p>
-                            <h3>Programme intensif :</h3>
-                            <div class="curriculum-grid">
-                                <div class="curriculum-item">
-                                    <h4><i class="fas fa-square-root-alt"></i> Mathématiques</h4>
-                                    <ul>
-                                        <li>Algèbre linéaire</li>
-                                        <li>Analyse avancée</li>
-                                        <li>Probabilités</li>
-                                    </ul>
-                                </div>
-                                <div class="curriculum-item">
-                                    <h4><i class="fas fa-atom"></i> Physique</h4>
-                                    <ul>
-                                        <li>Mécanique des solides</li>
-                                        <li>Électromagnétisme</li>
-                                        <li>Thermodynamique</li>
-                                    </ul>
-                                </div>
-                                <div class="curriculum-item">
-                                    <h4><i class="fas fa-cogs"></i> Sciences Industrielles</h4>
-                                    <ul>
-                                        <li>Automatique</li>
-                                        <li>Mécanique</li>
-                                        <li>Électrotechnique</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <p class="achievement"><i class="fas fa-trophy"></i> Admis aux concours nationaux communs (CNC)</p>
-                        </div>
-                    </div>
-                </article>
-                
-                <!-- ENSA Safi -->
-                <article class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h2>Diplôme d'Ingénieur d'État en Génie Industriel</h2>
-                            <div class="timeline-meta">
-                                <p class="mention"><i class="fas fa-graduation-cap"></i> ENSA Safi</p>
-                                <p class="date"><i class="fas fa-calendar-alt"></i> 2018 - 2021</p>
-                            </div>
-                        </div>
-                        <div class="timeline-details">
-                            <p>Formation complète en génie industriel avec spécialisation en amélioration continue et gestion des systèmes de production.</p>
-                            
-                            <h3>Spécialisations :</h3>
-                            <ul class="specializations">
-                                <li>
-                                    <i class="fas fa-chart-line"></i>
-                                    <div>
-                                        <h4>Optimisation des processus</h4>
-                                        <p>Méthodes Lean, Six Sigma, analyse des flux de valeur</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <i class="fas fa-project-diagram"></i>
-                                    <div>
-                                        <h4>Gestion de projets industriels</h4>
-                                        <p>Planification, gestion des risques, méthodologie Agile</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <i class="fas fa-industry"></i>
-                                    <div>
-                                        <h4>Systèmes de production</h4>
-                                        <p>GPAO, ERP, automatisation industrielle</p>
-                                    </div>
-                                </li>
-                            </ul>
-                            
-                            <h3>Projet de fin d'études :</h3>
-                            <p>"Optimisation des indicateurs MTBF et MTTR dans une unité de production" - Note : 16/20</p>
-                        </div>
-                    </div>
-                </article>
+            <span class="years">2024 - 2026 (En cours)</span>
+            <div>
+                <h2 class="degree">Cycle d'Ingénieur d'État</h2>
+                <h3 class="school-name">FST Mohammedia</h3>
             </div>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-about">
-                    <h3>Younes Tamouh</h3>
-                    <p>Ingénieur industriel spécialisé en amélioration continue et optimisation des processus</p>
-                </div>
-                <div class="footer-links">
-                    <h3>Navigation rapide</h3>
-                    <ul>
-                        <li><a href="projets.html">Mes projets</a></li>
-                        <li><a href="competences.html">Mes compétences</a></li>
-                        <li><a href="contact.html">Contactez-moi</a></li>
-                    </ul>
-                </div>
-                <div class="footer-contact">
-                    <h3>Coordonnées</h3>
-                    <ul>
-                        <li><i class="fas fa-envelope"></i> younesstamouh1@gmail.com</li>
-                        <li><i class="fas fa-phone"></i> +212 6 09 37 93 74</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; <span id="current-year">2025</span> Tous droits réservés</p>
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/in/younes-tamouh-b84335253/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                    <a href="mailto:younesstamouh1@gmail.com" aria-label="Email">
-                        <i class="fas fa-envelope"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="assets/js/script.js"></script>
-    <script>
-        // Mise à jour automatique de l'année
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-        
-        // Animation de la timeline
-        const timelineItems = document.querySelectorAll('.timeline-item');
-        
-        const timelineObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animated');
-                    timelineObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-        
-        timelineItems.forEach(item => {
-            timelineObserver.observe(item);
-        });
-    </script>
-</body>
-</html>
+            <p class="details">
+                <strong>Spécialité :</strong> Génie Électrique et Contrôle Industriel (GECI).<br>
+                Approfondissement
