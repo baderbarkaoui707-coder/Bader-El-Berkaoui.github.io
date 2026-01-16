@@ -11,17 +11,17 @@
 
     <style>
         :root {
-            --bg-dark: #050a14;
-            --glass: rgba(20, 25, 45, 0.6);
-            --border: rgba(255, 255, 255, 0.1);
+            --bg-dark: #02040a;
+            --glass: rgba(10, 15, 30, 0.65);
+            --border: rgba(255, 255, 255, 0.05);
             --text-main: #ffffff;
-            --text-muted: #94a3b8;
+            --text-muted: #8b9bb4;
             
-            /* Palette Néon */
-            --neon-blue: #00f2ff;
+            /* Couleurs Néon Intenses */
+            --neon-cyan: #00f3ff;
             --neon-purple: #bc13fe;
-            --neon-orange: #ffaa00;
-            --neon-green: #00ff9d;
+            --neon-orange: #ff9e00;
+            --neon-green: #0aff64;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,137 +31,154 @@
             background-color: var(--bg-dark);
             color: var(--text-main);
             overflow-x: hidden;
-            perspective: 1000px; /* Pour la 3D */
+            perspective: 1000px;
         }
 
-        /* FOND HEXAGONAL TECH */
-        .hex-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background-color: #050a14;
+        /* --- FOND 3D ANIMÉ "GRID" --- */
+        .cyber-grid {
+            position: fixed; top: 0; left: 0; width: 100%; height: 200%;
             background-image: 
-                radial-gradient(circle at 50% 0%, #1a233a 0%, transparent 60%),
-                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 60px 60px, 60px 60px;
+                linear-gradient(rgba(0, 243, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.1) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: perspective(500px) rotateX(60deg) translateY(-100px) translateZ(-200px);
+            animation: gridMove 20s linear infinite;
+            z-index: -2; opacity: 0.3;
+            mask-image: linear-gradient(to bottom, transparent 0%, black 40%, black 100%);
         }
         
-        /* NAV */
+        @keyframes gridMove {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-200px); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(60px) translateZ(-200px); }
+        }
+
+        /* VIGNETTE SOMBRE */
+        .vignette {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, #02040a 90%);
+            z-index: -1; pointer-events: none;
+        }
+
+        /* --- NAV --- */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000; padding: 20px 5%;
             display: flex; justify-content: center;
             backdrop-filter: blur(15px); border-bottom: 1px solid var(--border);
-            background: rgba(5, 10, 20, 0.85);
+            background: rgba(2, 4, 10, 0.8);
         }
         .nav-links { display: flex; gap: 35px; list-style: none; }
         .nav-links a { 
             color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem;
             text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
-            display: flex; align-items: center; gap: 8px;
+            display: flex; align-items: center; gap: 8px; position: relative;
         }
-        .nav-links a:hover, .nav-links a.active { color: #fff; text-shadow: 0 0 10px var(--neon-blue); }
-        .nav-links a i { color: var(--neon-blue); }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
+            background: var(--neon-cyan); transition: 0.3s;
+        }
+        .nav-links a:hover { color: #fff; text-shadow: 0 0 15px var(--neon-cyan); }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a i { color: var(--neon-cyan); }
 
-        /* HEADER */
+        /* --- HEADER --- */
         .header-section {
-            padding: 150px 20px 80px; text-align: center; max-width: 1000px; margin: 0 auto;
+            padding: 160px 20px 80px; text-align: center; max-width: 1000px; margin: 0 auto;
         }
         .header-section h1 { 
-            font-size: 4rem; font-weight: 900; margin-bottom: 15px; letter-spacing: -2px; text-transform: uppercase;
-            background: linear-gradient(180deg, #fff, #64748b); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-size: 4.5rem; font-weight: 900; margin-bottom: 15px; letter-spacing: -2px; text-transform: uppercase;
+            background: linear-gradient(180deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
         }
-        .subtitle { font-size: 1.2rem; color: var(--text-muted); font-weight: 300; }
+        .subtitle { font-size: 1.2rem; color: var(--text-muted); font-weight: 300; letter-spacing: 1px; }
 
-        /* CONTAINER GRILLE */
+        /* --- GRILLE DES SKILLS --- */
         .skills-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
             gap: 40px; max-width: 1300px; margin: 0 auto 100px; padding: 0 30px;
         }
 
-        /* --- CARTE 3D (TILT) --- */
-        .skill-card {
+        /* --- CARTE "CYBER-PANEL" --- */
+        .tech-card {
             background: var(--glass); border: 1px solid var(--border);
-            border-radius: 24px; padding: 40px; position: relative;
-            transform-style: preserve-3d; transform: perspective(1000px);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border-radius: 20px; padding: 40px; position: relative;
+            backdrop-filter: blur(20px); overflow: hidden;
+            transition: 0.4s ease;
         }
         
-        /* Effet de lueur interne spécifique par carte */
-        .card-blue { border-top: 2px solid var(--neon-blue); }
-        .card-purple { border-top: 2px solid var(--neon-purple); }
-        .card-orange { border-top: 2px solid var(--neon-orange); }
-        .card-green { border-top: 2px solid var(--neon-green); }
+        /* Effet "Scanner" (Lumière qui passe) */
+        .tech-card::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-25deg); transition: 0.5s; pointer-events: none;
+        }
+        .tech-card:hover::before { left: 150%; transition: 1s; }
+
+        .tech-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+
+        /* Couleurs dynamiques par carte */
+        .card-cyan:hover { border-color: var(--neon-cyan); box-shadow: 0 0 30px rgba(0, 243, 255, 0.1); }
+        .card-purple:hover { border-color: var(--neon-purple); box-shadow: 0 0 30px rgba(188, 19, 254, 0.1); }
+        .card-orange:hover { border-color: var(--neon-orange); box-shadow: 0 0 30px rgba(255, 158, 0, 0.1); }
+        .card-green:hover { border-color: var(--neon-green); box-shadow: 0 0 30px rgba(10, 255, 100, 0.1); }
 
         /* EN-TÊTE CARTE */
-        .card-header { 
-            display: flex; align-items: center; gap: 20px; margin-bottom: 35px;
-            transform: translateZ(20px); /* Effet de profondeur 3D */
-        }
+        .card-header { display: flex; align-items: center; gap: 20px; margin-bottom: 35px; }
         .icon-box {
-            width: 60px; height: 60px; border-radius: 15px;
+            width: 60px; height: 60px; border-radius: 12px;
             display: flex; justify-content: center; align-items: center; font-size: 1.8rem;
-            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-        .card-title h2 { font-size: 1.8rem; margin: 0; color: #fff; }
-        .card-title span { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; }
+        .card-cyan .icon-box { color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan); }
+        .card-purple .icon-box { color: var(--neon-purple); text-shadow: 0 0 10px var(--neon-purple); }
+        .card-orange .icon-box { color: var(--neon-orange); text-shadow: 0 0 10px var(--neon-orange); }
+        .card-green .icon-box { color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green); }
 
-        /* LISTE DES SKILLS */
-        .skill-list { display: flex; flex-direction: column; gap: 25px; transform: translateZ(30px); }
+        .card-title h2 { font-size: 1.6rem; margin: 0; color: #fff; letter-spacing: -0.5px; }
+        .card-title span { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
 
-        .skill-item { position: relative; }
+        /* LISTE COMPÉTENCES */
+        .skill-list { display: flex; flex-direction: column; gap: 25px; }
         
+        .skill-item { position: relative; }
         .skill-info { display: flex; justify-content: space-between; margin-bottom: 8px; }
         .skill-name { font-weight: 600; color: #e2e8f0; font-size: 1rem; }
-        .skill-name i { margin-right: 8px; opacity: 0.7; }
-        .skill-percent { font-weight: 700; font-size: 0.9rem; opacity: 0.8; }
+        .counter { font-weight: 700; font-family: monospace; font-size: 1rem; }
+        
+        .card-cyan .counter { color: var(--neon-cyan); }
+        .card-purple .counter { color: var(--neon-purple); }
+        .card-orange .counter { color: var(--neon-orange); }
+        .card-green .counter { color: var(--neon-green); }
 
-        /* BARRE DE PROGRESSION PLASMA */
+        /* BARRE DE PROGRESSION ANIMÉE (DATA FLOW) */
         .progress-track {
             width: 100%; height: 8px; background: rgba(255,255,255,0.05);
-            border-radius: 10px; overflow: hidden; position: relative;
-        }
-        .progress-bar {
-            height: 100%; width: 0; border-radius: 10px;
-            position: relative; transition: width 1.5s cubic-bezier(0.1, 0.7, 1.0, 0.1);
+            border-radius: 4px; overflow: hidden; position: relative;
         }
         
-        /* Animation de brillance sur la barre */
-        .progress-bar::after {
-            content: ''; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
+        .progress-bar {
+            height: 100%; width: 0; border-radius: 4px; position: relative;
+            background-size: 20px 20px;
             background-image: linear-gradient(
                 45deg, 
-                rgba(255,255,255,0.15) 25%, 
+                rgba(255,255,255,0.2) 25%, 
                 transparent 25%, 
                 transparent 50%, 
-                rgba(255,255,255,0.15) 50%, 
-                rgba(255,255,255,0.15) 75%, 
+                rgba(255,255,255,0.2) 50%, 
+                rgba(255,255,255,0.2) 75%, 
                 transparent 75%, 
                 transparent
             );
-            background-size: 20px 20px;
-            animation: moveStripes 1s linear infinite;
-            border-radius: 10px;
+            animation: flow 1s linear infinite; /* Animation de flux */
+            transition: width 2s cubic-bezier(0.22, 0.61, 0.36, 1); /* Animation de remplissage */
         }
 
-        @keyframes moveStripes { from { background-position: 0 0; } to { background-position: 40px 0; } }
+        @keyframes flow { from { background-position: 0 0; } to { background-position: 40px 0; } }
 
-        /* COULEURS DES BARRES */
-        .card-blue .progress-bar { background: linear-gradient(90deg, transparent, var(--neon-blue)); box-shadow: 0 0 15px var(--neon-blue); }
-        .card-blue .icon-box { color: var(--neon-blue); box-shadow: 0 0 20px rgba(0, 242, 255, 0.2); }
-        .card-blue .skill-percent { color: var(--neon-blue); }
-
-        .card-purple .progress-bar { background: linear-gradient(90deg, transparent, var(--neon-purple)); box-shadow: 0 0 15px var(--neon-purple); }
-        .card-purple .icon-box { color: var(--neon-purple); box-shadow: 0 0 20px rgba(188, 19, 254, 0.2); }
-        .card-purple .skill-percent { color: var(--neon-purple); }
-
-        .card-orange .progress-bar { background: linear-gradient(90deg, transparent, var(--neon-orange)); box-shadow: 0 0 15px var(--neon-orange); }
-        .card-orange .icon-box { color: var(--neon-orange); box-shadow: 0 0 20px rgba(255, 170, 0, 0.2); }
-        .card-orange .skill-percent { color: var(--neon-orange); }
-
-        .card-green .progress-bar { background: linear-gradient(90deg, transparent, var(--neon-green)); box-shadow: 0 0 15px var(--neon-green); }
-        .card-green .icon-box { color: var(--neon-green); box-shadow: 0 0 20px rgba(0, 255, 157, 0.2); }
-        .card-green .skill-percent { color: var(--neon-green); }
+        .card-cyan .progress-bar { background-color: var(--neon-cyan); box-shadow: 0 0 15px var(--neon-cyan); }
+        .card-purple .progress-bar { background-color: var(--neon-purple); box-shadow: 0 0 15px var(--neon-purple); }
+        .card-orange .progress-bar { background-color: var(--neon-orange); box-shadow: 0 0 15px var(--neon-orange); }
+        .card-green .progress-bar { background-color: var(--neon-green); box-shadow: 0 0 15px var(--neon-green); }
 
         /* MOBILE */
         @media (max-width: 768px) {
@@ -173,7 +190,8 @@
 </head>
 <body>
 
-    <div class="hex-bg"></div>
+    <div class="cyber-grid"></div>
+    <div class="vignette"></div>
 
     <nav>
         <ul class="nav-links">
@@ -187,13 +205,13 @@
     </nav>
 
     <section class="header-section" data-aos="zoom-out">
-        <h1>Centre de Compétences</h1>
-        <p class="subtitle">Maîtrise technologique avancée et outils d'ingénierie de précision.</p>
+        <h1>Arsenal Technique</h1>
+        <p class="subtitle">Vue d'ensemble de mon expertise : Dimensionnement, Embarqué, Simulation & Conception.</p>
     </section>
 
     <div class="skills-grid">
 
-        <div class="skill-card card-blue js-tilt" data-aos="fade-up">
+        <article class="tech-card card-cyan" data-aos="fade-up">
             <div class="card-header">
                 <div class="icon-box"><i class="fas fa-bolt"></i></div>
                 <div class="card-title">
@@ -203,25 +221,25 @@
             </div>
             <div class="skill-list">
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Caneco BT</span><span class="skill-percent">95%</span></div>
-                    <div class="progress-track"><div class="progress-bar" style="width: 95%"></div></div>
+                    <div class="skill-info"><span class="skill-name">Caneco BT</span><span class="counter" data-target="95">0%</span></div>
+                    <div class="progress-track"><div class="progress-bar" data-width="95%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Dialux Evo</span><span class="skill-percent">90%</span></div>
-                    <div class="progress-track"><div class="progress-bar" style="width: 90%"></div></div>
+                    <div class="skill-info"><span class="skill-name">Dialux Evo</span><span class="counter" data-target="90">0%</span></div>
+                    <div class="progress-track"><div class="progress-bar" data-width="90%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Ecodial</span><span class="skill-percent">85%</span></div>
-                    <div class="progress-track"><div class="progress-bar" style="width: 85%"></div></div>
+                    <div class="skill-info"><span class="skill-name">Ecodial</span><span class="counter" data-target="85">0%</span></div>
+                    <div class="progress-track"><div class="progress-bar" data-width="85%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Eplan Electric</span><span class="skill-percent">80%</span></div>
-                    <div class="progress-track"><div class="progress-bar" style="width: 80%"></div></div>
+                    <div class="skill-info"><span class="skill-name">Eplan Electric</span><span class="counter" data-target="80">0%</span></div>
+                    <div class="progress-track"><div class="progress-bar" data-width="80%"></div></div>
                 </div>
             </div>
-        </div>
+        </article>
 
-        <div class="skill-card card-purple js-tilt" data-aos="fade-up" data-aos-delay="100">
+        <article class="tech-card card-purple" data-aos="fade-up" data-aos-delay="100">
             <div class="card-header">
                 <div class="icon-box"><i class="fas fa-microchip"></i></div>
                 <div class="card-title">
@@ -231,25 +249,25 @@
             </div>
             <div class="skill-list">
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">STM32 CubeIDE</span><span class="skill-percent">90%</span></div>
-                    <div class="progress-track"><div class="progress-bar" style="width: 90%"></div></div>
+                    <div class="skill-info"><span class="skill-name">STM32 CubeIDE</span><span class="counter" data-target="90">0%</span></div>
+                    <div class="progress-track"><div class="progress-bar" data-width="90%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Quartus (VHDL/FPGA)</span><span class="skill-percent">85%</span></div>
-                    <div class="progress-track"><div class="progress-bar" style="width: 85%"></div></div>
+                    <div class="skill-info"><span class="skill-name">Quartus (VHDL/FPGA)</span><span class="counter" data-target="85">0%</span></div>
+                    <div class="progress-track"><div class="progress-bar" data-width="85%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">C / C++ / Python</span><span class="skill-percent">88%</span></div>
-                    <div class="progress-track"><div class="progress-bar" style="width: 88%"></div></div>
+                    <div class="skill-info"><span class="skill-name">C / C++ / Python</span><span class="counter" data-target="88">0%</span></div>
+                    <div class="progress-track"><div class="progress-bar" data-width="88%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Gazebo (Simulation)</span><span class="skill-percent">75%</span></div>
-                    <div class="progress-track"><div class="progress-bar" style="width: 75%"></div></div>
+                    <div class="skill-info"><span class="skill-name">Gazebo</span><span class="counter" data-target="75">0%</span></div>
+                    <div class="progress-track"><div class="progress-bar" data-width="75%"></div></div>
                 </div>
             </div>
-        </div>
+        </article>
 
-        <div class="skill-card card-orange js-tilt" data-aos="fade-up" data-aos-delay="200">
+        <article class="tech-card card-orange" data-aos="fade-up" data-aos-delay="200">
             <div class="card-header">
                 <div class="icon-box"><i class="fas fa-network-wired"></i></div>
                 <div class="card-title">
@@ -259,25 +277,25 @@
             </div>
             <div class="skill-list">
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Matlab & Simulink</span><span class="skill-percent">92%</span></div>
-                    <div class="progress-track"><div class="progress-bar" style="width: 92%"></div></div>
+                    <div class="skill-info"><span class="skill-name">Matlab & Simulink</span><span class="counter" data-target="92">0%</span></div>
+                    <div class="progress-track"><div class="progress-bar" data-width="92%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Cisco Packet Tracer</span><span class="skill-percent">80%</span></div>
-                    <div class="progress-track"><div class="progress-bar" style="width: 80%"></div></div>
+                    <div class="skill-info"><span class="skill-name">Cisco Packet Tracer</span><span class="counter" data-target="80">0%</span></div>
+                    <div class="progress-track"><div class="progress-bar" data-width="80%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">PVsyst (Solaire)</span><span class="skill-percent">85%</span></div>
-                    <div class="progress-track"><div class="progress-bar" style="width: 85%"></div></div>
+                    <div class="skill-info"><span class="skill-name">PVsyst (Solaire)</span><span class="counter" data-target="85">0%</span></div>
+                    <div class="progress-track"><div class="progress-bar" data-width="85%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Proteus ISIS</span><span class="skill-percent">90%</span></div>
-                    <div class="progress-track"><div class="progress-bar" style="width: 90%"></div></div>
+                    <div class="skill-info"><span class="skill-name">Proteus ISIS</span><span class="counter" data-target="90">0%</span></div>
+                    <div class="progress-track"><div class="progress-bar" data-width="90%"></div></div>
                 </div>
             </div>
-        </div>
+        </article>
 
-        <div class="skill-card card-green js-tilt" data-aos="fade-up" data-aos-delay="300">
+        <article class="tech-card card-green" data-aos="fade-up" data-aos-delay="300">
             <div class="card-header">
                 <div class="icon-box"><i class="fas fa-drafting-compass"></i></div>
                 <div class="card-title">
@@ -287,50 +305,73 @@
             </div>
             <div class="skill-list">
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">AutoCAD Electrical</span><span class="skill-percent">95%</span></div>
-                    <div class="progress-track"><div class="progress-bar" style="width: 95%"></div></div>
+                    <div class="skill-info"><span class="skill-name">AutoCAD Electrical</span><span class="counter" data-target="95">0%</span></div>
+                    <div class="progress-track"><div class="progress-bar" data-width="95%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">Revit MEP (BIM)</span><span class="skill-percent">70%</span></div>
-                    <div class="progress-track"><div class="progress-bar" style="width: 70%"></div></div>
+                    <div class="skill-info"><span class="skill-name">Revit MEP (BIM)</span><span class="counter" data-target="70">0%</span></div>
+                    <div class="progress-track"><div class="progress-bar" data-width="70%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">SolidWorks</span><span class="skill-percent">85%</span></div>
-                    <div class="progress-track"><div class="progress-bar" style="width: 85%"></div></div>
+                    <div class="skill-info"><span class="skill-name">SolidWorks</span><span class="counter" data-target="85">0%</span></div>
+                    <div class="progress-track"><div class="progress-bar" data-width="85%"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span class="skill-name">CATIA V5</span><span class="skill-percent">70%</span></div>
-                    <div class="progress-track"><div class="progress-bar" style="width: 70%"></div></div>
+                    <div class="skill-info"><span class="skill-name">CATIA V5</span><span class="counter" data-target="70">0%</span></div>
+                    <div class="progress-track"><div class="progress-bar" data-width="70%"></div></div>
                 </div>
             </div>
-        </div>
+        </article>
 
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
-    
     <script>
-        AOS.init({ duration: 1000, once: true, offset: 50 });
+        AOS.init({ duration: 800, once: true });
 
-        // Activation de l'effet 3D Tilt
-        VanillaTilt.init(document.querySelectorAll(".js-tilt"), {
-            max: 10,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.1
-        });
-
-        // Animation des barres de progression au chargement
-        window.addEventListener('load', () => {
+        // SCRIPT D'ANIMATION DES CHIFFRES ET DES BARRES
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            const counters = document.querySelectorAll('.counter');
             const bars = document.querySelectorAll('.progress-bar');
-            bars.forEach(bar => {
-                const width = bar.style.width;
-                bar.style.width = '0';
-                setTimeout(() => {
-                    bar.style.width = width;
-                }, 300);
-            });
+
+            // Observer pour déclencher l'animation quand on scrolle dessus
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        
+                        // 1. Animer les barres
+                        bars.forEach(bar => {
+                            const width = bar.getAttribute('data-width');
+                            bar.style.width = width;
+                        });
+
+                        // 2. Animer les compteurs (0% -> 90%)
+                        counters.forEach(counter => {
+                            const target = +counter.getAttribute('data-target');
+                            const speed = 2000 / target; // Vitesse adaptative
+                            
+                            const updateCount = () => {
+                                const count = +counter.innerText.replace('%', '');
+                                const inc = 1;
+                                
+                                if (count < target) {
+                                    counter.innerText = (count + inc) + "%";
+                                    setTimeout(updateCount, 15); // Vitesse de défilement
+                                } else {
+                                    counter.innerText = target + "%";
+                                }
+                            };
+                            updateCount();
+                        });
+
+                        observer.disconnect(); // On arrête d'observer une fois animé
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            // On observe la grille de compétences
+            observer.observe(document.querySelector('.skills-grid'));
         });
     </script>
 </body>
