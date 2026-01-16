@@ -7,17 +7,18 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         :root {
             --bg-dark: #020617;
-            --primary: #00f2ff;
-            --secondary: #4361ee;
+            --primary: #00f2ff; /* Cyan Électrique */
+            --secondary: #4361ee; /* Bleu Roi */
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --card-bg: #0f172a;
-            --border: rgba(255, 255, 255, 0.1);
+            --glass-dark: rgba(13, 18, 36, 0.85);
+            --border-glow: rgba(0, 242, 255, 0.3);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -29,117 +30,179 @@
             overflow-x: hidden;
         }
 
-        /* FOND */
+        /* FOND FUTURISTE */
         .tech-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #020617 80%);
+            background: radial-gradient(circle at 50% 0%, #1a2342 0%, #020617 100%);
+            background-image: linear-gradient(rgba(0, 242, 255, 0.02) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0, 242, 255, 0.02) 1px, transparent 1px);
+            background-size: 30px 30px;
         }
 
-        /* NAV */
+        /* --- NAV --- */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000; padding: 20px 5%;
             display: flex; justify-content: center;
-            backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05);
             background: rgba(2, 6, 23, 0.9);
         }
         .nav-links { display: flex; gap: 40px; list-style: none; }
         .nav-links a { 
-            color: #94a3b8; text-decoration: none; font-weight: 600; font-size: 0.9rem;
+            color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.85rem;
             text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
             display: flex; align-items: center; gap: 8px;
         }
         .nav-links a:hover, .nav-links a.active { color: #fff; }
-        .nav-links a i { color: var(--primary); }
+        .nav-links a i { color: var(--primary); opacity: 0.8; }
 
-        /* HEADER */
+        /* --- HEADER SECTION --- */
         .header-section {
-            padding: 140px 20px 60px; text-align: center; max-width: 900px; margin: 0 auto;
+            padding: 140px 20px 70px; text-align: center; max-width: 950px; margin: 0 auto;
         }
-        .header-section h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 15px; }
-        .highlight { color: var(--primary); }
-        .intro-text { font-size: 1.1rem; color: #cbd5e1; font-weight: 300; }
+        .header-section h1 { font-size: 3rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: -1px; }
+        .highlight { 
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .intro-text { font-size: 1.1rem; color: #cbd5e1; font-weight: 300; line-height: 1.6; max-width: 700px; margin: 0 auto; }
 
-        /* CONTAINER */
+        /* --- CONTAINER PRINCIPAL --- */
         .exp-container {
-            max-width: 850px; margin: 0 auto 100px; padding: 0 20px;
-            display: flex; flex-direction: column; gap: 80px;
+            max-width: 1100px; margin: 0 auto 100px; padding: 0 25px;
+            display: flex; flex-direction: column; gap: 50px;
         }
 
-        /* CARTE */
-        .exp-card {
-            background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 20px; overflow: hidden;
-            display: flex; flex-direction: column;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3); transition: 0.3s;
-            position: relative;
-        }
-        .exp-card:hover { transform: translateY(-5px); border-color: var(--primary); }
-
-        /* --- ZONE IMAGE (Nouvel ajustement de taille) --- */
-        .exp-image-container {
-            width: 100%;
-            height: 280px; /* HAUTEUR FIXE : C'est ça qui contrôle la taille ! */
-            position: relative;
-            border-bottom: 1px solid var(--border);
+        /* --- NOUVEAU DESIGN : LE "MODULE TECH" --- */
+        .tech-module {
+            display: flex;
+            background: var(--glass-dark);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
             overflow: hidden;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
         }
         
-        .exp-image-container img {
+        .tech-module:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 35px rgba(0, 242, 255, 0.15);
+            transform: translateY(-3px);
+        }
+        
+        /* ÉLÉMENTS DÉCORATIFS (Coins lumineux) */
+        .tech-module::before, .tech-module::after {
+            content: ''; position: absolute; width: 20px; height: 20px;
+            border: 2px solid var(--primary); opacity: 0.5; transition: 0.3s;
+        }
+        .tech-module::before { top: -1px; left: -1px; border-right: none; border-bottom: none; border-top-left-radius: 16px; }
+        .tech-module::after { bottom: -1px; right: -1px; border-left: none; border-top: none; border-bottom-right-radius: 16px; }
+        .tech-module:hover::before, .tech-module:hover::after { opacity: 1; box-shadow: 0 0 10px var(--primary); }
+
+
+        /* --- PARTIE GAUCHE : VISUEL COMPACT --- */
+        .module-visual {
+            flex: 0 0 35%; /* Prend 35% de la largeur */
+            padding: 25px;
+            display: flex; justify-content: center; align-items: center;
+            border-right: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* CADRE IMAGE (C'est ici qu'on contrôle la taille) */
+        .image-frame {
+            position: relative;
             width: 100%;
-            height: 100%;
-            object-fit: cover; /* Rempli le cadre parfaitement, centre l'image */
-            object-position: center;
-            transition: transform 0.5s ease;
+            max-width: 280px; /* Largeur MAXIMALE de l'image */
+            padding: 8px;
+            background: rgba(0, 242, 255, 0.05);
+            border: 1px solid var(--border-glow);
+            border-radius: 12px;
         }
         
-        /* Petit effet de zoom au survol */
-        .exp-card:hover .exp-image-container img { transform: scale(1.05); }
-
-        /* Overlay dégradé pour un look premium */
-        .exp-image-container::after {
-            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 40%;
-            background: linear-gradient(to top, var(--card-bg), transparent);
+        .image-frame img {
+            width: 100%;
+            height: auto; /* Hauteur automatique pour ne pas déformer */
+            display: block;
+            border-radius: 8px;
+            object-fit: contain; /* Assure que toute l'image est visible */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
-        /* CONTENU TEXTE */
-        .exp-content { padding: 40px; position: relative; z-index: 2; }
-
-        .exp-header { 
-            border-bottom: 1px solid rgba(255,255,255,0.1); 
-            padding-bottom: 20px; margin-bottom: 25px; 
+        /* --- PARTIE DROITE : CONTENU --- */
+        .module-content {
+            flex: 1; /* Prend le reste de la place */
+            padding: 30px 35px;
+            display: flex; flex-direction: column; justify-content: center;
         }
-        .exp-header h2 { font-size: 2.2rem; margin-bottom: 8px; color: #fff; }
-        .role { 
+
+        /* EN-TÊTE DU MODULE */
+        .module-header { margin-bottom: 20px; }
+        .module-header h2 { 
+            font-size: 1.8rem; margin-bottom: 8px; color: #fff; font-weight: 700;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .company-icon { color: var(--primary); font-size: 1.2rem; }
+
+        .role-badge {
+            display: inline-block; padding: 5px 12px;
+            background: linear-gradient(90deg, rgba(0, 242, 255, 0.1), transparent);
+            border-left: 3px solid var(--primary);
             color: var(--primary); font-weight: 700; text-transform: uppercase; 
-            font-size: 1rem; letter-spacing: 1px; display: block; 
+            font-size: 0.85rem; letter-spacing: 1px;
         }
-        
-        /* LISTE */
-        .description-list { list-style: none; margin-bottom: 30px; }
-        .description-list li {
-            position: relative; padding-left: 25px; margin-bottom: 15px;
-            color: #cbd5e1; line-height: 1.6; font-size: 1.05rem;
-        }
-        .description-list li::before {
-            content: '▹'; position: absolute; left: 0; color: var(--primary); font-size: 1.2rem; top: 0;
-        }
-        .description-list strong { color: #fff; font-weight: 600; }
 
-        /* TAGS */
-        .tech-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+        /* LISTE DE DESCRIPTION */
+        .tech-list { list-style: none; margin-bottom: 25px; }
+        .tech-list li {
+            position: relative; padding-left: 25px; margin-bottom: 10px;
+            color: #cbd5e1; line-height: 1.5; font-size: 0.95rem;
+        }
+        .tech-list li::before {
+            content: '\f058'; /* FontAwesome Check icon */
+            font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            position: absolute; left: 0; color: var(--primary); font-size: 0.9rem; top: 3px;
+        }
+        .tech-list strong { color: #fff; font-weight: 600; }
+
+        /* TAGS (Compétences) */
+        .module-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
         .tag {
-            padding: 8px 16px; background: rgba(255,255,255,0.05); border-radius: 6px;
-            font-size: 0.85rem; color: #94a3b8; border: 1px solid var(--border);
+            padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;
+            background: rgba(255,255,255,0.03); color: #94a3b8; border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
         }
-        .tag:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 242, 255, 0.05); }
+        .tag:hover { 
+            color: var(--primary); border-color: var(--primary); background: rgba(0, 242, 255, 0.05);
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+        }
 
-        /* MOBILE */
+        /* VARIATION STYLE CLUB (Bleu secondaire) */
+        .club-variant { border-color: rgba(67, 97, 238, 0.4); }
+        .club-variant::before, .club-variant::after { border-color: var(--secondary); }
+        .club-variant:hover { border-color: var(--secondary); box-shadow: 0 0 35px rgba(67, 97, 238, 0.2); }
+        .club-variant .company-icon { color: var(--secondary); }
+        .club-variant .role-badge { border-left-color: var(--secondary); color: var(--secondary); background: linear-gradient(90deg, rgba(67, 97, 238, 0.1), transparent); }
+        .club-variant .tech-list li::before { color: var(--secondary); }
+        .club-variant .image-frame { border-color: rgba(67, 97, 238, 0.4); background: rgba(67, 97, 238, 0.05); }
+        .club-variant .tag:hover { color: var(--secondary); border-color: var(--secondary); background: rgba(67, 97, 238, 0.05); box-shadow: 0 0 10px rgba(67, 97, 238, 0.2); }
+
+        /* RESPONSIVE MOBILE */
         @media (max-width: 900px) {
             .nav-links { display: none; }
-            .exp-image-container { height: 200px; } /* Plus petit sur mobile */
-            .exp-content { padding: 25px; }
             .header-section h1 { font-size: 2.5rem; }
-            .exp-header h2 { font-size: 1.8rem; }
+            
+            .tech-module { flex-direction: column; } /* Empile sur mobile */
+            .module-visual { 
+                width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05);
+                padding: 20px;
+            }
+            .image-frame { max-width: 100%; } /* L'image prend la largeur dispo mais reste petite en hauteur */
+            .image-frame img { max-height: 200px; } /* Limite la hauteur sur mobile */
+            
+            .module-content { padding: 25px; }
+            .module-header h2 { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -161,52 +224,55 @@
     <section class="header-section" data-aos="fade-down">
         <h1>Expériences <span class="highlight">Professionnelles</span></h1>
         <p class="intro-text">
-            Ingénierie de terrain, bureau d'études et leadership technique.
+            Mon expertise technique forgée sur le terrain : bureau d'études, maintenance industrielle haute tension et leadership de projets technologiques.
         </p>
     </section>
 
     <div class="exp-container">
 
-        <article class="exp-card" data-aos="fade-up">
-            <div class="exp-image-container">
-                <img src="srm.jpg" alt="SRM Maintenance" onerror="this.src='https://via.placeholder.com/800x300?text=Photo+SRM'">
-            </div>
-            <div class="exp-content">
-                <div class="exp-header">
-                    <h2>SRM</h2>
-                    <span class="role">Stage Technique - Maintenance & Analyse Gaz</span>
+        <article class="tech-module" data-aos="fade-up">
+            <div class="module-visual">
+                <div class="image-frame">
+                    <img src="srm.jpg" alt="SRM Maintenance" onerror="this.src='https://via.placeholder.com/300x200?text=Photo+SRM'">
                 </div>
-                <ul class="description-list">
-                    <li><strong>Analyse de Gaz (DGA) :</strong> Diagnostic approfondi de l'état des transformateurs de puissance via l'analyse des gaz dissous dans l'huile, permettant de détecter les défauts thermiques et électriques internes.</li>
-                    <li><strong>Maintenance HTB/HTA :</strong> Interventions sur les postes haute tension, vérification des organes de coupure et maintenance préventive pour assurer la continuité de service.</li>
-                    <li><strong>Gestion GMAO :</strong> Utilisation d'outils informatiques pour planifier les interventions, suivre l'historique des pannes et optimiser la gestion des actifs industriels.</li>
-                    <li><strong>Sécurité :</strong> Application stricte des protocoles de sécurité électrique lors des interventions sur sites critiques.</li>
+            </div>
+            <div class="module-content">
+                <div class="module-header">
+                    <h2><i class="fas fa-industry company-icon"></i> SRM</h2>
+                    <span class="role-badge">Stage Technique - Maintenance & Analyse Gaz</span>
+                </div>
+                <ul class="tech-list">
+                    <li><strong>Analyse DGA :</strong> Diagnostic des transformateurs via l'analyse des gaz dissous dans l'huile pour détecter les défauts internes.</li>
+                    <li><strong>Maintenance HTB/HTA :</strong> Interventions préventives sur les postes haute tension et organes de coupure.</li>
+                    <li><strong>Gestion GMAO :</strong> Optimisation du suivi des équipements et de l'historique des pannes via logiciel dédié.</li>
                 </ul>
-                <div class="tech-tags">
+                <div class="module-tags">
                     <span class="tag">Analyse DGA</span>
-                    <span class="tag">Maintenance HTB/HTA</span>
+                    <span class="tag">Haute Tension</span>
                     <span class="tag">GMAO</span>
                     <span class="tag">Diagnostic</span>
                 </div>
             </div>
         </article>
 
-        <article class="exp-card" data-aos="fade-up">
-            <div class="exp-image-container">
-                <img src="em.jpg" alt="EM Energie PFE" onerror="this.src='https://via.placeholder.com/800x300?text=Photo+EM'">
-            </div>
-            <div class="exp-content">
-                <div class="exp-header">
-                    <h2>EM ENERGIE</h2>
-                    <span class="role">Stage PFE - Ingénieur Électrique</span>
+        <article class="tech-module" data-aos="fade-up">
+            <div class="module-visual">
+                <div class="image-frame">
+                    <img src="em.jpg" alt="EM Energie PFE" onerror="this.src='https://via.placeholder.com/300x200?text=Photo+EM'">
                 </div>
-                <ul class="description-list">
-                    <li><strong>Étude Complète :</strong> Conception d'une installation électrique industrielle de A à Z (Courants Forts & Faibles).</li>
-                    <li><strong>Dimensionnement Caneco BT :</strong> Calculs normatifs des sections de câbles, choix des disjoncteurs et sélectivité des protections.</li>
-                    <li><strong>Plans AutoCAD :</strong> Réalisation des schémas unifilaires, synoptiques de distribution et plans d'implantation des équipements.</li>
-                    <li><strong>Simulation Dialux :</strong> Étude d'éclairage pour garantir la conformité aux normes d'éclairement et l'efficacité énergétique.</li>
+            </div>
+            <div class="module-content">
+                <div class="module-header">
+                    <h2><i class="fas fa-bolt company-icon"></i> EM ENERGIE</h2>
+                    <span class="role-badge">Stage PFE - Ingénieur Électrique</span>
+                </div>
+                <ul class="tech-list">
+                    <li><strong>Étude Complète :</strong> Conception d'une installation électrique industrielle CFO/CFA de A à Z.</li>
+                    <li><strong>Dimensionnement :</strong> Calculs normatifs des câbles et protections sous <strong>Caneco BT</strong>.</li>
+                    <li><strong>Simulation :</strong> Étude d'éclairage photométrique sur <strong>Dialux Evo</strong> pour l'efficacité énergétique.</li>
+                    <li><strong>Plans :</strong> Schémas unifilaires et implantations sur <strong>AutoCAD</strong>.</li>
                 </ul>
-                <div class="tech-tags">
+                <div class="module-tags">
                     <span class="tag">Caneco BT</span>
                     <span class="tag">AutoCAD</span>
                     <span class="tag">Dialux Evo</span>
@@ -215,48 +281,51 @@
             </div>
         </article>
 
-        <article class="exp-card" data-aos="fade-up">
-            <div class="exp-image-container">
-                <img src="zahri.jpg" alt="Ezzahri Techno" onerror="this.src='https://via.placeholder.com/800x300?text=Photo+Ezzahri'">
-            </div>
-            <div class="exp-content">
-                <div class="exp-header">
-                    <h2>EZZAHRI TECHNO SARL</h2>
-                    <span class="role">Câblage & Automatisation</span>
+        <article class="tech-module" data-aos="fade-up">
+            <div class="module-visual">
+                <div class="image-frame">
+                    <img src="zahri.jpg" alt="Ezzahri Techno" onerror="this.src='https://via.placeholder.com/300x200?text=Photo+Ezzahri'">
                 </div>
-                <ul class="description-list">
-                    <li><strong>Projet Agricole :</strong> Installation de systèmes d'irrigation intelligente pour l'École d'Agriculture de Settat.</li>
-                    <li><strong>Câblage d'Armoires :</strong> Montage, câblage et raccordement des armoires de commande et de puissance.</li>
-                    <li><strong>Pompage Solaire :</strong> Intégration de variateurs de vitesse couplés à des panneaux photovoltaïques pour une irrigation autonome.</li>
-                    <li><strong>Mise en Service :</strong> Tests fonctionnels, réglage des variateurs et formation des utilisateurs.</li>
+            </div>
+            <div class="module-content">
+                <div class="module-header">
+                    <h2><i class="fas fa-water company-icon"></i> EZZAHRI TECHNO SARL</h2>
+                    <span class="role-badge">Câblage & Automatisation</span>
+                </div>
+                <ul class="tech-list">
+                    <li><strong>Projet Agricole :</strong> Systèmes d'irrigation intelligente pour l'École d'Agriculture de Settat.</li>
+                    <li><strong>Câblage :</strong> Montage d'armoires de commande et puissance avec intégration de <strong>variateurs</strong>.</li>
+                    <li><strong>Pompage Solaire :</strong> Couplage variateurs/panneaux photovoltaïques pour irrigation autonome.</li>
                 </ul>
-                <div class="tech-tags">
+                <div class="module-tags">
                     <span class="tag">Câblage Industriel</span>
                     <span class="tag">Pompage Solaire</span>
                     <span class="tag">Variateurs</span>
-                    <span class="tag">Irrigation</span>
                 </div>
             </div>
         </article>
 
-        <article class="exp-card" data-aos="fade-up" style="border-color: rgba(67, 97, 238, 0.4);">
-            <div class="exp-image-container">
-                <img src="club.jpg" alt="Club Robothings" onerror="this.src='https://via.placeholder.com/800x300?text=Photo+Club'">
-            </div>
-            <div class="exp-content">
-                <div class="exp-header">
-                    <h2>Club Robothings FSTM</h2>
-                    <span class="role" style="color: #4361ee;">Vice-Président & Chef de Projet</span>
+        <article class="tech-module club-variant" data-aos="fade-up">
+            <div class="module-visual">
+                <div class="image-frame">
+                    <img src="club.jpg" alt="Club Robothings" onerror="this.src='https://via.placeholder.com/300x200?text=Photo+Club'">
                 </div>
-                <ul class="description-list">
-                    <li><strong>Leadership :</strong> Gestion administrative et technique du club. Coordination des équipes pour les compétitions nationales.</li>
-                    <li><strong>Formation :</strong> Animation d'ateliers techniques pour les étudiants (Arduino, Impression 3D, Conception Mécanique).</li>
-                    <li><strong>Projets Innovants :</strong> Supervision de la réalisation de robots suiveurs de ligne et robots sumo.</li>
+            </div>
+            <div class="module-content">
+                <div class="module-header">
+                    <h2><i class="fas fa-robot company-icon"></i> Club Robothings FSTM</h2>
+                    <span class="role-badge">Vice-Président & Chef de Projet</span>
+                </div>
+                <ul class="tech-list">
+                    <li><strong>Leadership :</strong> Gestion d'équipe, planification des activités et coordination pour les compétitions nationales.</li>
+                    <li><strong>Formation :</strong> Animation d'ateliers (Arduino, Impression 3D, Conception Mécanique) pour les membres.</li>
+                    <li><strong>Projets :</strong> Supervision de la réalisation de robots techniques (Suiveurs de ligne, Sumo).</li>
                 </ul>
-                <div class="tech-tags">
-                    <span class="tag" style="color:#4361ee; border-color:#4361ee">Leadership</span>
+                <div class="module-tags">
+                    <span class="tag">Leadership</span>
                     <span class="tag">Robotique</span>
                     <span class="tag">Formation</span>
+                    <span class="tag">Gestion de Projet</span>
                 </div>
             </div>
         </article>
@@ -264,6 +333,6 @@
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script> AOS.init({ duration: 800, once: true }); </script>
+    <script> AOS.init({ duration: 800, once: true, offset: 50 }); </script>
 </body>
 </html>
