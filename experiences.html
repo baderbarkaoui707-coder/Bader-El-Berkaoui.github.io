@@ -11,13 +11,14 @@
 
     <style>
         :root {
-            --bg-dark: #020617;
+            --bg-dark: #030712; /* Noir encore plus profond */
             --primary: #00f2ff;
-            --secondary: #4361ee;
+            --secondary: #4f46e5;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --glass: rgba(15, 23, 42, 0.7);
+            --glass: rgba(17, 24, 39, 0.7);
             --border: rgba(255, 255, 255, 0.08);
+            --accent-glow: rgba(0, 242, 255, 0.15);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -29,16 +30,17 @@
             overflow-x: hidden;
         }
 
-        /* FOND TECH */
+        /* FOND ANIMÉ SUBTIL */
         .tech-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: radial-gradient(circle at 50% 0%, #1e293b 0%, #020617 100%);
+            background: radial-gradient(circle at 50% 0%, #111827 0%, #030712 100%);
         }
         .grid-overlay {
             position: absolute; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 40px 40px; opacity: 0.5;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
         }
 
         /* NAV */
@@ -46,7 +48,7 @@
             position: fixed; top: 0; width: 100%; z-index: 1000; padding: 15px 5%;
             display: flex; justify-content: center;
             backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
-            background: rgba(2, 6, 23, 0.9);
+            background: rgba(3, 7, 18, 0.9);
         }
         .nav-links { display: flex; gap: 30px; list-style: none; }
         .nav-links a { 
@@ -59,116 +61,119 @@
 
         /* HEADER */
         .header-section {
-            padding: 140px 20px 60px; text-align: center; max-width: 900px; margin: 0 auto;
+            padding: 150px 20px 80px; text-align: center; max-width: 900px; margin: 0 auto;
         }
-        .header-section h1 { font-size: 3.5rem; font-weight: 900; margin-bottom: 15px; letter-spacing: -1px; text-transform: uppercase; }
+        .header-section h1 { font-size: 4rem; font-weight: 900; margin-bottom: 15px; letter-spacing: -1px; text-transform: uppercase; line-height: 1; }
         .highlight { 
-            background: linear-gradient(120deg, #fff, var(--primary)); 
+            background: linear-gradient(to bottom right, #fff, var(--primary)); 
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .intro-text { font-size: 1.1rem; color: #cbd5e1; font-weight: 300; max-width: 700px; margin: 0 auto; }
+        .intro-text { font-size: 1.2rem; color: #cbd5e1; font-weight: 300; max-width: 700px; margin: 0 auto; line-height: 1.6; }
 
         /* CONTAINER */
         .exp-container {
-            max-width: 1100px; margin: 0 auto 100px; padding: 0 25px;
-            display: flex; flex-direction: column; gap: 70px;
+            max-width: 1200px; margin: 0 auto 100px; padding: 0 25px;
+            display: flex; flex-direction: column; gap: 80px;
         }
 
-        /* --- CARTE DESIGN "ELITE" --- */
+        /* --- CARTE DESIGN "ULTIMATE TECH" --- */
         .exp-card {
             display: flex; position: relative;
-            background: var(--glass); border: 1px solid var(--border);
-            border-radius: 24px; overflow: hidden;
-            backdrop-filter: blur(15px); transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background: var(--glass); 
+            border: 1px solid var(--border);
+            border-radius: 20px; overflow: hidden;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.02), 0 20px 50px rgba(0,0,0,0.5);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        /* Effet Neon au survol */
         .exp-card:hover { 
-            transform: translateY(-7px); 
-            border-color: rgba(0, 242, 255, 0.5);
-            box-shadow: 0 20px 50px rgba(0, 242, 255, 0.1);
+            transform: translateY(-5px); 
+            border-color: var(--primary);
+            box-shadow: 0 0 30px var(--accent-glow);
         }
 
-        /* IMAGE (GAUCHE - FIXE) */
+        /* COLONNE GAUCHE : IMAGE (Largeur fixe et maîtrisée) */
         .card-visual {
-            flex: 0 0 350px; /* Largeur fixe pour l'image */
+            flex: 0 0 400px; /* Largeur fixe */
             position: relative; overflow: hidden;
             border-right: 1px solid var(--border);
         }
         .card-visual img {
             width: 100%; height: 100%; object-fit: cover;
             transition: transform 0.7s ease;
-            filter: grayscale(20%) contrast(1.1);
+            filter: grayscale(10%);
         }
-        .exp-card:hover .card-visual img { transform: scale(1.08); filter: grayscale(0%); }
+        .exp-card:hover .card-visual img { transform: scale(1.05); filter: grayscale(0%); }
+        
+        /* Overlay technique sur l'image */
+        .card-visual::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50%;
+            background: linear-gradient(to top, rgba(3,7,18,0.9), transparent);
+        }
 
-        /* CONTENU (DROITE) */
+        /* COLONNE DROITE : CONTENU */
         .card-content { 
             flex: 1; padding: 40px 50px; display: flex; flex-direction: column; 
-            position: relative; z-index: 2;
+            position: relative;
         }
 
-        /* Numéro en arrière-plan (01, 02...) */
-        .bg-number {
-            position: absolute; right: 20px; top: -10px;
-            font-size: 8rem; font-weight: 900; color: rgba(255,255,255,0.02);
-            z-index: -1; user-select: none; pointer-events: none;
-        }
-
-        /* En-tête de carte */
+        /* EN-TÊTE DE LA CARTE */
         .exp-header { 
             display: flex; justify-content: space-between; align-items: flex-start; 
-            margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px;
-        }
-        .title-group h2 { font-size: 2rem; margin-bottom: 5px; color: #fff; letter-spacing: -0.5px; }
-        .role { 
-            color: var(--primary); font-weight: 700; text-transform: uppercase; 
-            font-size: 0.9rem; letter-spacing: 1px;
+            margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 20px;
         }
         
-        .date-badge {
-            background: rgba(255,255,255,0.05); padding: 5px 12px; border-radius: 8px;
-            font-size: 0.8rem; font-weight: 600; color: #94a3b8; border: 1px solid var(--border);
+        .company-name { font-size: 2.2rem; margin-bottom: 5px; color: #fff; font-weight: 800; letter-spacing: -0.5px; }
+        .company-location { font-size: 0.9rem; color: #64748b; display: block; font-weight: 500; margin-bottom: 5px; }
+        
+        .role-badge { 
+            display: inline-block; padding: 6px 12px; background: rgba(0, 242, 255, 0.08);
+            color: var(--primary); font-weight: 700; text-transform: uppercase; 
+            font-size: 0.8rem; letter-spacing: 1px; border-radius: 4px;
+            border: 1px solid rgba(0, 242, 255, 0.15);
         }
 
-        /* Liste des tâches */
+        .year-badge {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem; font-weight: 900; color: rgba(255,255,255,0.03);
+            position: absolute; top: 20px; right: 30px; user-select: none;
+        }
+
+        /* LISTE DES MISSIONS */
         .description-list { list-style: none; margin-bottom: 30px; }
         .description-list li {
-            position: relative; padding-left: 25px; margin-bottom: 12px;
+            position: relative; padding-left: 25px; margin-bottom: 15px;
             color: #cbd5e1; line-height: 1.6; font-size: 1.05rem;
         }
-        .description-list li::before {
-            content: ''; position: absolute; left: 0; top: 10px;
-            width: 6px; height: 6px; background: var(--primary); border-radius: 50%;
-            box-shadow: 0 0 8px var(--primary);
+        .description-list li i {
+            position: absolute; left: 0; top: 5px; color: var(--primary); font-size: 1rem;
         }
         .description-list strong { color: #fff; font-weight: 600; }
 
-        /* Tags */
+        /* TAGS TECH */
         .tech-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; }
         .tag {
-            padding: 6px 16px; background: rgba(0, 242, 255, 0.05); border-radius: 50px;
-            font-size: 0.8rem; font-weight: 600; color: #94a3b8; border: 1px solid rgba(255,255,255,0.1);
+            padding: 6px 14px; background: rgba(255,255,255,0.03); border-radius: 6px;
+            font-size: 0.8rem; font-weight: 600; color: #94a3b8; border: 1px solid var(--border);
             transition: 0.3s;
         }
-        .exp-card:hover .tag { border-color: var(--primary); color: var(--primary); }
+        .exp-card:hover .tag { border-color: var(--primary); color: var(--primary); background: rgba(0, 242, 255, 0.05); }
 
-        /* Style spécial Club (Bleu) */
-        .card-club:hover { border-color: var(--secondary); box-shadow: 0 20px 50px rgba(67, 97, 238, 0.15); }
-        .card-club .role { color: var(--secondary); }
-        .card-club .description-list li::before { background: var(--secondary); box-shadow: 0 0 8px var(--secondary); }
-        .card-club:hover .tag { border-color: var(--secondary); color: var(--secondary); }
+        /* VARIANTE CLUB (BLEU) */
+        .card-club:hover { border-color: var(--secondary); box-shadow: 0 0 30px rgba(79, 70, 229, 0.15); }
+        .card-club .role-badge { color: var(--secondary); background: rgba(79, 70, 229, 0.1); border-color: rgba(79, 70, 229, 0.2); }
+        .card-club .description-list li i { color: var(--secondary); }
+        .card-club .tag:hover { color: var(--secondary); border-color: var(--secondary); background: rgba(79, 70, 229, 0.1); }
 
         /* MOBILE */
-        @media (max-width: 900px) {
+        @media (max-width: 1024px) {
             .nav-links { display: none; }
-            .exp-card { flex-direction: column; height: auto; }
-            .card-visual { flex: none; width: 100%; height: 220px; border-right: none; border-bottom: 1px solid var(--border); }
-            .card-content { padding: 30px 25px; }
-            .exp-header { flex-direction: column; align-items: flex-start; gap: 10px; }
-            .bg-number { font-size: 5rem; top: 10px; right: 10px; }
-            .header-section h1 { font-size: 2.5rem; }
+            .exp-card { flex-direction: column; }
+            .card-visual { flex: none; width: 100%; height: 250px; border-right: none; border-bottom: 1px solid var(--border); }
+            .card-content { padding: 30px; }
+            .header-section h1 { font-size: 3rem; }
+            .year-badge { display: none; }
         }
     </style>
 </head>
@@ -190,58 +195,58 @@
     <section class="header-section" data-aos="fade-down">
         <h1>Expériences <span class="highlight">Professionnelles</span></h1>
         <p class="intro-text">
-            Ingénierie de terrain, bureau d'études et leadership technique.
+            Ingénierie de terrain, bureaux d'études et leadership technique. Un parcours axé sur l'innovation et la fiabilité industrielle.
         </p>
     </section>
 
     <div class="exp-container">
 
         <article class="exp-card" data-aos="fade-up">
-            <div class="bg-number">01</div>
             <div class="card-visual">
-                <img src="srmm.jpg" alt="SRM Maintenance" onerror="this.src='https://via.placeholder.com/400x600/0f172a/00f2ff?text=SRM+Photo+Manquante'">
+                <img src="srmm.jpg" alt="SRM Maintenance" onerror="this.src='https://via.placeholder.com/400x600/030712/00f2ff?text=SRM+Photo'">
             </div>
             <div class="card-content">
+                <span class="year-badge">2023</span>
                 <div class="exp-header">
-                    <div class="title-group">
-                        <h2>SRM</h2>
-                        <span class="role">Stage Technique - Maintenance & Analyse Gaz</span>
+                    <div>
+                        <h2 class="company-name">SRM</h2>
+                        <span class="company-location">Société Générale Multiservice • Casablanca</span>
+                        <span class="role-badge">Stage Technique - Maintenance HT & Analyse</span>
                     </div>
-                    <span class="date-badge">2023</span>
                 </div>
                 <ul class="description-list">
-                    <li><strong>Analyse DGA :</strong> Diagnostic des transformateurs via l'analyse des gaz dissous (détection défauts thermiques).</li>
-                    <li><strong>Maintenance HTB/HTA :</strong> Intervention sur postes haute tension, maintenance préventive des organes de coupure.</li>
-                    <li><strong>GMAO :</strong> Optimisation de la gestion des actifs et suivi des interventions via logiciel dédié.</li>
-                    <li><strong>Sécurité :</strong> Application rigoureuse des protocoles en environnement critique.</li>
+                    <li><i class="fas fa-microscope"></i> <strong>Analyse Physico-Chimique (DGA) :</strong> Diagnostic avancé des transformateurs de puissance par l'analyse des gaz dissous dans l'huile, permettant de prévenir les défaillances thermiques et diélectriques.</li>
+                    <li><i class="fas fa-bolt"></i> <strong>Maintenance HTB/HTA :</strong> Interventions critiques sur les postes sources haute tension. Vérification des disjoncteurs, sectionneurs et relais de protection.</li>
+                    <li><i class="fas fa-laptop-medical"></i> <strong>Optimisation GMAO :</strong> Implémentation de procédures sur le logiciel de Gestion de Maintenance Assistée par Ordinateur pour le suivi des actifs et la planification préventive.</li>
+                    <li><i class="fas fa-shield-alt"></i> <strong>Fiabilité & Sécurité :</strong> Application stricte des normes de sécurité électrique lors des manœuvres de consignation.</li>
                 </ul>
                 <div class="tech-tags">
                     <span class="tag">Analyse DGA</span>
-                    <span class="tag">HTB/HTA</span>
+                    <span class="tag">Haute Tension</span>
                     <span class="tag">GMAO</span>
-                    <span class="tag">Diagnostic</span>
+                    <span class="tag">Transformateurs</span>
                 </div>
             </div>
         </article>
 
         <article class="exp-card" data-aos="fade-up">
-            <div class="bg-number">02</div>
             <div class="card-visual">
-                <img src="em.jpg" alt="EM Energie PFE" onerror="this.src='https://via.placeholder.com/400x600/0f172a/00f2ff?text=EM+Photo'">
+                <img src="em.jpg" alt="EM Energie PFE" onerror="this.src='https://via.placeholder.com/400x600/030712/00f2ff?text=EM+Photo'">
             </div>
             <div class="card-content">
+                <span class="year-badge">2024</span>
                 <div class="exp-header">
-                    <div class="title-group">
-                        <h2>EM ENERGIE</h2>
-                        <span class="role">Stage PFE - Ingénieur Électrique</span>
+                    <div>
+                        <h2 class="company-name">EM ENERGIE</h2>
+                        <span class="company-location">Bureau d'Études Techniques</span>
+                        <span class="role-badge">Stage PFE - Ingénieur Électrique</span>
                     </div>
-                    <span class="date-badge">2024</span>
                 </div>
                 <ul class="description-list">
-                    <li><strong>Conception Complète :</strong> Étude d'une installation industrielle (CFO/CFA) de A à Z.</li>
-                    <li><strong>Caneco BT :</strong> Dimensionnement normatif des câbles et sélectivité des protections.</li>
-                    <li><strong>AutoCAD :</strong> Réalisation des schémas unifilaires et plans d'implantation précis.</li>
-                    <li><strong>Dialux Evo :</strong> Simulation photométrique pour optimisation énergétique.</li>
+                    <li><i class="fas fa-project-diagram"></i> <strong>Conception Intégrale (CFO/CFA) :</strong> Étude complète d'une installation industrielle, du poste de livraison jusqu'aux terminaux.</li>
+                    <li><i class="fas fa-calculator"></i> <strong>Dimensionnement Normatif :</strong> Calculs de sections de câbles et protections sous <strong>Caneco BT</strong> (Norme NFC 15-100).</li>
+                    <li><i class="fas fa-pencil-ruler"></i> <strong>Plans d'Exécution :</strong> Réalisation des plans d'implantation, schémas unifilaires et synoptiques sur <strong>AutoCAD</strong>.</li>
+                    <li><i class="fas fa-lightbulb"></i> <strong>Efficacité Énergétique :</strong> Étude d'éclairage Dialux pour optimiser la consommation et le confort visuel.</li>
                 </ul>
                 <div class="tech-tags">
                     <span class="tag">Caneco BT</span>
@@ -253,23 +258,23 @@
         </article>
 
         <article class="exp-card" data-aos="fade-up">
-            <div class="bg-number">03</div>
             <div class="card-visual">
-                <img src="zahri.jpg" alt="Ezzahri Techno" onerror="this.src='https://via.placeholder.com/400x600/0f172a/00f2ff?text=Zahri+Photo'">
+                <img src="zahri.jpg" alt="Ezzahri Techno" onerror="this.src='https://via.placeholder.com/400x600/030712/00f2ff?text=Ezzahri+Photo'">
             </div>
             <div class="card-content">
+                <span class="year-badge">2022</span>
                 <div class="exp-header">
-                    <div class="title-group">
-                        <h2>EZZAHRI TECHNO</h2>
-                        <span class="role">Câblage & Automatisation</span>
+                    <div>
+                        <h2 class="company-name">EZZAHRI TECHNO</h2>
+                        <span class="company-location">Automatisation & Énergie Solaire</span>
+                        <span class="role-badge">Câblage & Systèmes d'Irrigation</span>
                     </div>
-                    <span class="date-badge">2022</span>
                 </div>
                 <ul class="description-list">
-                    <li><strong>Projet Agricole :</strong> Irrigation intelligente pour l'École d'Agriculture de Settat.</li>
-                    <li><strong>Câblage :</strong> Montage d'armoires de puissance et commande (Pompage Solaire).</li>
-                    <li><strong>Variateurs :</strong> Intégration et paramétrage de variateurs de vitesse.</li>
-                    <li><strong>Mise en Service :</strong> Tests fonctionnels sur site et validation.</li>
+                    <li><i class="fas fa-water"></i> <strong>Projet Agricole Intelligent :</strong> Installation de systèmes d'irrigation pour l'École d'Agriculture de Settat.</li>
+                    <li><i class="fas fa-random"></i> <strong>Câblage Industriel :</strong> Montage et raccordement d'armoires de puissance et de commande (Pompage Solaire).</li>
+                    <li><i class="fas fa-solar-panel"></i> <strong>Variateurs de Vitesse :</strong> Paramétrage des variateurs couplés aux panneaux photovoltaïques pour une gestion autonome.</li>
+                    <li><i class="fas fa-check-double"></i> <strong>Mise en Service :</strong> Tests fonctionnels sur site et validation des performances.</li>
                 </ul>
                 <div class="tech-tags">
                     <span class="tag">Câblage</span>
@@ -281,26 +286,27 @@
         </article>
 
         <article class="exp-card card-club" data-aos="fade-up">
-            <div class="bg-number">04</div>
             <div class="card-visual">
-                <img src="club.jpg" alt="Club Robotique" onerror="this.src='https://via.placeholder.com/400x600/0f172a/4361ee?text=Club+Photo'">
+                <img src="club.jpg" alt="Club Robothings" onerror="this.src='https://via.placeholder.com/400x600/030712/4f46e5?text=Club+Photo'">
             </div>
             <div class="card-content">
+                <span class="year-badge">CLUB</span>
                 <div class="exp-header">
-                    <div class="title-group">
-                        <h2>Club Robothings</h2>
-                        <span class="role">Vice-Président & Chef de Projet</span>
+                    <div>
+                        <h2 class="company-name">Robothings FSTM</h2>
+                        <span class="company-location">Association Universitaire</span>
+                        <span class="role-badge">Vice-Président & Chef de Projet</span>
                     </div>
-                    <span class="date-badge">2021-2023</span>
                 </div>
                 <ul class="description-list">
-                    <li><strong>Leadership :</strong> Gestion du club et coordination des équipes pour les compétitions.</li>
-                    <li><strong>Formation :</strong> Animation d'ateliers (Arduino, Impression 3D, Conception).</li>
-                    <li><strong>Innovation :</strong> Supervision technique des robots (Suiveurs de ligne, Sumo).</li>
+                    <li><i class="fas fa-users-cog"></i> <strong>Leadership :</strong> Gestion de l'équipe technique et administrative. Coordination pour les compétitions nationales.</li>
+                    <li><i class="fas fa-chalkboard-teacher"></i> <strong>Formation :</strong> Animation d'ateliers (Arduino, Impression 3D, SolidWorks) pour les étudiants.</li>
+                    <li><i class="fas fa-robot"></i> <strong>Innovation :</strong> Supervision de la conception de robots (Suiveurs de ligne, Sumo) de la CAO à la programmation.</li>
                 </ul>
                 <div class="tech-tags">
                     <span class="tag">Leadership</span>
                     <span class="tag">Robotique</span>
+                    <span class="tag">Formation</span>
                     <span class="tag">Gestion de Projet</span>
                 </div>
             </div>
