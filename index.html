@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bader el Berkaoui | Ingénieur Génie Électrique</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         :root {
-            --bg-dark: #020617;
-            --primary: #0ea5e9;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            --bg-dark: #0a0a0a;
+            --primary: #00d2ff; /* Cyan électrique */
+            --secondary: #3a7bd5; /* Bleu profond */
+            --accent: #7b2ff7; /* Violet néon */
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,110 +30,158 @@
             position: relative;
         }
 
-        /* --- FOND CYBER --- */
-        .cyber-grid {
-            position: absolute; width: 200%; height: 200%;
-            background-image: 
-                linear-gradient(rgba(14, 165, 233, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(14, 165, 233, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
-            transform: perspective(500px) rotateX(60deg) translateY(-100px) translateZ(-200px);
-            animation: grid-move 20s linear infinite;
-            z-index: -2;
-            opacity: 0.6;
+        /* --- FOND PARTICULES (CSS Pur) --- */
+        .background {
+            position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: -2;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            overflow: hidden;
+        }
+        .star {
+            position: absolute; width: 2px; height: 2px; background: white; border-radius: 50%;
+            animation: twinkle 5s infinite linear;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0; transform: translateY(0); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-50px); }
         }
 
-        @keyframes grid-move {
-            0% { transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-200px); }
-            100% { transform: perspective(500px) rotateX(60deg) translateY(50px) translateZ(-200px); }
+        /* Cercles lumineux d'ambiance */
+        .glow-1 {
+            position: absolute; top: -10%; right: -5%; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(0, 210, 255, 0.15), transparent 70%);
+            border-radius: 50%; z-index: -1; animation: float 10s infinite alternate;
+        }
+        .glow-2 {
+            position: absolute; bottom: -10%; left: -10%; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(123, 47, 247, 0.15), transparent 70%);
+            border-radius: 50%; z-index: -1; animation: float 8s infinite alternate-reverse;
         }
 
-        /* --- NAV --- */
+        /* --- NAVIGATION --- */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000;
-            padding: 20px 5%;
+            padding: 25px 8%;
             display: flex; justify-content: space-between; align-items: center;
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; }
+        .logo { font-size: 1.8rem; font-weight: 900; color: #fff; text-decoration: none; letter-spacing: -1px; }
         .logo span { color: var(--primary); }
 
-        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links { display: flex; gap: 35px; list-style: none; }
         .nav-links a { 
-            color: var(--text-muted); text-decoration: none; font-weight: 500;
-            transition: 0.3s;
+            color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.9rem;
+            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; position: relative;
         }
-        .nav-links a:hover { color: #fff; text-shadow: 0 0 15px var(--primary); }
-        
-        .btn-contact {
-            padding: 10px 25px; background: var(--primary); color: #fff;
-            border-radius: 50px; text-decoration: none; font-weight: 700;
-            box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
+            background: var(--primary); transition: 0.3s;
         }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a:hover::after { width: 100%; }
 
-        /* --- HERO --- */
+        .btn-contact {
+            padding: 12px 30px; 
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            color: #fff; border-radius: 50px; text-decoration: none; font-weight: 700;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.3); transition: 0.3s; border: 1px solid rgba(255,255,255,0.2);
+        }
+        .btn-contact:hover { transform: translateY(-3px); box-shadow: 0 0 40px rgba(0, 210, 255, 0.6); }
+
+        /* --- HERO SECTION --- */
         .hero {
             height: 100vh; display: flex; align-items: center; justify-content: space-between;
-            padding: 0 10%; max-width: 1400px; margin: 0 auto;
+            padding: 0 10%; max-width: 1600px; margin: 0 auto;
         }
 
-        .hero-content { flex: 1; z-index: 2; }
-        .hero h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 25px; font-weight: 800; }
-        .text-gradient {
-            background: linear-gradient(to right, #fff, var(--primary));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .hero p { color: var(--text-muted); font-size: 1.2rem; margin-bottom: 40px; max-width: 550px; }
+        .hero-content { flex: 1; z-index: 2; padding-right: 40px; }
         
-        .hero-btns { display: flex; gap: 20px; }
-        .btn-glass {
-            padding: 14px 35px; border: 1px solid rgba(255,255,255,0.2); color: #fff;
-            border-radius: 50px; text-decoration: none; font-weight: 600;
-            background: rgba(255,255,255,0.05);
+        .badge {
+            display: inline-block; padding: 8px 16px; border-radius: 30px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--primary); font-size: 0.85rem; font-weight: 600; letter-spacing: 2px;
+            margin-bottom: 20px; text-transform: uppercase; backdrop-filter: blur(5px);
         }
 
-        /* --- IMAGE --- */
+        .hero h1 { 
+            font-size: 5rem; line-height: 1.1; margin-bottom: 10px; font-weight: 800;
+        }
+        .hero h1 span { color: var(--text-muted); font-size: 3rem; display: block; font-weight: 300; }
+        
+        /* Effet de texte qui change */
+        .typewriter {
+            font-size: 2rem; color: var(--primary); font-weight: 700; margin-bottom: 30px;
+            height: 40px; display: flex; align-items: center;
+        }
+        .cursor { display: inline-block; width: 3px; height: 30px; background: #fff; margin-left: 5px; animation: blink 1s infinite; }
+
+        .hero p { color: var(--text-muted); font-size: 1.2rem; line-height: 1.6; margin-bottom: 40px; max-width: 600px; }
+
+        .hero-btns { display: flex; gap: 20px; }
+        .btn-outline {
+            padding: 14px 35px; border: 1px solid rgba(255,255,255,0.2); color: #fff;
+            border-radius: 50px; text-decoration: none; font-weight: 600; transition: 0.3s;
+            background: rgba(255,255,255,0.02); backdrop-filter: blur(5px);
+        }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); background: rgba(0, 210, 255, 0.05); }
+
+        /* --- PHOTO AVEC AURA --- */
         .hero-image-container { 
-            flex: 1; display: flex; justify-content: center; position: relative;
+            flex: 1; display: flex; justify-content: center; position: relative; 
             animation: float 6s ease-in-out infinite;
         }
-        
+
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-20px); }
         }
+        @keyframes blink { 50% { opacity: 0; } }
 
-        .hero-circle {
-            position: absolute; width: 450px; height: 450px;
-            border: 2px solid rgba(14, 165, 233, 0.3);
-            border-radius: 50%; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); z-index: -1;
-            box-shadow: 0 0 50px rgba(14, 165, 233, 0.1);
+        /* Cercles concentriques derrière la photo */
+        .circle-bg {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            border-radius: 50%; border: 1px solid rgba(255,255,255,0.05); z-index: -1;
         }
+        .c1 { width: 400px; height: 400px; animation: spin 20s linear infinite; border-color: rgba(0, 210, 255, 0.1); }
+        .c2 { width: 550px; height: 550px; animation: spin 30s linear infinite reverse; border-style: dashed; }
+        .c3 { width: 700px; height: 700px; border-color: rgba(123, 47, 247, 0.05); }
+
+        @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
 
         .hero-img {
-            width: 400px; height: auto;
-            filter: drop-shadow(0 0 40px rgba(14, 165, 233, 0.4)); /* Lueur bleue */
+            width: 420px; height: auto;
+            /* Ombre portée néon cyan */
+            filter: drop-shadow(0 0 50px rgba(0, 210, 255, 0.4));
+            transition: 0.5s; mask-image: linear-gradient(black 80%, transparent 100%);
         }
+        .hero-img:hover { filter: drop-shadow(0 0 80px rgba(0, 210, 255, 0.6)); transform: scale(1.03); }
 
-        @media (max-width: 900px) {
-            .hero { flex-direction: column-reverse; text-align: center; }
-            .hero-img { width: 280px; margin-bottom: 30px; }
-            .hero-circle { width: 300px; height: 300px; }
+        /* MOBILE */
+        @media (max-width: 1024px) {
+            .hero { flex-direction: column-reverse; justify-content: center; text-align: center; padding: 120px 5% 50px; height: auto; }
+            .hero h1 { font-size: 3.5rem; }
+            .hero h1 span { font-size: 2rem; }
+            .typewriter { justify-content: center; font-size: 1.5rem; }
+            .hero-content { padding-right: 0; margin-top: 40px; }
+            .hero-btns { justify-content: center; }
+            .hero-img { width: 300px; }
+            .c1, .c2, .c3 { display: none; } /* On cache les cercles sur mobile pour alléger */
             .nav-links { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="cyber-grid"></div>
+    <div class="background" id="star-container"></div>
+    <div class="glow-1"></div>
+    <div class="glow-2"></div>
 
     <nav>
         <a href="index.html" class="logo">Bader<span>.Dev</span></a>
         <ul class="nav-links">
-            <li><a href="index.html" style="color:#fff">Accueil</a></li>
+            <li><a href="index.html" class="active">Accueil</a></li>
             <li><a href="parcours.html">Formation</a></li>
             <li><a href="experiences.html">Expérience</a></li>
             <li><a href="projets.html">Projets</a></li>
@@ -141,27 +191,83 @@
     </nav>
 
     <section class="hero">
+        
         <div class="hero-content" data-aos="fade-right">
-            <span style="color:var(--primary); font-weight:bold; letter-spacing:1px;">INGÉNIEUR GÉNIE ÉLECTRIQUE</span>
-            <h1>Bader el<br><span class="text-gradient">Berkaoui</span></h1>
+            <span class="badge">Portfolio Officiel</span>
+            <h1>Bader el<br>Berkaoui</h1>
+            
+            <div class="typewriter">
+                Je suis <span id="typing-text" style="margin-left:10px; color:#fff;"></span><span class="cursor"></span>
+            </div>
+
             <p>
-                Je conçois l'avenir de l'industrie avec des solutions durables et intelligentes. 
-                Expertise en Automatisme, IoT et Systèmes Embarqués.
+                Ingénieur passionné par l'innovation durable, l'automatisme avancé et les systèmes intelligents. 
+                Prêt à relever les défis de l'industrie 4.0.
             </p>
+
             <div class="hero-btns">
-                <a href="projets.html" class="btn-contact">Voir mes Projets</a>
-                <a href="parcours.html" class="btn-glass">Mon Parcours</a>
+                <a href="projets.html" class="btn-contact">Découvrir mes Projets</a>
+                <a href="assets/docs/CV-Bader.pdf" download class="btn-outline"><i class="fas fa-download"></i> Mon CV</a>
             </div>
         </div>
 
         <div class="hero-image-container" data-aos="fade-left">
-            <div class="hero-circle"></div>
-            <img src="profilee.png" alt="Bader el Berkaoui" class="hero-img" onerror="alert('Image profilee.png introuvable ! Vérifie qu\'elle est bien à la racine (avec index.html).')">
+            <div class="circle-bg c1"></div>
+            <div class="circle-bg c2"></div>
+            <div class="circle-bg c3"></div>
+            
+            <img src="profilee.png" alt="Bader el Berkaoui" class="hero-img" 
+                 onerror="this.style.display='none'; alert('Attention : L\'image profilee.png (avec 2 E) est introuvable à la racine !');">
         </div>
+
     </section>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script> AOS.init(); </script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        // Script pour les étoiles en fond
+        const container = document.getElementById('star-container');
+        for(let i=0; i<50; i++){
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 5 + 's';
+            container.appendChild(star);
+        }
+
+        // Script pour l'effet "Machine à écrire"
+        const textElement = document.getElementById('typing-text');
+        const texts = ["Ingénieur G.E", "Expert Automatisme", "Développeur IoT", "Innovateur"];
+        let count = 0;
+        let index = 0;
+        let currentText = "";
+        let letter = "";
+
+        (function type() {
+            if (count === texts.length) { count = 0; }
+            currentText = texts[count];
+            letter = currentText.slice(0, ++index);
+
+            textElement.textContent = letter;
+            if (letter.length === currentText.length) {
+                setTimeout(() => {
+                    // Effacer
+                    let deleteInterval = setInterval(() => {
+                        letter = currentText.slice(0, --index);
+                        textElement.textContent = letter;
+                        if(index === 0) {
+                            clearInterval(deleteInterval);
+                            count++;
+                            type();
+                        }
+                    }, 50);
+                }, 2000); // Temps d'attente avant d'effacer
+            } else {
+                setTimeout(type, 100);
+            }
+        })();
+    </script>
 </body>
 </html>
-
