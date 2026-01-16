@@ -47,12 +47,14 @@
         }
         .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
         .logo span { color: var(--primary); font-weight: 300; }
+        
         .nav-links { display: flex; gap: 30px; list-style: none; }
         .nav-links a { 
             color: #a0aec0; text-decoration: none; font-weight: 500; font-size: 0.9rem;
             text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
         }
         .nav-links a:hover, .nav-links a.active { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+        
         .btn-contact {
             padding: 10px 25px; border: 1px solid var(--primary);
             color: var(--primary); border-radius: 4px; text-decoration: none; font-weight: 600;
@@ -92,15 +94,13 @@
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* TEXTES */
-        .status-badge {
-            display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px;
-            background: rgba(0, 242, 255, 0.08); border: 1px solid rgba(0, 242, 255, 0.2);
-            border-radius: 20px; color: var(--primary); font-size: 0.8rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;
+        /* NOUVEAU BADGE DE BIENVENUE */
+        .welcome-badge {
+            display: inline-flex; align-items: center; gap: 10px; padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px; color: #fff; font-size: 0.9rem; font-weight: 500;
+            letter-spacing: 0.5px; margin-bottom: 25px; backdrop-filter: blur(5px);
         }
-        .status-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); animation: blink 1.5s infinite; }
-        @keyframes blink { 50% { opacity: 0.4; } }
 
         .hero h1 { 
             font-size: 4.5rem; margin-bottom: 10px; font-weight: 800; letter-spacing: -1px;
@@ -161,7 +161,7 @@
             </div>
         </div>
 
-        <div class="status-badge"><div class="status-dot"></div> Open to Work</div>
+        <div class="welcome-badge">👋 Bienvenue sur mon Portfolio Professionnel</div>
 
         <h1>Bader el Berkaoui</h1>
 
@@ -186,10 +186,10 @@
             strings: [
                 "les Installations CFO/CFA.",
                 "l'Automatisation & Maintenance.",
-                "les Systèmes Embarqués.",
+                "les Systèmes Embarqués & Automobile.",
                 "les Énergies Renouvelables."
             ],
-            typeSpeed: 40, backSpeed: 20, backDelay: 1500, loop: true
+            typeSpeed: 35, backSpeed: 15, backDelay: 1500, loop: true
         });
 
         // --- ANIMATION FLUX D'ÉNERGIE ---
