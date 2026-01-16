@@ -61,34 +61,42 @@
 
         /* CONTAINER */
         .exp-container {
-            max-width: 800px; /* Un peu plus étroit pour un look "Blog/Article" propre */
-            margin: 0 auto 100px; padding: 0 20px;
+            max-width: 800px; margin: 0 auto 100px; padding: 0 20px;
             display: flex; flex-direction: column; gap: 80px;
         }
 
-        /* CARTE VERTICALE (IMAGE EN HAUT, TEXTE EN BAS) */
+        /* CARTE */
         .exp-card {
             background: var(--card-bg); border: 1px solid var(--border);
             border-radius: 20px; overflow: hidden;
-            display: flex; flex-direction: column; /* C'est ça qui met l'image au-dessus */
+            display: flex; flex-direction: column;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3); transition: 0.3s;
         }
         .exp-card:hover { transform: translateY(-5px); border-color: var(--primary); }
 
-        /* ZONE IMAGE (Zéro Rognage) */
+        /* ZONE IMAGE (MODIFIÉE POUR RÉDUIRE LA TAILLE) */
         .exp-image-container {
             width: 100%;
-            height: auto; /* La hauteur s'adapte à l'image */
-            background: #000;
+            background: rgba(0, 0, 0, 0.3); /* Fond légèrement sombre */
             border-bottom: 1px solid var(--border);
+            padding: 20px; /* Espace autour de l'image */
+            text-align: center; /* Centre l'image horizontalement */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+        
         .exp-image-container img {
-            width: 100%;
-            height: auto; /* Affiche toute l'image sans couper */
-            display: block;
+            max-width: 100%; /* Ne dépasse jamais la largeur de la carte */
+            max-height: 400px; /* HAUTEUR MAXIMALE : C'est ça qui réduit la taille ! */
+            width: auto;
+            height: auto;
+            object-fit: contain; /* Assure que l'image est visible en entier */
+            border-radius: 8px; /* Joli petit arrondi sur l'image */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
-        /* ZONE TEXTE */
+        /* CONTENU TEXTE */
         .exp-content { padding: 40px; }
 
         .exp-header { 
@@ -126,6 +134,7 @@
             .exp-content { padding: 25px; }
             .header-section h1 { font-size: 2.5rem; }
             .exp-header h2 { font-size: 1.8rem; }
+            .exp-image-container img { max-height: 250px; } /* Encore plus petit sur mobile */
         }
     </style>
 </head>
@@ -155,7 +164,7 @@
 
         <article class="exp-card" data-aos="fade-up">
             <div class="exp-image-container">
-                <img src="srm.jpg" alt="SRM Maintenance" onerror="this.src='https://via.placeholder.com/800x400?text=Photo+SRM'">
+                <img src="srm.jpg" alt="SRM Maintenance" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+SRM'">
             </div>
             <div class="exp-content">
                 <div class="exp-header">
@@ -179,7 +188,7 @@
 
         <article class="exp-card" data-aos="fade-up">
             <div class="exp-image-container">
-                <img src="em.jpg" alt="EM Energie PFE" onerror="this.src='https://via.placeholder.com/800x400?text=Photo+EM'">
+                <img src="em.jpg" alt="EM Energie PFE" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+EM'">
             </div>
             <div class="exp-content">
                 <div class="exp-header">
@@ -203,7 +212,7 @@
 
         <article class="exp-card" data-aos="fade-up">
             <div class="exp-image-container">
-                <img src="zahri.jpg" alt="Ezzahri Techno" onerror="this.src='https://via.placeholder.com/800x400?text=Photo+Ezzahri'">
+                <img src="zahri.jpg" alt="Ezzahri Techno" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+Ezzahri'">
             </div>
             <div class="exp-content">
                 <div class="exp-header">
@@ -227,7 +236,7 @@
 
         <article class="exp-card" data-aos="fade-up" style="border-color: rgba(67, 97, 238, 0.4);">
             <div class="exp-image-container">
-                <img src="club.jpg" alt="Club Robothings" onerror="this.src='https://via.placeholder.com/800x400?text=Photo+Club'">
+                <img src="club.jpg" alt="Club Robothings" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+Club'">
             </div>
             <div class="exp-content">
                 <div class="exp-header">
