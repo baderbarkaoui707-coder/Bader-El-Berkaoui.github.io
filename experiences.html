@@ -7,16 +7,18 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         :root {
             --bg-dark: #020617;
-            --primary: #00f2ff;
-            --secondary: #4361ee;
+            --primary: #00f2ff; /* Cyan */
+            --secondary: #4361ee; /* Bleu */
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --border: rgba(255, 255, 255, 0.1);
+            --glass: rgba(15, 23, 42, 0.7);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,7 +30,7 @@
             overflow-x: hidden;
         }
 
-        /* FOND TECH */
+        /* FOND TECH FIXE */
         .tech-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background-image: 
@@ -37,76 +39,109 @@
             background-size: 50px 50px;
         }
 
-        /* NAV */
+        /* --- NAV (Même style que les autres pages) --- */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000; padding: 20px 5%;
             display: flex; justify-content: center;
             backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
-            background: rgba(2, 6, 23, 0.9);
+            background: rgba(2, 6, 23, 0.85);
         }
         .nav-links { display: flex; gap: 40px; list-style: none; }
         .nav-links a { 
-            color: #94a3b8; text-decoration: none; font-weight: 600; font-size: 0.85rem;
+            color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.85rem;
             text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
             display: flex; align-items: center; gap: 8px;
         }
         .nav-links a:hover, .nav-links a.active { color: #fff; }
-        .nav-links a i { color: var(--primary); }
+        .nav-links a i { color: var(--primary); opacity: 0.8; }
 
-        /* HEADER */
+        /* --- EN-TÊTE DE PAGE --- */
         .header-section {
             padding: 140px 20px 60px; text-align: center; max-width: 900px; margin: 0 auto;
         }
-        .header-section h1 { font-size: 3rem; font-weight: 800; margin-bottom: 15px; }
+        .header-section h1 { font-size: 3rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; }
         .highlight { color: var(--primary); text-shadow: 0 0 20px rgba(0, 242, 255, 0.3); }
+        .intro-text { font-size: 1.1rem; color: #cbd5e1; font-weight: 300; line-height: 1.6; }
 
-        /* CONTAINER */
+        /* --- CONTENEUR PRINCIPAL --- */
         .exp-container {
             max-width: 900px; margin: 0 auto 100px; padding: 0 20px;
-            display: flex; flex-direction: column; gap: 80px;
+            display: flex; flex-direction: column; gap: 60px;
         }
 
-        /* CARTE (Nouveau Design avec Grande Photo) */
+        /* --- NOUVELLE CARTE EXPÉRIENCE (Single Photo Design) --- */
         .exp-card {
-            background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border);
-            border-radius: 20px; overflow: hidden; /* Important pour que l'image ne dépasse pas */
-            backdrop-filter: blur(10px); transition: 0.3s;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden; /* Pour que l'image ne dépasse pas */
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
-        .exp-card:hover { border-color: var(--primary); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); }
+        
+        .exp-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.15);
+        }
 
-        /* IMAGE PRINCIPALE (Grande taille) */
-        .featured-img {
-            width: 100%; height: 300px; /* Hauteur fixe pour uniformiser */
-            object-fit: cover; border-bottom: 1px solid var(--border);
-            transition: 0.5s;
+        /* IMAGE D'EN-TÊTE */
+        .card-image-header {
+            width: 100%;
+            height: 250px; /* Hauteur fixe pour l'uniformité */
+            position: relative;
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
         }
-        .exp-card:hover .featured-img { transform: scale(1.02); }
+        .card-image-header img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .exp-card:hover .card-image-header img { transform: scale(1.05); }
+
+        /* Overlay sur l'image pour le titre */
+        .image-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(2, 6, 23, 0.9), transparent);
+        }
+        .image-overlay h2 { color: #fff; font-size: 1.8rem; margin: 0; }
+        .exp-role { 
+            color: var(--primary); font-weight: 700; text-transform: uppercase; 
+            font-size: 0.9rem; letter-spacing: 1px; display: block; margin-top: 5px;
+        }
 
         /* CONTENU DE LA CARTE */
         .card-content { padding: 30px; }
 
-        .exp-header { margin-bottom: 15px; }
-        .exp-info h2 { font-size: 1.8rem; color: #fff; margin-bottom: 5px; }
-        .exp-role { 
-            color: var(--primary); font-weight: 700; text-transform: uppercase; 
-            font-size: 0.9rem; letter-spacing: 1px; display: block; 
+        /* Description améliorée */
+        .exp-desc {
+            color: #cbd5e1; line-height: 1.7; font-size: 1.05rem; margin-bottom: 25px;
+            border-left: 3px solid rgba(0, 242, 255, 0.3); padding-left: 20px;
         }
 
-        .exp-desc { color: #cbd5e1; line-height: 1.7; font-size: 1.05rem; margin-bottom: 25px; }
-
-        /* TAGS */
-        .tech-stack { display: flex; flex-wrap: wrap; gap: 10px; }
+        /* Tags de compétences */
+        .tech-stack { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; }
         .tech-badge {
             padding: 8px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 600;
             background: rgba(0, 242, 255, 0.05); color: var(--primary); border: 1px solid rgba(0, 242, 255, 0.2);
-            display: flex; align-items: center; gap: 6px;
+            display: flex; align-items: center; gap: 6px; transition: 0.3s;
         }
+        .tech-badge:hover { background: var(--primary); color: #000; }
+
+        /* Style spécial pour le Club (Bleu secondaire) */
+        .club-style { border-color: rgba(67, 97, 238, 0.3); }
+        .club-style:hover { border-color: var(--secondary); box-shadow: 0 10px 30px rgba(67, 97, 238, 0.2); }
+        .club-style .exp-role { color: var(--secondary); }
+        .club-style .tech-badge { color: var(--secondary); border-color: rgba(67, 97, 238, 0.3); background: rgba(67, 97, 238, 0.05); }
+        .club-style .tech-badge:hover { background: var(--secondary); color: #fff; }
 
         /* MOBILE */
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .featured-img { height: 200px; }
+            .card-image-header { height: 200px; }
             .header-section h1 { font-size: 2.2rem; }
+            .exp-desc { padding-left: 0; border-left: none; }
         }
     </style>
 </head>
@@ -128,95 +163,98 @@
     <section class="header-section" data-aos="fade-down">
         <h1>Expériences <span class="highlight">Professionnelles</span></h1>
         <p class="intro-text">
-            Ingénierie de terrain, bureau d'études et leadership technique.
+            Mon expertise technique forgée sur le terrain : bureau d'études, maintenance industrielle et leadership de projets technologiques.
         </p>
     </section>
 
     <div class="exp-container">
 
         <article class="exp-card" data-aos="fade-up">
-            <img src="em.jpg" alt="Projet EM Energie" class="featured-img" onerror="this.style.display='none'">
-            
-            <div class="card-content">
-                <div class="exp-header">
+            <div class="card-image-header">
+                <img src="em.jpg" alt="Projet PFE EM Energie" onerror="this.style.display='none'">
+                <div class="image-overlay">
                     <h2>EM ENERGIE</h2>
                     <span class="exp-role">Stage PFE - Ingénieur Électrique</span>
                 </div>
-                
+            </div>
+            
+            <div class="card-content">
                 <p class="exp-desc">
-                    Conception complète d'une installation électrique industrielle. Réalisation des notes de calculs, 
-                    plans d'implantation et simulation d'éclairage pour optimiser l'efficacité énergétique.
+                    Conception intégrale d'une installation électrique industrielle complexe (PFE). Réalisation des notes de calculs de dimensionnement, élaboration des schémas unifilaires et d'implantation sous AutoCAD. Simulation photométrique via Dialux Evo pour l'optimisation de l'éclairage et de l'efficacité énergétique.
                 </p>
 
                 <div class="tech-stack">
                     <span class="tech-badge"><i class="fas fa-bolt"></i> Caneco BT</span>
                     <span class="tech-badge"><i class="fas fa-drafting-compass"></i> AutoCAD</span>
                     <span class="tech-badge"><i class="fas fa-lightbulb"></i> Dialux Evo</span>
+                    <span class="tech-badge"><i class="fas fa-file-alt"></i> Bureau d'Études</span>
                 </div>
             </div>
         </article>
 
         <article class="exp-card" data-aos="fade-up">
-            <img src="srm.jpg" alt="Projet SRM" class="featured-img" onerror="this.style.display='none'">
-
-            <div class="card-content">
-                <div class="exp-header">
+            <div class="card-image-header">
+                <img src="srm.jpg" alt="Maintenance SRM" onerror="this.style.display='none'">
+                <div class="image-overlay">
                     <h2>SRM</h2>
                     <span class="exp-role">Stage Technique - Maintenance & GMAO</span>
                 </div>
-                
+            </div>
+            
+            <div class="card-content">
                 <p class="exp-desc">
-                    Optimisation des processus de maintenance via la mise en place d'une solution <strong>GMAO</strong>. 
-                    Gestion des interventions préventives et analyse des pannes pour réduire les temps d'arrêt.
+                    Optimisation de la fiabilité des équipements industriels. Participation active à la mise en œuvre d'une stratégie de maintenance préventive. Utilisation et paramétrage d'un logiciel de GMAO pour le suivi des interventions, l'analyse des historiques de pannes et la gestion des pièces de rechange.
                 </p>
 
                 <div class="tech-stack">
                     <span class="tech-badge"><i class="fas fa-laptop-code"></i> GMAO</span>
-                    <span class="tech-badge"><i class="fas fa-tools"></i> Maintenance</span>
-                    <span class="tech-badge"><i class="fas fa-cogs"></i> Gestion Tech</span>
+                    <span class="tech-badge"><i class="fas fa-tools"></i> Maintenance Préventive</span>
+                    <span class="tech-badge"><i class="fas fa-cogs"></i> Gestion Technique</span>
                 </div>
             </div>
         </article>
 
         <article class="exp-card" data-aos="fade-up">
-            <img src="zahri.jpg" alt="Projet Ezzahri" class="featured-img" onerror="this.style.display='none'">
-
-            <div class="card-content">
-                <div class="exp-header">
+            <div class="card-image-header">
+                <img src="zahri.jpg" alt="Câblage Ezzahri" onerror="this.style.display='none'">
+                <div class="image-overlay">
                     <h2>EZZAHRI TECHNO SARL</h2>
                     <span class="exp-role">Câblage & Systèmes d'Irrigation</span>
                 </div>
-                
+            </div>
+            
+            <div class="card-content">
                 <p class="exp-desc">
-                    Montage et câblage d'armoires de commande pour des systèmes de <strong>pompage solaire</strong> 
-                    et d'irrigation intelligente pour l'École d'Agriculture de Settat.
+                    Étude et câblage d'armoires de commande et de puissance pour des systèmes de pompage solaire. Intégration de variateurs de vitesse pour une irrigation intelligente destinée à l'École d'Agriculture de Settat. Tests fonctionnels et mise en service sur site.
                 </p>
 
                 <div class="tech-stack">
                     <span class="tech-badge"><i class="fas fa-random"></i> Câblage Industriel</span>
                     <span class="tech-badge"><i class="fas fa-solar-panel"></i> Énergie Solaire</span>
-                    <span class="tech-badge"><i class="fas fa-water"></i> Irrigation</span>
+                    <span class="tech-badge"><i class="fas fa-water"></i> Irrigation Intelligente</span>
                 </div>
             </div>
         </article>
 
-        <article class="exp-card" data-aos="fade-up" style="border-top: 4px solid var(--secondary);">
-            <img src="club.jpg" alt="Club Robotique" class="featured-img" onerror="this.style.display='none'">
-
-            <div class="card-content">
-                <div class="exp-header">
+        <article class="exp-card club-style" data-aos="fade-up">
+            <div class="card-image-header">
+                <img src="club.jpg" alt="Club Robotique" onerror="this.style.display='none'">
+                <div class="image-overlay" style="background: linear-gradient(to top, rgba(67, 97, 238, 0.9), transparent);">
                     <h2>Club Robothings FSTM</h2>
-                    <span class="exp-role" style="color:var(--secondary);">Vice-Président & Chef de Projet</span>
+                    <span class="exp-role">Vice-Président & Chef de Projet</span>
                 </div>
-                
+            </div>
+            
+            <div class="card-content">
                 <p class="exp-desc">
-                    Pilotage des projets robotiques, organisation de compétitions et formation des membres 
-                    sur Arduino et l'impression 3D. Gestion d'équipe et leadership.
+                    Pilotage stratégique et technique des projets du club. Encadrement d'une équipe d'étudiants pour la participation aux compétitions nationales de robotique. Conception et animation d'ateliers de formation (Arduino, Systèmes embarqués, Conception 3D) pour transmettre le savoir-faire.
                 </p>
 
                 <div class="tech-stack">
-                    <span class="tech-badge" style="color:var(--secondary); border-color:var(--secondary); background:rgba(67, 97, 238, 0.1)"><i class="fas fa-users"></i> Leadership</span>
-                    <span class="tech-badge" style="color:var(--secondary); border-color:var(--secondary); background:rgba(67, 97, 238, 0.1)"><i class="fas fa-robot"></i> Robotique</span>
+                    <span class="tech-badge"><i class="fas fa-users"></i> Leadership</span>
+                    <span class="tech-badge"><i class="fas fa-robot"></i> Robotique</span>
+                    <span class="tech-badge"><i class="fas fa-chalkboard-teacher"></i> Formation</span>
+                    <span class="tech-badge"><i class="fas fa-tasks"></i> Gestion de Projet</span>
                 </div>
             </div>
         </article>
@@ -224,6 +262,8 @@
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script> AOS.init(); </script>
+    <script>
+        AOS.init({ duration: 800, once: true, offset: 50 });
+    </script>
 </body>
 </html>
