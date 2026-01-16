@@ -3,21 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parcours Académique | Bader el Berkaoui</title>
+    <title>Parcours | Bader el Berkaoui</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         :root {
             --bg-dark: #020617;
-            --primary: #00f2ff;
-            --secondary: #4361ee;
-            --gold: #ffd700;
+            --primary: #00f2ff; /* Cyan */
+            --gold: #ffd700;   /* Or pour le Major */
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --glass: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.1);
         }
 
@@ -30,18 +29,18 @@
             overflow-x: hidden;
         }
 
-        /* --- BACKGROUND --- */
+        /* FOND FIXE */
         .fixed-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background-image: radial-gradient(circle at 50% 0%, rgba(0, 242, 255, 0.1), transparent 60%);
+            background: radial-gradient(circle at 50% 0%, rgba(0, 242, 255, 0.05), transparent 70%);
         }
 
-        /* --- NAV (Identique à l'accueil) --- */
+        /* --- NAV (Même style que l'accueil) --- */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000; padding: 20px 5%;
             display: flex; justify-content: center;
             backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);
-            background: rgba(2, 6, 23, 0.8);
+            background: rgba(2, 6, 23, 0.85);
         }
         .nav-links { display: flex; gap: 40px; list-style: none; }
         .nav-links a { 
@@ -49,53 +48,47 @@
             text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
             display: flex; align-items: center; gap: 8px;
         }
-        .nav-links a:hover { color: #fff; }
-        .nav-links a.active { color: #fff; border-bottom: 2px solid var(--primary); }
-        .nav-links a i { color: var(--primary); }
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+        .nav-links a.active { border-bottom: 2px solid var(--primary); }
+        .nav-links a i { color: var(--primary); opacity: 0.8; }
 
-        /* --- HEADER SECTION --- */
+        /* --- EN-TÊTE --- */
         .header-section {
-            padding: 120px 20px 60px; text-align: center; max-width: 800px; margin: 0 auto;
+            padding: 140px 20px 60px; text-align: center; max-width: 900px; margin: 0 auto;
         }
-        .header-section h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; }
-        .highlight { color: var(--primary); }
-        .intro-text { font-size: 1.1rem; color: var(--text-muted); line-height: 1.6; }
+        .header-section h1 { font-size: 3rem; font-weight: 800; margin-bottom: 20px; }
+        .highlight { color: var(--primary); text-shadow: 0 0 20px rgba(0, 242, 255, 0.3); }
+        .intro-text { font-size: 1.1rem; color: #cbd5e1; line-height: 1.6; font-weight: 300; }
 
-        /* --- TIMELINE --- */
+        /* --- TIMELINE (Frise Chronologique) --- */
         .timeline-container {
             max-width: 1000px; margin: 0 auto 100px; padding: 0 20px; position: relative;
         }
-
-        /* La ligne verticale centrale */
+        /* Ligne verticale */
         .timeline-container::after {
             content: ''; position: absolute; width: 2px; background: rgba(0, 242, 255, 0.2);
             top: 0; bottom: 0; left: 50%; margin-left: -1px;
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
         }
 
         .timeline-item {
-            padding: 10px 40px; position: relative; background-color: inherit; width: 50%;
+            padding: 10px 40px; position: relative; width: 50%;
         }
-
-        /* Positionnement Gauche/Droite */
         .left { left: 0; text-align: right; }
         .right { left: 50%; text-align: left; }
 
-        /* Les points sur la ligne */
+        /* Point sur la ligne */
         .timeline-dot {
-            position: absolute; width: 20px; height: 20px; right: -10px; background: var(--bg-dark);
-            border: 3px solid var(--primary); border-radius: 50%; top: 25px; z-index: 10;
-            box-shadow: 0 0 10px var(--primary); transition: 0.3s;
+            position: absolute; width: 16px; height: 16px; right: -8px; background: var(--bg-dark);
+            border: 2px solid var(--primary); border-radius: 50%; top: 30px; z-index: 10;
+            box-shadow: 0 0 10px var(--primary);
         }
-        .right .timeline-dot { left: -10px; }
-        
-        .timeline-item:hover .timeline-dot { background: var(--primary); transform: scale(1.3); }
+        .right .timeline-dot { left: -8px; }
 
-        /* Les cartes de contenu */
+        /* Carte de contenu */
         .content-card {
-            padding: 30px; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border);
-            border-radius: 15px; position: relative; transition: 0.3s;
-            backdrop-filter: blur(5px);
+            padding: 30px; background: rgba(15, 23, 42, 0.6); 
+            border: 1px solid var(--border); border-radius: 12px;
+            position: relative; transition: 0.3s; backdrop-filter: blur(5px);
         }
         .content-card:hover {
             transform: translateY(-5px); border-color: var(--primary);
@@ -103,37 +96,36 @@
         }
 
         .date-badge {
-            display: inline-block; padding: 5px 15px; background: rgba(0, 242, 255, 0.1);
-            color: var(--primary); border-radius: 20px; font-weight: 700; font-size: 0.85rem;
+            display: inline-block; padding: 5px 12px; background: rgba(0, 242, 255, 0.1);
+            color: var(--primary); border-radius: 20px; font-weight: 700; font-size: 0.8rem;
             margin-bottom: 15px; border: 1px solid rgba(0, 242, 255, 0.2);
         }
 
-        .content-card h2 { font-size: 1.5rem; margin-bottom: 5px; color: #fff; }
-        .school { color: var(--text-muted); font-size: 1rem; margin-bottom: 15px; font-style: italic; display: block; }
-        .school i { margin-right: 5px; color: var(--secondary); }
+        .content-card h2 { font-size: 1.4rem; margin-bottom: 5px; color: #fff; }
+        .school { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 15px; display: block; }
+        .school i { margin-right: 5px; color: var(--primary); }
 
-        .details p { color: #94a3b8; font-size: 0.95rem; margin-bottom: 5px; }
+        .details p { color: #94a3b8; font-size: 0.95rem; margin-bottom: 5px; line-height: 1.5; }
         .details strong { color: #e2e8f0; }
 
-        /* Badge spécial Major */
+        /* Badge Major (Doré) */
         .major-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
-            border: 1px solid var(--gold); color: var(--gold);
-            padding: 8px 15px; border-radius: 8px; margin-top: 15px; font-weight: 700; font-size: 0.9rem;
+            display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+            margin-top: 15px; color: var(--gold); font-weight: 700; font-size: 0.95rem;
         }
-        .major-badge i { font-size: 1.1rem; }
+        .right .major-badge { justify-content: flex-start; }
+        .major-badge i { font-size: 1.2rem; filter: drop-shadow(0 0 5px var(--gold)); }
 
-        /* MOBILE RESPONSIVE */
+        /* MOBILE */
         @media (max-width: 768px) {
-            .timeline-container::after { left: 31px; }
-            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; text-align: left; }
-            .timeline-item.left, .timeline-item.right { left: 0; }
-            .timeline-dot { left: 21px; }
-            .right .timeline-dot { left: 21px; } /* Correction position */
-            
             .nav-links { display: none; }
-            .header-section h1 { font-size: 2.5rem; }
+            .timeline-container::after { left: 20px; }
+            .timeline-item { width: 100%; padding-left: 50px; padding-right: 0; text-align: left; }
+            .timeline-item.left, .timeline-item.right { left: 0; }
+            .timeline-dot { left: 12px; }
+            .right .timeline-dot { left: 12px; }
+            .major-badge { justify-content: flex-start; }
+            .header-section h1 { font-size: 2.2rem; }
         }
     </style>
 </head>
@@ -153,11 +145,11 @@
     </nav>
 
     <section class="header-section" data-aos="fade-down">
-        <h1>Mon <span class="highlight">Parcours</span></h1>
+        <h1>Mon <span class="highlight">Parcours Académique</span></h1>
         <p class="intro-text">
-            Passionné depuis toujours par le domaine électrique, j'ai construit mon chemin académique avec rigueur et ambition. 
-            De la découverte des sciences techniques jusqu'à l'ingénierie avancée, chaque étape a renforcé mon expertise en 
-            <strong>systèmes embarqués</strong> et <strong>contrôle industriel</strong>.
+            Passionné depuis toujours par le domaine électrique, j'ai bâti mon expertise à travers un parcours d'excellence.
+            Du lycée technique au cycle d'ingénieur d'état, chaque étape a renforcé mes compétences en 
+            <strong>Systèmes Embarqués</strong> et <strong>Contrôle Industriel</strong>.
         </p>
     </section>
 
@@ -167,27 +159,26 @@
             <div class="timeline-dot"></div>
             <div class="content-card">
                 <span class="date-badge">2024 - Présent</span>
-                <h2>Cycle d'Ingénieur d'État</h2>
+                <h2>Cycle Ingénieur d'État</h2>
                 <span class="school"><i class="fas fa-university"></i> FST Mohammedia</span>
                 <div class="details">
-                    <p><strong>Filière :</strong> Génie Électrique et Contrôle Industriel (GECI)</p>
-                    <p>Formation approfondie en pilotage des systèmes complexes, électronique de puissance et automatisation avancée.</p>
+                    <p><strong>Spécialité :</strong> Génie Électrique & Contrôle Industriel (GECI)</p>
+                    <p>Formation avancée en pilotage de systèmes complexes, instrumentation industrielle et électronique de puissance.</p>
                 </div>
             </div>
         </div>
 
         <div class="timeline-item left" data-aos="fade-right">
             <div class="timeline-dot"></div>
-            <div class="content-card" style="border-color: rgba(255, 215, 0, 0.3);">
-                <span class="date-badge">2023 - 2024</span>
-                <h2>Licence Sciences et Techniques</h2>
-                <span class="school"><i class="fas fa-university"></i> FST Settat</span>
+            <div class="content-card" style="border: 1px solid rgba(255, 215, 0, 0.3);">
+                <span class="date-badge" style="color:var(--gold); border-color:var(--gold);">2023 - 2024</span>
+                <h2 style="color:#fff;">Licence Sciences et Techniques</h2>
+                <span class="school"><i class="fas fa-university" style="color:var(--gold);"></i> FST Settat</span>
                 <div class="details">
                     <p><strong>Spécialité :</strong> Génie Électrique et Systèmes Automatisés</p>
                     <div class="major-badge">
-                        <i class="fas fa-trophy"></i> Major de Promo - Mention Très Bien
+                        <i class="fas fa-crown"></i> Major de Promo - Mention Très Bien
                     </div>
-                    <p style="margin-top:10px; font-size:0.9rem;">Consécration d'une année de travail intense et de maîtrise des fondamentaux.</p>
                 </div>
             </div>
         </div>
@@ -196,12 +187,11 @@
             <div class="timeline-dot"></div>
             <div class="content-card">
                 <span class="date-badge">2021 - 2023</span>
-                <h2>DEUST</h2>
+                <h2>DEUST (Cycle Préparatoire)</h2>
                 <span class="school"><i class="fas fa-university"></i> FST Settat</span>
                 <div class="details">
-                    <p><strong>Tronc Commun :</strong> MIPC (Maths, Info, Physique, Chimie)</p>
-                    <p><strong>Spécialité :</strong> Génie Électrique & Génie Mécanique</p>
-                    <p>Acquisition des bases solides en sciences de l'ingénieur.</p>
+                    <p><strong>Filière :</strong> Génie Électrique & Génie Mécanique</p>
+                    <p>Acquisition des fondamentaux en sciences de l'ingénieur, mathématiques appliquées et mécanique.</p>
                 </div>
             </div>
         </div>
@@ -214,8 +204,8 @@
                 <span class="school"><i class="fas fa-school"></i> Lycée Technique Anoual, Casablanca</span>
                 <div class="details">
                     <p><strong>Option :</strong> Sciences et Technologies Électriques</p>
-                    <p><strong style="color:var(--primary)">Mention : Bien</strong></p>
-                    <p>Le début de ma passion pour l'électrotechnique et les circuits.</p>
+                    <p><strong style="color:var(--primary);">Mention Bien</strong></p>
+                    <p>Le point de départ de ma passion pour l'électrotechnique.</p>
                 </div>
             </div>
         </div>
@@ -224,7 +214,12 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true });
+        // Initialisation de l'animation
+        AOS.init({
+            duration: 800, // Durée de l'animation
+            once: true,    // Ne s'anime qu'une fois
+            offset: 50     // Déclenchement
+        });
     </script>
 </body>
 </html>
