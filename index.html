@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bader el Berkaoui | Portfolio Futuriste</title>
+    <title>Bader el Berkaoui | Ingénieur Visionnaire</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,23 +12,23 @@
     <style>
         :root {
             --bg-dark: #020617;
-            --primary: #00f2ff;
-            --secondary: #4361ee;
-            --accent: #ff0055;
+            --primary: #00f2ff; /* Cyan Néon */
+            --secondary: #7000ff; /* Violet Cyber */
             --text-main: #ffffff;
-            --glass: rgba(15, 25, 50, 0.6);
+            --text-muted: #94a3b8;
+            --glass: rgba(255, 255, 255, 0.05);
             --border: rgba(255, 255, 255, 0.1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Curseur personnalisé plus tard */ }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Curseur personnalisé */ }
         
         body {
             font-family: 'Outfit', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-main);
-            overflow-x: hidden;
+            overflow: hidden; /* Empêche le scroll pour l'effet "App" */
             height: 100vh;
-            cursor: default; /* Repli si curseur perso bug */
+            display: flex; flex-direction: column;
         }
 
         /* --- CURSEUR MAGIQUE --- */
@@ -38,149 +38,148 @@
         }
         .cursor-dot { width: 8px; height: 8px; background: var(--primary); }
         .cursor-outline {
-            width: 40px; height: 40px; border: 2px solid var(--primary);
+            width: 40px; height: 40px; border: 1px solid var(--primary);
             transition: width 0.2s, height 0.2s, background-color 0.2s;
         }
+        body:hover .cursor-outline { width: 50px; height: 50px; background: rgba(0, 242, 255, 0.1); }
 
-        /* --- FOND PARTICULES --- */
+        /* --- FOND INTERACTIF --- */
         #particles-js {
             position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: -1;
-            background: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%);
+            background: radial-gradient(circle at center, #0f172a 0%, #000000 100%);
         }
 
-        /* --- NAV --- */
+        /* --- NAVIGATION --- */
         nav {
-            position: fixed; top: 0; width: 100%; z-index: 1000; padding: 20px 5%;
-            display: flex; justify-content: center;
-            backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);
-            background: rgba(2, 6, 23, 0.8);
+            position: fixed; top: 30px; left: 50%; transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(15px);
+            padding: 15px 40px; border-radius: 50px; border: 1px solid var(--border);
+            z-index: 100; display: flex; gap: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .nav-links { display: flex; gap: 35px; list-style: none; }
-        .nav-links a { 
-            color: #94a3b8; text-decoration: none; font-weight: 600; font-size: 0.9rem;
-            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
-            display: flex; align-items: center; gap: 8px;
+        .nav-link {
+            color: var(--text-muted); text-decoration: none; font-weight: 600;
+            text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;
+            transition: 0.3s; position: relative;
         }
-        .nav-links a:hover, .nav-links a.active { color: #fff; text-shadow: 0 0 10px var(--primary); }
-        .nav-links a i { color: var(--primary); }
+        .nav-link:hover, .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--primary); }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 2px; background: var(--primary); transition: 0.3s;
+        }
+        .nav-link:hover::after { width: 100%; }
 
-        /* --- HERO SECTION (LA MAGIE) --- */
+        /* --- HERO SECTION (CENTRALE) --- */
         .hero-container {
-            height: 100vh; display: flex; align-items: center; justify-content: space-between;
-            padding: 0 10%; position: relative;
+            flex: 1; display: grid; grid-template-columns: 1.2fr 1fr;
+            align-items: center; padding: 0 10%; max-width: 1600px; margin: 0 auto;
+            position: relative; z-index: 2;
         }
 
-        /* TEXTE GAUCHE */
-        .hero-text { flex: 1; z-index: 2; }
-        
-        .badge-hello {
-            display: inline-flex; align-items: center; gap: 10px;
-            padding: 8px 20px; background: rgba(0, 242, 255, 0.1); border: 1px solid var(--primary);
-            border-radius: 30px; color: var(--primary); font-weight: 700; margin-bottom: 25px;
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+        /* TEXTE (GAUCHE) */
+        .hero-text h2 {
+            font-size: 1.5rem; color: var(--primary); margin-bottom: 10px; font-weight: 600;
+            display: inline-block; padding: 8px 16px; background: rgba(0, 242, 255, 0.1);
+            border-radius: 30px; border: 1px solid rgba(0, 242, 255, 0.2);
         }
-
-        h1 {
-            font-size: 4.5rem; font-weight: 900; line-height: 1.1; margin-bottom: 20px;
-            background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .text-gradient { 
-            background: linear-gradient(to right, var(--primary), var(--secondary)); 
+        .hero-text h1 {
+            font-size: 5rem; line-height: 1.1; font-weight: 800; margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #94a3b8);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
-        .typewriter { font-size: 1.8rem; color: var(--text-muted); margin-bottom: 40px; min-height: 40px; }
-        .type-cursor { color: var(--primary); animation: blink 1s infinite; }
-
-        .btn-group { display: flex; gap: 20px; }
-        .btn-glow {
-            padding: 15px 40px; background: var(--primary); color: #000; font-weight: 800;
-            border-radius: 5px; text-decoration: none; text-transform: uppercase; letter-spacing: 1px;
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4); transition: 0.3s; position: relative; overflow: hidden;
+        
+        .typewriter {
+            font-size: 1.8rem; color: #cbd5e1; min-height: 3.6rem; /* Réserve l'espace */
+            display: flex; align-items: center; gap: 10px;
         }
-        .btn-glow::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-            transition: 0.5s;
+        .typed-text { color: var(--primary); font-weight: 700; text-shadow: 0 0 20px rgba(0, 242, 255, 0.4); border-bottom: 2px solid var(--primary); }
+
+        .btn-group { margin-top: 40px; display: flex; gap: 20px; }
+        
+        .btn-magic {
+            padding: 18px 40px; border-radius: 50px; font-weight: 700; text-decoration: none;
+            text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px;
+            position: relative; overflow: hidden; transition: 0.4s;
+            display: flex; align-items: center; gap: 10px; z-index: 1;
         }
-        .btn-glow:hover::before { left: 100%; }
-        .btn-glow:hover { transform: translateY(-5px); box-shadow: 0 0 50px rgba(0, 242, 255, 0.6); }
-
-        .btn-outline {
-            padding: 15px 40px; border: 1px solid rgba(255,255,255,0.3); color: #fff; font-weight: 600;
-            border-radius: 5px; text-decoration: none; text-transform: uppercase; letter-spacing: 1px;
-            transition: 0.3s; background: rgba(255,255,255,0.02);
+        /* Bouton Primaire (Neon) */
+        .btn-primary { background: transparent; color: #fff; border: 1px solid var(--primary); }
+        .btn-primary::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 0%; height: 100%;
+            background: var(--primary); z-index: -1; transition: 0.4s;
         }
-        .btn-outline:hover { border-color: var(--primary); color: var(--primary); background: rgba(0, 242, 255, 0.05); }
+        .btn-primary:hover { color: #000; box-shadow: 0 0 30px var(--primary); border-color: var(--primary); }
+        .btn-primary:hover::before { width: 100%; }
 
-        /* IMAGE DROITE (LE RÉACTEUR) */
-        .hero-visual { flex: 1; display: flex; justify-content: center; position: relative; }
+        /* Bouton Secondaire (Glass) */
+        .btn-secondary { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
 
-        .avatar-container {
-            width: 450px; height: 450px; position: relative;
+        /* VISUEL (DROITE) */
+        .hero-visual { display: flex; justify-content: center; position: relative; }
+        
+        /* Cercle Magique */
+        .magic-circle {
+            position: relative; width: 450px; height: 450px;
             display: flex; justify-content: center; align-items: center;
         }
-
-        /* Cercles rotatifs */
+        
+        /* Anneaux rotatifs */
         .ring {
-            position: absolute; border-radius: 50%; border: 1px solid transparent;
-            transition: 0.5s;
+            position: absolute; border-radius: 50%; border: 1px solid rgba(0, 242, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.1);
         }
-        .ring-1 {
-            width: 100%; height: 100%; border-top: 2px solid var(--primary); border-bottom: 2px solid var(--secondary);
-            animation: spin 10s linear infinite; box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
-        }
-        .ring-2 {
-            width: 80%; height: 80%; border-left: 2px solid var(--accent); border-right: 2px solid var(--primary);
-            animation: spin 7s linear infinite reverse;
-        }
-        .ring-3 {
-            width: 120%; height: 120%; border: 1px dashed rgba(255,255,255,0.1);
-            animation: spin 20s linear infinite; z-index: -1;
-        }
-
-        .profile-img {
-            width: 380px; height: 380px; border-radius: 50%; object-fit: cover;
-            z-index: 5; border: 5px solid rgba(0,0,0,0.5);
-            filter: drop-shadow(0 0 50px rgba(0, 242, 255, 0.3));
-        }
-
-        /* Icônes flottantes (Satellites) */
-        .satellite {
-            position: absolute; width: 50px; height: 50px; background: #0f172a;
-            border: 1px solid var(--border); border-radius: 12px;
-            display: flex; justify-content: center; align-items: center; font-size: 1.5rem;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5); animation: float 6s ease-in-out infinite; z-index: 6;
-        }
-        .s1 { top: 10%; left: 0; color: #61dafb; animation-delay: 0s; } /* React/Atom */
-        .s2 { bottom: 20%; right: -10%; color: #ffd700; animation-delay: 2s; } /* Elec */
-        .s3 { top: 0%; right: 10%; color: #bc13fe; animation-delay: 1s; } /* Chip */
-
-        /* STATS COUNTER (En bas) */
-        .stats-bar {
-            position: absolute; bottom: 0; left: 0; width: 100%;
-            background: rgba(2, 6, 23, 0.9); border-top: 1px solid var(--border);
-            display: flex; justify-content: space-around; padding: 30px 10%;
-            backdrop-filter: blur(10px);
-        }
-        .stat-item { text-align: center; }
-        .stat-number { font-size: 2.5rem; font-weight: 800; color: var(--primary); display: block; margin-bottom: 5px; }
-        .stat-label { color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        .r1 { width: 100%; height: 100%; border-top-color: transparent; animation: spin 10s linear infinite; }
+        .r2 { width: 85%; height: 85%; border-left-color: transparent; border-color: rgba(112, 0, 255, 0.5); animation: spin 15s linear infinite reverse; }
+        .r3 { width: 115%; height: 115%; border: 1px dashed rgba(255,255,255,0.1); animation: spin 30s linear infinite; }
 
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Photo Profil */
+        .profile-img {
+            width: 380px; height: 380px; border-radius: 50%; object-fit: cover;
+            position: relative; z-index: 2;
+            box-shadow: 0 0 50px rgba(0, 242, 255, 0.2);
+            /* Petit mouvement de lévitation */
+            animation: float 6s ease-in-out infinite;
+        }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+        /* RÉSEAUX SOCIAUX FLOTTANTS */
+        .social-sidebar {
+            position: fixed; left: 40px; bottom: 0; display: flex; flex-direction: column; gap: 20px;
+            z-index: 10; padding-bottom: 40px;
+        }
+        .social-sidebar::after {
+            content: ''; width: 1px; height: 80px; background: rgba(255,255,255,0.2); margin: 0 auto;
+        }
+        .social-link {
+            color: var(--text-muted); font-size: 1.2rem; transition: 0.3s;
+        }
+        .social-link:hover { color: var(--primary); transform: translateY(-5px); text-shadow: 0 0 10px var(--primary); }
+
+        /* SCROLL INDICATOR */
+        .scroll-down {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            color: var(--text-muted); font-size: 0.8rem; letter-spacing: 2px;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);} 40% {transform: translateX(-50%) translateY(-10px);} 60% {transform: translateX(-50%) translateY(-5px);} }
 
         /* MOBILE */
         @media (max-width: 1024px) {
-            .hero-container { flex-direction: column; padding-top: 120px; text-align: center; height: auto; padding-bottom: 150px; }
-            .hero-text { margin-bottom: 60px; }
+            body { overflow-y: auto; height: auto; } /* Réactiver le scroll sur mobile */
+            .hero-container { grid-template-columns: 1fr; text-align: center; padding-top: 120px; padding-bottom: 50px; }
+            nav { top: 0; width: 100%; border-radius: 0; justify-content: center; }
+            .nav-links { display: none; } /* Cacher menu complet sur mobile, garder simple */
+            .hero-text h1 { font-size: 3.5rem; }
+            .typewriter { justify-content: center; font-size: 1.2rem; min-height: auto; margin-bottom: 20px; }
             .btn-group { justify-content: center; }
-            .avatar-container { width: 300px; height: 300px; margin: 0 auto; }
+            .magic-circle { width: 300px; height: 300px; margin: 50px auto 0; }
             .profile-img { width: 260px; height: 260px; }
-            .nav-links { display: none; }
-            h1 { font-size: 3rem; }
-            .stats-bar { flex-direction: column; gap: 30px; position: relative; margin-top: 50px; }
+            .social-sidebar { display: none; }
+            .cursor-dot, .cursor-outline { display: none; } /* Pas de curseur custom sur mobile */
         }
     </style>
 </head>
@@ -192,120 +191,105 @@
     <div id="particles-js"></div>
 
     <nav>
-        <ul class="nav-links">
-            <li><a href="index.html" class="active"><i class="fas fa-home"></i> Accueil</a></li>
-            <li><a href="parcours.html"><i class="fas fa-graduation-cap"></i> Parcours</a></li>
-            <li><a href="experiences.html"><i class="fas fa-briefcase"></i> Expérience</a></li>
-            <li><a href="competences.html"><i class="fas fa-microchip"></i> Compétences</a></li>
-            <li><a href="projets.html"><i class="fas fa-project-diagram"></i> Projets</a></li>
-            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
-        </ul>
+        <a href="index.html" class="nav-link active">Accueil</a>
+        <a href="parcours.html" class="nav-link">Parcours</a>
+        <a href="experiences.html" class="nav-link">Expérience</a>
+        <a href="competences.html" class="nav-link">Compétences</a>
+        <a href="projets.html" class="nav-link">Projets</a>
+        <a href="contact.html" class="nav-link">Contact</a>
     </nav>
+
+    <div class="social-sidebar" data-aos="fade-up">
+        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+    </div>
 
     <div class="hero-container">
         
         <div class="hero-text" data-aos="fade-right">
-            <div class="badge-hello">👋 Bienvenue dans mon univers</div>
-            <h1>Bader el <br> <span class="text-gradient">Berkaoui</span></h1>
+            <h2>Bienvenue, je suis</h2>
+            <h1>Bader el<br>Berkaoui</h1>
             
             <div class="typewriter">
-                Je suis <span id="typing-text"></span><span class="type-cursor">|</span>
+                Ingénieur Passionné par <span class="typed-text"></span>
             </div>
 
-            <p style="color:#94a3b8; margin-bottom:30px; font-size:1.1rem; line-height:1.6; max-width:600px;">
-                Ingénieur d'État passionné par la fusion entre le matériel et l'intelligence.
-                Je conçois des systèmes embarqués complexes et des solutions IoT innovantes pour l'industrie de demain.
+            <p style="margin-top:20px; color:#94a3b8; max-width:500px; line-height:1.6;">
+                Transformant des concepts complexes en solutions technologiques durables. Spécialisé dans l'optimisation énergétique et les systèmes intelligents.
             </p>
 
             <div class="btn-group">
-                <a href="projets.html" class="btn-glow">Mes Projets</a>
-                <a href="contact.html" class="btn-outline">Me Contacter</a>
+                <a href="projets.html" class="btn-magic btn-primary">
+                    <i class="fas fa-eye"></i> Voir mes Projets
+                </a>
+                <a href="contact.html" class="btn-magic btn-secondary">
+                    <i class="fas fa-paper-plane"></i> Me Contacter
+                </a>
             </div>
         </div>
 
-        <div class="hero-visual" data-aos="zoom-in" data-aos-delay="200">
-            <div class="avatar-container js-tilt">
-                <div class="ring ring-1"></div>
-                <div class="ring ring-2"></div>
-                <div class="ring ring-3"></div>
-                
-                <img src="profilee.png" alt="Bader Profile" class="profile-img">
-
-                <div class="satellite s1"><i class="fas fa-atom"></i></div>
-                <div class="satellite s2"><i class="fas fa-bolt"></i></div>
-                <div class="satellite s3"><i class="fas fa-microchip"></i></div>
-            </div>
-        </div>
-
-        <div class="stats-bar">
-            <div class="stat-item" data-aos="fade-up" data-aos-delay="0">
-                <span class="stat-number" data-target="15">0</span>
-                <span class="stat-label">Projets Réalisés</span>
-            </div>
-            <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
-                <span class="stat-number" data-target="5">0</span>
-                <span class="stat-label">Années d'Expérience</span>
-            </div>
-            <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
-                <span class="stat-number" data-target="4">0</span>
-                <span class="stat-label">Prix Nationaux</span>
-            </div>
-            <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
-                <span class="stat-number" data-target="100">0</span>
-                <span class="stat-label">% Passion</span>
+        <div class="hero-visual" data-aos="fade-left">
+            <div class="magic-circle">
+                <div class="ring r1"></div>
+                <div class="ring r2"></div>
+                <div class="ring r3"></div>
+                <img src="profilee.png" alt="Bader Avatar" class="profile-img">
             </div>
         </div>
 
     </div>
 
+    <div class="scroll-down">
+        SCROLL
+        <i class="fas fa-chevron-down"></i>
+    </div>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
-
+    
     <script>
-        // Init AOS
         AOS.init({ duration: 1000, once: true });
 
-        // Init Tilt (Effet 3D sur l'image)
-        VanillaTilt.init(document.querySelector(".js-tilt"), {
-            max: 15, speed: 400, glare: true, "max-glare": 0.2
-        });
-
-        // Typing Effect
-        var typed = new Typed('#typing-text', {
+        // --- 1. EFFET MACHINE À ÉCRIRE ---
+        var typed = new Typed('.typed-text', {
             strings: [
-                "Ingénieur en Génie Électrique.",
-                "Développeur de Systèmes Embarqués.",
-                "Expert en Solutions IoT & IA.",
-                "Passionné par l'Innovation."
+                "CFO / CFA", 
+                "l'Automatisation", 
+                "la Maintenance", 
+                "les Énergies Renouvelables",
+                "les Systèmes Embarqués",
+                "l'Automobile"
             ],
-            typeSpeed: 40,
-            backSpeed: 20,
-            backDelay: 2000,
+            typeSpeed: 50,
+            backSpeed: 30,
+            backDelay: 1500,
             loop: true,
-            showCursor: false
+            showCursor: true,
+            cursorChar: '|'
         });
 
-        // Compteur Stats
-        const counters = document.querySelectorAll('.stat-number');
-        counters.forEach(counter => {
-            const updateCount = () => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText;
-                const inc = target / 100; // Vitesse
-
-                if (count < target) {
-                    counter.innerText = Math.ceil(count + inc);
-                    setTimeout(updateCount, 30);
-                } else {
-                    counter.innerText = target + "+";
-                }
-            };
-            updateCount();
+        // --- 2. CONFIGURATION PARTICULES (Effet Espace) ---
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#00f2ff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": true },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#4361ee", "opacity": 0.2, "width": 1 },
+                "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } },
+                "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } } }
+            },
+            "retina_detect": true
         });
 
-        // Curseur Souris Custom
+        // --- 3. CURSEUR MAGIQUE (Suit la souris) ---
         const cursorDot = document.querySelector('.cursor-dot');
         const cursorOutline = document.querySelector('.cursor-outline');
 
@@ -313,32 +297,15 @@
             const posX = e.clientX;
             const posY = e.clientY;
 
+            // Le point suit instantanément
             cursorDot.style.left = `${posX}px`;
             cursorDot.style.top = `${posY}px`;
 
-            // Petit délai pour l'outline
+            // Le cercle suit avec un léger retard (effet fluide)
             cursorOutline.animate({
                 left: `${posX}px`,
                 top: `${posY}px`
             }, { duration: 500, fill: "forwards" });
-        });
-
-        // Particules JS
-        particlesJS("particles-js", {
-            "particles": {
-                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
-                "color": { "value": "#00f2ff" },
-                "shape": { "type": "circle" },
-                "opacity": { "value": 0.3, "random": true },
-                "size": { "value": 3, "random": true },
-                "line_linked": { "enable": true, "distance": 150, "color": "#4361ee", "opacity": 0.2, "width": 1 },
-                "move": { "enable": true, "speed": 2 }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } },
-                "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.6 } } }
-            }
         });
     </script>
 </body>
