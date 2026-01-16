@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parcours | Bader el Berkaoui</title>
+    <title>Parcours Académique | Bader el Berkaoui</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,11 +14,11 @@
             --bg-dark: #020617;
             --primary: #00f2ff;
             --secondary: #4361ee;
-            --gold: #ffd700; /* Pour le Major de promo */
+            --gold: #ffd700;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255,255,255,0.1);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -30,22 +30,13 @@
             overflow-x: hidden;
         }
 
-        /* --- BACKGROUND TECH (Identique Accueil) --- */
-        .tech-grid {
-            position: fixed; width: 100%; height: 100%; bottom: 0; left: 0;
-            background-image: linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            transform: perspective(500px) rotateX(60deg) translateY(100px) scale(2);
-            z-index: -2;
-        }
-        .glow-spot {
-            position: fixed; top: -20%; left: -10%; width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(0, 242, 255, 0.1), transparent 70%);
-            z-index: -1; pointer-events: none;
+        /* --- BACKGROUND --- */
+        .fixed-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background-image: radial-gradient(circle at 50% 0%, rgba(0, 242, 255, 0.1), transparent 60%);
         }
 
-        /* --- NAV --- */
+        /* --- NAV (Identique à l'accueil) --- */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000; padding: 20px 5%;
             display: flex; justify-content: center;
@@ -54,94 +45,93 @@
         }
         .nav-links { display: flex; gap: 40px; list-style: none; }
         .nav-links a { 
-            color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.9rem;
+            color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.85rem;
             text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
             display: flex; align-items: center; gap: 8px;
         }
-        .nav-links a i { color: var(--primary); font-size: 1rem; opacity: 0.8; }
         .nav-links a:hover { color: #fff; }
         .nav-links a.active { color: #fff; border-bottom: 2px solid var(--primary); }
+        .nav-links a i { color: var(--primary); }
 
-        /* --- HEADER --- */
+        /* --- HEADER SECTION --- */
         .header-section {
-            text-align: center; padding: 120px 20px 60px;
+            padding: 120px 20px 60px; text-align: center; max-width: 800px; margin: 0 auto;
         }
-        .header-section h1 {
-            font-size: 3.5rem; font-weight: 800; margin-bottom: 15px;
-            background: linear-gradient(to right, #fff, #94a3b8);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .header-section p { color: var(--text-muted); font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
-        .highlight { color: var(--primary); font-weight: 700; }
+        .header-section h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; }
+        .highlight { color: var(--primary); }
+        .intro-text { font-size: 1.1rem; color: var(--text-muted); line-height: 1.6; }
 
         /* --- TIMELINE --- */
         .timeline-container {
-            max-width: 1000px; margin: 0 auto 100px; padding: 0 20px;
-            position: relative;
+            max-width: 1000px; margin: 0 auto 100px; padding: 0 20px; position: relative;
         }
-        /* La ligne centrale */
+
+        /* La ligne verticale centrale */
         .timeline-container::after {
             content: ''; position: absolute; width: 2px; background: rgba(0, 242, 255, 0.2);
             top: 0; bottom: 0; left: 50%; margin-left: -1px;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
         }
 
         .timeline-item {
-            padding: 10px 40px; position: relative; width: 50%; box-sizing: border-box;
+            padding: 10px 40px; position: relative; background-color: inherit; width: 50%;
         }
-        .left { left: 0; }
-        .right { left: 50%; }
+
+        /* Positionnement Gauche/Droite */
+        .left { left: 0; text-align: right; }
+        .right { left: 50%; text-align: left; }
 
         /* Les points sur la ligne */
-        .timeline-item::after {
-            content: ''; position: absolute; width: 20px; height: 20px;
-            right: -10px; top: 32px; border-radius: 50%;
-            background: var(--bg-dark); border: 3px solid var(--primary); z-index: 1;
-            box-shadow: 0 0 15px var(--primary);
+        .timeline-dot {
+            position: absolute; width: 20px; height: 20px; right: -10px; background: var(--bg-dark);
+            border: 3px solid var(--primary); border-radius: 50%; top: 25px; z-index: 10;
+            box-shadow: 0 0 10px var(--primary); transition: 0.3s;
         }
-        .right::after { left: -10px; }
+        .right .timeline-dot { left: -10px; }
+        
+        .timeline-item:hover .timeline-dot { background: var(--primary); transform: scale(1.3); }
 
-        /* Les Cartes */
-        .content {
-            padding: 30px; background: var(--glass);
-            border: 1px solid var(--border); border-radius: 15px;
-            position: relative; transition: 0.3s;
+        /* Les cartes de contenu */
+        .content-card {
+            padding: 30px; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border);
+            border-radius: 15px; position: relative; transition: 0.3s;
             backdrop-filter: blur(5px);
         }
-        .content:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-
-        /* Style Spécial Major de Promo */
-        .major-card {
-            border: 1px solid var(--gold);
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), transparent);
-        }
-        .major-card:hover { border-color: var(--gold); box-shadow: 0 0 20px rgba(255, 215, 0, 0.2); }
-        .badge-major {
-            display: inline-block; background: var(--gold); color: #000;
-            padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 0.75rem;
-            text-transform: uppercase; margin-bottom: 10px; box-shadow: 0 0 15px var(--gold);
+        .content-card:hover {
+            transform: translateY(-5px); border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        .date { color: var(--primary); font-weight: 700; font-size: 0.9rem; letter-spacing: 1px; margin-bottom: 5px; display: block; }
-        .school { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-        h2 { font-size: 1.5rem; margin-bottom: 10px; line-height: 1.3; }
-        p { color: #cbd5e1; line-height: 1.6; font-size: 0.95rem; }
-
-        /* BOUTON CV */
-        .cv-section { text-align: center; margin-bottom: 80px; }
-        .btn-cv {
-            padding: 15px 40px; background: var(--primary); color: #000;
-            border-radius: 50px; font-weight: 700; text-decoration: none;
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.3); transition: 0.3s;
-            display: inline-flex; align-items: center; gap: 10px;
+        .date-badge {
+            display: inline-block; padding: 5px 15px; background: rgba(0, 242, 255, 0.1);
+            color: var(--primary); border-radius: 20px; font-weight: 700; font-size: 0.85rem;
+            margin-bottom: 15px; border: 1px solid rgba(0, 242, 255, 0.2);
         }
-        .btn-cv:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(0, 242, 255, 0.6); }
 
-        /* MOBILE */
+        .content-card h2 { font-size: 1.5rem; margin-bottom: 5px; color: #fff; }
+        .school { color: var(--text-muted); font-size: 1rem; margin-bottom: 15px; font-style: italic; display: block; }
+        .school i { margin-right: 5px; color: var(--secondary); }
+
+        .details p { color: #94a3b8; font-size: 0.95rem; margin-bottom: 5px; }
+        .details strong { color: #e2e8f0; }
+
+        /* Badge spécial Major */
+        .major-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
+            border: 1px solid var(--gold); color: var(--gold);
+            padding: 8px 15px; border-radius: 8px; margin-top: 15px; font-weight: 700; font-size: 0.9rem;
+        }
+        .major-badge i { font-size: 1.1rem; }
+
+        /* MOBILE RESPONSIVE */
         @media (max-width: 768px) {
             .timeline-container::after { left: 31px; }
-            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
-            .timeline-item::after { left: 21px; }
-            .right { left: 0; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; text-align: left; }
+            .timeline-item.left, .timeline-item.right { left: 0; }
+            .timeline-dot { left: 21px; }
+            .right .timeline-dot { left: 21px; } /* Correction position */
+            
             .nav-links { display: none; }
             .header-section h1 { font-size: 2.5rem; }
         }
@@ -149,8 +139,7 @@
 </head>
 <body>
 
-    <div class="tech-grid"></div>
-    <div class="glow-spot"></div>
+    <div class="fixed-bg"></div>
 
     <nav>
         <ul class="nav-links">
@@ -163,72 +152,79 @@
         </ul>
     </nav>
 
-    <div class="header-section" data-aos="fade-down">
-        <h1>Mon Parcours Académique</h1>
-        <p>Une trajectoire marquée par la <span class="highlight">passion</span> et la recherche de l'excellence technique.</p>
-    </div>
+    <section class="header-section" data-aos="fade-down">
+        <h1>Mon <span class="highlight">Parcours</span></h1>
+        <p class="intro-text">
+            Passionné depuis toujours par le domaine électrique, j'ai construit mon chemin académique avec rigueur et ambition. 
+            De la découverte des sciences techniques jusqu'à l'ingénierie avancée, chaque étape a renforcé mon expertise en 
+            <strong>systèmes embarqués</strong> et <strong>contrôle industriel</strong>.
+        </p>
+    </section>
 
     <div class="timeline-container">
-        
-        <div class="timeline-item left" data-aos="fade-right">
-            <div class="content">
-                <span class="date">2023 - PRÉSENT</span>
-                <h2>Cycle Ingénieur d'État</h2>
-                <div class="school"><i class="fas fa-university"></i> FST Mohammedia</div>
-                <p>
-                    Spécialité <strong>Génie Électrique et Contrôle Industriel (GECI)</strong>.<br>
-                    Approfondissement en systèmes avancés, pilotage industriel et intelligence artificielle appliquée.
-                </p>
+
+        <div class="timeline-item right" data-aos="fade-left">
+            <div class="timeline-dot"></div>
+            <div class="content-card">
+                <span class="date-badge">2024 - Présent</span>
+                <h2>Cycle d'Ingénieur d'État</h2>
+                <span class="school"><i class="fas fa-university"></i> FST Mohammedia</span>
+                <div class="details">
+                    <p><strong>Filière :</strong> Génie Électrique et Contrôle Industriel (GECI)</p>
+                    <p>Formation approfondie en pilotage des systèmes complexes, électronique de puissance et automatisation avancée.</p>
+                </div>
             </div>
         </div>
 
-        <div class="timeline-item right" data-aos="fade-left">
-            <div class="content major-card"> <div class="badge-major"><i class="fas fa-trophy"></i> Major de Promo</div>
-                <span class="date" style="color:var(--gold)">2022 - 2023</span>
+        <div class="timeline-item left" data-aos="fade-right">
+            <div class="timeline-dot"></div>
+            <div class="content-card" style="border-color: rgba(255, 215, 0, 0.3);">
+                <span class="date-badge">2023 - 2024</span>
                 <h2>Licence Sciences et Techniques</h2>
-                <div class="school"><i class="fas fa-university"></i> FST Settat</div>
-                <p>
-                    Option : <strong>Génie Électrique et Systèmes Automatisés (GESA)</strong>.<br>
-                    Obtenue avec <strong>Mention Très Bien</strong>. Développement de compétences solides en automatisme et électronique de puissance.
-                </p>
-            </div>
-        </div>
-
-        <div class="timeline-item left" data-aos="fade-right">
-            <div class="content">
-                <span class="date">2021 - 2023</span>
-                <h2>DEUST (Cycle Préparatoire)</h2>
-                <div class="school"><i class="fas fa-university"></i> FST Settat</div>
-                <p>
-                    Filière <strong>Génie Électrique & Génie Mécanique (GEGM)</strong>.<br>
-                    Acquisition des fondamentaux en sciences de l'ingénieur, mathématiques appliquées et physique.
-                </p>
+                <span class="school"><i class="fas fa-university"></i> FST Settat</span>
+                <div class="details">
+                    <p><strong>Spécialité :</strong> Génie Électrique et Systèmes Automatisés</p>
+                    <div class="major-badge">
+                        <i class="fas fa-trophy"></i> Major de Promo - Mention Très Bien
+                    </div>
+                    <p style="margin-top:10px; font-size:0.9rem;">Consécration d'une année de travail intense et de maîtrise des fondamentaux.</p>
+                </div>
             </div>
         </div>
 
         <div class="timeline-item right" data-aos="fade-left">
-            <div class="content">
-                <span class="date">2021</span>
-                <h2>Baccalauréat Technique</h2>
-                <div class="school"><i class="fas fa-school"></i> Lycée Technique Anoual - Casablanca</div>
-                <p>
-                    Option <strong>Sciences et Technologies Électriques (STE)</strong>.<br>
-                    Obtenu avec <strong>Mention Bien</strong>. Le début de ma passion pour le domaine électrique.
-                </p>
+            <div class="timeline-dot"></div>
+            <div class="content-card">
+                <span class="date-badge">2021 - 2023</span>
+                <h2>DEUST</h2>
+                <span class="school"><i class="fas fa-university"></i> FST Settat</span>
+                <div class="details">
+                    <p><strong>Tronc Commun :</strong> MIPC (Maths, Info, Physique, Chimie)</p>
+                    <p><strong>Spécialité :</strong> Génie Électrique & Génie Mécanique</p>
+                    <p>Acquisition des bases solides en sciences de l'ingénieur.</p>
+                </div>
             </div>
         </div>
 
-    </div>
+        <div class="timeline-item left" data-aos="fade-right">
+            <div class="timeline-dot"></div>
+            <div class="content-card">
+                <span class="date-badge">2021</span>
+                <h2>Baccalauréat Technique</h2>
+                <span class="school"><i class="fas fa-school"></i> Lycée Technique Anoual, Casablanca</span>
+                <div class="details">
+                    <p><strong>Option :</strong> Sciences et Technologies Électriques</p>
+                    <p><strong style="color:var(--primary)">Mention : Bien</strong></p>
+                    <p>Le début de ma passion pour l'électrotechnique et les circuits.</p>
+                </div>
+            </div>
+        </div>
 
-    <div class="cv-section" data-aos="fade-up">
-        <a href="assets/docs/CV-Bader-El-Berkaoui.pdf" download class="btn-cv">
-            <i class="fas fa-download"></i> Télécharger mon CV Complet
-        </a>
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 800, once: true });
+        AOS.init({ duration: 1000, once: true });
     </script>
 </body>
 </html>
