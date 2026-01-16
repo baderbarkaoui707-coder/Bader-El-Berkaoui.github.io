@@ -3,275 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bader el Berkaoui | Ingénieur Génie Électrique</title>
+    <title>Accueil | Bader el Berkaoui</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        /* --- DESIGN SYSTEM (Identique aux autres pages) --- */
+        /* --- STYLE IDENTIQUE AUX AUTRES PAGES --- */
         :root {
             --bg-dark: #0f172a;
-            --bg-card: rgba(30, 41, 59, 0.7);
             --primary: #38bdf8;
-            --secondary: #818cf8;
-            --accent: #2dd4bf;
             --text-main: #f1f5f9;
             --text-muted: #94a3b8;
             --glass-border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Outfit', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-main);
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.08) 0%, transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(129, 140, 248, 0.08) 0%, transparent 25%);
+            overflow: hidden; /* Empêche le scroll car c'est juste une page d'accueil */
+            height: 100vh;
+            background-image: radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.08) 0%, transparent 25%);
         }
 
-        /* --- NAVIGATION --- */
+        /* NAVIGATION */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000;
-            padding: 20px 5%;
+            padding: 15px 5%;
             display: flex; justify-content: space-between; align-items: center;
             background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px);
             border-bottom: var(--glass-border);
         }
 
-        .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; }
+        .logo { font-size: 1.4rem; font-weight: 800; color: #fff; text-decoration: none; }
         .logo span { color: var(--primary); }
 
-        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links { display: flex; gap: 25px; list-style: none; }
         .nav-links a { 
             color: var(--text-muted); text-decoration: none; font-weight: 500; transition: 0.3s; 
-            font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;
         }
-        .nav-links a:hover { color: var(--primary); }
-        /* Style spécial pour le lien actif */
-        .nav-links a.active { color: #fff; border-bottom: 2px solid var(--primary); }
-
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+        
+        /* Bouton Contact Nav */
         .btn-contact {
-            padding: 8px 25px; background: linear-gradient(90deg, var(--secondary), var(--primary));
-            color: #fff; border-radius: 50px; text-decoration: none; transition: 0.3s; font-weight: 700;
-            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+            padding: 8px 25px; background: linear-gradient(90deg, #818cf8, var(--primary));
+            color: #fff; border-radius: 50px; text-decoration: none; font-weight: 700; transition: 0.3s;
         }
-        .btn-contact:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5); }
+        .btn-contact:hover { box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); }
 
-        /* --- HERO SECTION --- */
+        /* HERO SECTION (Centrale) */
         .hero {
-            min-height: 100vh; display: flex; align-items: center; padding: 0 10%;
-            position: relative;
+            height: 100vh; padding: 0 10%;
+            display: flex; align-items: center; justify-content: center;
         }
-        .hero-content { max-width: 800px; z-index: 2; margin-top: 60px; }
+        
+        .hero-container {
+            display: flex; align-items: center; justify-content: space-between;
+            width: 100%; max-width: 1200px; gap: 50px;
+        }
+
+        .hero-content { flex: 1; }
         .hero h1 { 
             font-size: 4.5rem; line-height: 1.1; margin-bottom: 20px; 
             background: linear-gradient(to right, #fff, var(--primary)); 
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .hero h2 { font-size: 1.8rem; color: var(--text-muted); margin-bottom: 30px; font-weight: 400; }
+        .hero h2 { font-size: 1.5rem; color: var(--text-muted); margin-bottom: 30px; font-weight: 400; }
         
+        /* Boutons d'action */
         .hero-btns { display: flex; gap: 20px; margin-top: 30px; }
+        .btn-primary {
+            padding: 12px 30px; background: var(--primary); color: #0f172a;
+            border-radius: 50px; text-decoration: none; font-weight: 700; transition: 0.3s;
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3); }
+
         .btn-outline {
             padding: 12px 30px; border: 1px solid var(--glass-border); color: #fff;
-            border-radius: 50px; text-decoration: none; transition: 0.3s; font-weight: 600;
+            border-radius: 50px; text-decoration: none; font-weight: 600; transition: 0.3s;
             background: rgba(255,255,255,0.05);
         }
         .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
 
-        /* --- SECTIONS --- */
-        section { padding: 100px 10%; position: relative; }
-        .section-header { margin-bottom: 60px; text-align: center; }
-        .section-tag { color: var(--primary); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; }
-        .section-title { font-size: 3rem; margin-top: 10px; }
-
-        /* --- FEATURED PROJECT (DRONE) --- */
-        .glass-card {
-            background: var(--bg-card); border: var(--glass-border);
-            border-radius: 20px; padding: 30px; transition: 0.4s; position: relative; overflow: hidden;
-        }
-        .glass-card:hover { transform: translateY(-5px); border-color: var(--primary); }
-
-        .featured-project { 
-            display: flex; gap: 50px; align-items: center; 
-            background: linear-gradient(145deg, rgba(30,41,59,0.95), rgba(15,23,42,0.95));
-            border: 1px solid var(--accent); padding: 50px;
-        }
-        .project-icon { font-size: 6rem; color: var(--accent); text-align: center; flex: 1; }
-        .featured-content { flex: 2; }
-        .featured-content h3 { font-size: 2.2rem; color: var(--accent); margin-bottom: 15px; }
-        .featured-content p { color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-size: 1.1rem; }
+        /* PHOTO PROFIL */
+        .hero-image { flex: 1; display: flex; justify-content: center; position: relative; }
         
-        .feature-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
-        .feature-list li { display: flex; align-items: center; gap: 10px; color: #e2e8f0; font-size: 0.95rem; }
-        .feature-list i { color: var(--accent); }
-
-        /* --- PROJECTS GRID --- */
-        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .project-card h3 { font-size: 1.4rem; color: #fff; margin-bottom: 10px; margin-top: 15px; }
-        .project-card i { font-size: 2rem; color: var(--primary); }
-        .project-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
-        .tag { 
-            padding: 5px 12px; font-size: 0.75rem; border-radius: 20px; 
-            background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); 
+        /* Cercle décoratif derrière la photo */
+        .hero-image::before {
+            content: ''; position: absolute; width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%);
+            z-index: -1;
         }
 
-        /* --- FOOTER --- */
-        footer {
-            text-align: center; padding: 40px; border-top: var(--glass-border);
-            color: var(--text-muted); font-size: 0.9rem; margin-top: 50px;
+        .hero-image img {
+            width: 380px; height: 380px; object-fit: cover;
+            border-radius: 50%; /* Cercle parfait comme sur ton exemple */
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            transition: 0.5s;
         }
+        .hero-image img:hover { border-color: var(--primary); transform: scale(1.02); }
 
-        /* Mobile */
+        /* MOBILE */
         @media (max-width: 900px) {
+            body { overflow-y: auto; height: auto; } /* Réactiver le scroll sur mobile */
+            .hero { height: auto; padding: 120px 5% 50px; }
+            .hero-container { flex-direction: column-reverse; text-align: center; }
             .hero h1 { font-size: 3rem; }
-            .featured-project { flex-direction: column; text-align: center; padding: 30px; }
-            .feature-list { grid-template-columns: 1fr; text-align: left; }
-            .nav-links { display: none; } /* Pour l'instant caché sur mobile, ou à remplacer par un menu burger */
+            .hero-btns { justify-content: center; }
+            .hero-image img { width: 280px; height: 280px; margin-bottom: 30px; }
+            .nav-links { display: none; } /* Pour l'instant caché sur mobile */
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="index.html" class="logo">BE.<span>Elec</span></a>
+        <a href="index.html" class="logo">Bader<span>.Dev</span></a>
         <ul class="nav-links">
-            <li><a href="index.html" class="active">Accueil</a></li>
-            <li><a href="experiences.html">Parcours & Stages</a></li>
+            <li><a href="index.html" style="color:#fff; border-bottom:2px solid var(--primary);">Accueil</a></li>
+            <li><a href="parcours.html">Parcours académique</a></li>
+            <li><a href="experiences.html">Expériences</a></li>
+            <li><a href="projets.html">Projets</a></li>
             <li><a href="competences.html">Compétences</a></li>
-            <li><a href="index.html#projects">Projets</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
         <a href="contact.html" class="btn-contact">Me Contacter</a>
     </nav>
 
     <section class="hero">
-        <div class="hero-content" data-aos="fade-up">
-            <span class="section-tag">Ingénieur Génie Électrique & Contrôle</span>
-            <h1>Bader el Berkaoui</h1>
-            <h2>Innovation Durable & Systèmes Intelligents</h2>
-            <p style="color: var(--text-muted); line-height: 1.6; font-size: 1.1rem; margin-bottom: 30px;">
-                Élève ingénieur passionné par l'automatisme avancé et les solutions embarquées. 
-                Je conçois des systèmes pour répondre aux défis industriels et environnementaux de demain.
-            </p>
-            <div class="hero-btns">
-                <a href="#projects" class="btn-contact">Voir mes Projets</a>
-                <a href="assets/docs/CV-Bader.pdf" download class="btn-outline"><i class="fas fa-download"></i> Télécharger CV</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="featured">
-        <div class="section-header" data-aos="fade-up">
-            <span class="section-tag">Projet Phare</span>
-            <h2 class="section-title">Technologie pour un Maroc Durable</h2>
-        </div>
-
-        <article class="glass-card featured-project" data-aos="zoom-in">
-            <div class="project-icon">
-                <i class="fas fa-drone"></i>
-            </div>
-            <div class="featured-content">
-                <h3>Drone Multiservice Intelligent</h3>
-                <p>
-                    Conception d'une flotte de drones autonomes interconnectés pour la gestion des catastrophes naturelles (Séismes, Inondations, Incendies). Une réponse technologique rapide pour la préservation des vies et de l'environnement.
-                </p>
-                <ul class="feature-list">
-                    <li><i class="fas fa-check-circle"></i> Communication en essaim (Swarm Intelligence).</li>
-                    <li><i class="fas fa-check-circle"></i> Détection thermique & Analyse IA embarquée.</li>
-                    <li><i class="fas fa-check-circle"></i> Transmission de données critique en temps réel.</li>
-                    <li><i class="fas fa-check-circle"></i> Autonomie énergétique optimisée.</li>
-                </ul>
-                <div class="project-tags">
-                    <span class="tag" style="color:var(--accent); border-color:var(--accent);">STM32 / ESP32</span>
-                    <span class="tag" style="color:var(--accent); border-color:var(--accent);">LoRaWAN</span>
-                    <span class="tag" style="color:var(--accent); border-color:var(--accent);">Vision par Ordinateur</span>
-                </div>
-            </div>
-        </article>
-    </section>
-
-    <section id="projects">
-        <div class="section-header" data-aos="fade-up">
-            <span class="section-tag">Portfolio Technique</span>
-            <h2 class="section-title">Réalisations Académiques</h2>
-        </div>
-
-        <div class="projects-grid">
+        <div class="hero-container">
             
-            <article class="glass-card project-card" data-aos="fade-up">
-                <i class="fas fa-temperature-high"></i>
-                <h3>Régulation Échangeur Thermique</h3>
-                <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.6;">
-                    Modélisation et contrôle d'un système thermique tubulaire non-linéaire. Linéarisation autour d'un point de fonctionnement et commande par retour d'état (Pole Placement).
+            <div class="hero-content" data-aos="fade-right">
+                <p style="color:var(--primary); font-weight:600; letter-spacing:2px; margin-bottom:10px;">INGÉNIEUR GÉNIE ÉLECTRIQUE & CONTRÔLE</p>
+                <h1>Bader el Berkaoui</h1>
+                <h2>Innovation Durable & Systèmes Intelligents</h2>
+                <p style="color: var(--text-muted); line-height: 1.6; font-size: 1.1rem; margin-bottom: 30px;">
+                    Bienvenue sur mon portfolio. Découvrez mon parcours académique, mes expériences industrielles et mes projets techniques primés.
                 </p>
-                <div class="project-tags">
-                    <span class="tag">MATLAB</span>
-                    <span class="tag">Simulink</span>
-                    <span class="tag">Automatique</span>
+                <div class="hero-btns">
+                    <a href="parcours.html" class="btn-primary">Mon Parcours</a>
+                    <a href="projets.html" class="btn-outline">Mes Projets</a>
                 </div>
-            </article>
+            </div>
 
-            <article class="glass-card project-card" data-aos="fade-up" data-aos-delay="100">
-                <i class="fas fa-water"></i>
-                <h3>Smart Water Leak Detection</h3>
-                <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.6;">
-                    <strong>1er Prix Électrogenuis.</strong> Système IoT de détection de fuites utilisant l'IA pour analyser les variations de débit et de pression.
-                </p>
-                <div class="project-tags">
-                    <span class="tag">IoT</span>
-                    <span class="tag">Intelligence Artificielle</span>
-                    <span class="tag">Capteurs</span>
-                </div>
-            </article>
-
-            <article class="glass-card project-card" data-aos="fade-up" data-aos-delay="200">
-                <i class="fas fa-robot"></i>
-                <h3>Robot Autonome (Vision)</h3>
-                <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.6;">
-                    Robot mobile basé sur Raspberry Pi. Utilisation d'OpenCV pour le traitement d'image et le suivi de ligne précis avec régulation PID.
-                </p>
-                <div class="project-tags">
-                    <span class="tag">Raspberry Pi</span>
-                    <span class="tag">Python</span>
-                    <span class="tag">OpenCV</span>
-                </div>
-            </article>
-
-            <article class="glass-card project-card" data-aos="fade-up" data-aos-delay="300">
-                <i class="fas fa-desktop"></i>
-                <h3>Supervision Industrielle</h3>
-                <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.6;">
-                    Développement d'une interface IHM sous WinCC pour le pilotage d'un convoyeur (Automate Siemens S7-1200). Gestion des alarmes.
-                </p>
-                <div class="project-tags">
-                    <span class="tag">TIA Portal</span>
-                    <span class="tag">WinCC</span>
-                    <span class="tag">Siemens S7</span>
-                </div>
-            </article>
+            <div class="hero-image" data-aos="fade-left">
+                <img src="assets/images/profil.jpg" alt="Bader el Berkaoui" onerror="this.src='https://placehold.co/400x400/1e293b/38bdf8?text=Photo+Profil'">
+            </div>
 
         </div>
     </section>
-
-    <footer>
-        <p>&copy; 2026 Bader el Berkaoui. Tous droits réservés.</p>
-        <div style="margin-top: 20px;">
-            <a href="https://www.linkedin.com/in/bader-el-berkaoui-6641bb26b/" style="color: #fff; margin: 0 10px; font-size: 1.2rem;"><i class="fab fa-linkedin"></i></a>
-            <a href="https://github.com/baderbarkaoui707" style="color: #fff; margin: 0 10px; font-size: 1.2rem;"><i class="fab fa-github"></i></a>
-        </div>
-    </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({
-            duration: 1000,
-            offset: 100,
-            once: true
-        });
+        AOS.init({ duration: 1000, offset: 50, once: true });
     </script>
 </body>
 </html>
