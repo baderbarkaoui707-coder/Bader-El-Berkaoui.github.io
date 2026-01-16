@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bader el Berkaoui | Ingénieur Génie Électrique</title>
+    <title>Bader el Berkaoui | Portfolio Ingénieur</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -11,12 +11,12 @@
 
     <style>
         :root {
-            --bg-dark: #050a14;
-            --primary: #00f2ff; /* Cyan Électrique */
-            --secondary: #2979ff; /* Bleu Laser */
-            --text-main: #ffffff;
-            --text-muted: #a0aec0;
-            --glass: rgba(255, 255, 255, 0.05);
+            --bg-dark: #020617;
+            --primary: #00f2ff;
+            --secondary: #4361ee;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass: rgba(255, 255, 255, 0.03);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -30,178 +30,196 @@
             position: relative;
         }
 
-        /* --- FOND FLUX ÉLECTRIQUE --- */
-        #energy-canvas {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2; opacity: 0.7;
+        /* --- ARRIÈRE-PLAN TECHNIQUE --- */
+        .tech-grid {
+            position: absolute; width: 100%; height: 100%; bottom: 0;
+            background-image: linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg) translateY(100px) scale(2);
+            z-index: -2; opacity: 0.3;
         }
-        .vignette {
-            position: absolute; width: 100%; height: 100%; top: 0; left: 0;
-            background: radial-gradient(circle, transparent 40%, #050a14 95%);
+        
+        .glow-spot {
+            position: absolute; top: -20%; right: -10%; width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(67, 97, 238, 0.15), transparent 70%);
             z-index: -1; pointer-events: none;
         }
 
-        /* --- NAV (Centrée et "Décortiquée" avec icônes) --- */
+        /* --- NAV (Large et Espacée) --- */
         nav {
-            position: fixed; top: 0; width: 100%; z-index: 1000; padding: 20px 5%;
-            display: flex; justify-content: center; /* Centre tout le menu */
-            align-items: center;
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            background: rgba(5, 10, 20, 0.6);
+            position: fixed; top: 0; width: 100%; z-index: 1000; padding: 25px 5%;
+            display: flex; justify-content: center;
+            backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-
-        .nav-container {
-            display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1200px;
-        }
-
-        .nav-links { display: flex; gap: 40px; list-style: none; padding: 0; margin: 0; }
         
+        .nav-links { display: flex; gap: 40px; list-style: none; }
         .nav-links a { 
-            color: #b0c4de; text-decoration: none; font-weight: 500; font-size: 0.85rem;
+            color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.9rem;
             text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
-            display: flex; align-items: center; gap: 8px; /* Espace entre icône et texte */
+            display: flex; align-items: center; gap: 8px;
         }
-        
-        .nav-links a i { font-size: 1rem; color: var(--primary); opacity: 0.7; transition: 0.3s; }
-        
+        .nav-links a i { color: var(--primary); font-size: 1rem; opacity: 0.8; }
         .nav-links a:hover { color: #fff; }
-        .nav-links a:hover i { opacity: 1; text-shadow: 0 0 10px var(--primary); transform: translateY(-2px); }
-        .nav-links a.active { color: #fff; border-bottom: 2px solid var(--primary); padding-bottom: 5px; }
+        .nav-links a.active { color: #fff; border-bottom: 2px solid var(--primary); }
 
-        .btn-contact {
-            padding: 8px 25px; border: 1px solid rgba(0, 242, 255, 0.3);
-            color: var(--primary); border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 0.9rem;
-            transition: 0.3s; background: rgba(0, 242, 255, 0.05); display: flex; align-items: center; gap: 8px;
-        }
-        .btn-contact:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px var(--primary); }
-
-        /* --- HERO --- */
-        .hero {
-            height: 100vh; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; text-align: center;
-            padding: 60px 20px 0; z-index: 1;
+        /* --- STRUCTURE SPLIT (Gauche / Droite) --- */
+        .hero-container {
+            display: grid; grid-template-columns: 1.2fr 1fr; /* Gauche plus large */
+            height: 100vh; max-width: 1400px; margin: 0 auto;
+            padding: 0 5%; align-items: center;
         }
 
-        /* PHOTO */
-        .profile-wrapper {
-            position: relative; width: 260px; height: 260px; margin-bottom: 35px;
-            display: flex; justify-content: center; align-items: center;
-        }
-        .energy-ring {
-            position: absolute; width: 100%; height: 100%; border-radius: 50%;
-            border: 2px solid transparent; border-top-color: var(--primary); border-right-color: var(--primary);
-            animation: spin 4s linear infinite; box-shadow: 0 0 25px rgba(0, 242, 255, 0.2);
-        }
-        .energy-ring::before {
-            content:''; position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px; border-radius: 50%;
-            border: 2px solid transparent; border-bottom-color: var(--secondary); border-left-color: var(--secondary);
-            animation: spin 6s linear infinite reverse;
-        }
-        .profile-container {
-            width: 230px; height: 230px; border-radius: 50%;
-            background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative; z-index: 2;
-        }
-        .hero-img {
-            width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transform: scale(1.05);
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* --- GAUCHE : TEXTE --- */
+        .hero-text { padding-right: 50px; z-index: 2; }
 
-        /* BIENVENUE (Nouvelle Écriture) */
-        .welcome-badge {
-            font-family: 'Outfit', sans-serif;
-            display: inline-block; padding: 10px 30px;
-            background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.08));
-            border-top: 1px solid rgba(255,255,255,0.2);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            border-radius: 50px; color: #fff; font-size: 1rem; font-weight: 300;
-            letter-spacing: 1px; margin-bottom: 20px; backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        .badge-welcome {
+            display: inline-flex; align-items: center; gap: 10px; padding: 8px 20px;
+            background: var(--glass); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 30px; color: var(--primary); font-size: 0.9rem; font-weight: 600;
+            margin-bottom: 25px;
         }
-        .welcome-badge i { color: #ffd700; margin-right: 8px; }
 
-        .hero h1 { 
-            font-size: 4.8rem; margin-bottom: 15px; font-weight: 800; letter-spacing: -2px; line-height: 1;
-            background: linear-gradient(180deg, #fff 20%, #90cdf4 100%); 
+        h1 {
+            font-size: 5rem; line-height: 1.1; margin-bottom: 20px; font-weight: 800;
+            background: linear-gradient(to right, #fff, #94a3b8);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .subtitle { font-size: 1.5rem; color: #b0c4de; margin-bottom: 50px; font-weight: 300; min-height: 60px; max-width: 900px; line-height: 1.5; }
-        .highlight { color: var(--primary); font-weight: 600; text-shadow: 0 0 20px rgba(0, 242, 255, 0.4); }
+        .subtitle-box {
+            font-size: 1.5rem; color: var(--text-muted); margin-bottom: 40px;
+            min-height: 80px; /* Force la hauteur pour éviter les sauts */
+            display: flex; align-items: center;
+        }
+        .highlight { color: var(--primary); font-weight: 700; margin-left: 8px; }
 
-        /* BOUTONS */
-        .hero-btns { display: flex; gap: 25px; align-items: center; }
-        
-        .btn-main {
-            padding: 15px 40px; background: var(--primary); color: #050a14;
-            border-radius: 50px; text-decoration: none; font-weight: 700; text-transform: uppercase;
-            box-shadow: 0 0 25px rgba(0, 242, 255, 0.4); transition: 0.3s; font-size: 0.95rem;
+        .btn-group { display: flex; gap: 20px; }
+        .btn-primary {
+            padding: 15px 35px; background: var(--primary); color: #000;
+            border-radius: 5px; font-weight: 700; text-decoration: none; text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.3); transition: 0.3s;
         }
-        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 0 50px rgba(0, 242, 255, 0.7); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 0 40px rgba(0, 242, 255, 0.6); }
         
-        .btn-outline {
-            padding: 14px 40px; border: 1px solid rgba(255,255,255,0.3); color: #fff;
-            border-radius: 50px; text-decoration: none; font-weight: 600; text-transform: uppercase;
-            background: transparent; transition: 0.3s; font-size: 0.95rem; display: flex; align-items: center; gap: 10px;
+        .btn-secondary {
+            padding: 15px 35px; border: 1px solid rgba(255,255,255,0.2); color: #fff;
+            border-radius: 5px; font-weight: 600; text-decoration: none; text-transform: uppercase;
+            background: transparent; transition: 0.3s; display: flex; align-items: center; gap: 10px;
         }
-        .btn-outline:hover { border-color: var(--primary); color: var(--primary); background: rgba(0, 242, 255, 0.05); }
+        .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* --- DROITE : PHOTO & ELEMENTS FLOTTANTS --- */
+        .hero-visual {
+            position: relative; display: flex; justify-content: center; align-items: center;
+            height: 100%;
+        }
+
+        /* Cercle principal */
+        .photo-wrapper {
+            width: 400px; height: 400px; position: relative;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .circle-dashed {
+            position: absolute; width: 100%; height: 100%; border-radius: 50%;
+            border: 2px dashed rgba(255,255,255,0.1); animation: rotate 30s linear infinite;
+        }
+        .photo-crop {
+            width: 350px; height: 350px; border-radius: 50%; overflow: hidden;
+            background: radial-gradient(circle, rgba(255,255,255,0.05), transparent);
+            border: 1px solid rgba(0, 242, 255, 0.3); position: relative; z-index: 2;
+        }
+        .hero-img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transform: scale(1.1); }
+
+        /* Cartes flottantes (Pour répartir l'info) */
+        .float-card {
+            position: absolute; padding: 10px 20px; background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(0, 242, 255, 0.3); border-radius: 12px;
+            display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px); animation: float 6s ease-in-out infinite; z-index: 3;
+        }
+        .float-card i { color: var(--primary); font-size: 1.2rem; }
+        .float-card span { font-size: 0.9rem; font-weight: 600; color: #fff; }
+
+        /* Positions des cartes */
+        .card-1 { top: 20%; left: -10%; animation-delay: 0s; } /* Automatisme */
+        .card-2 { top: 50%; right: -15%; animation-delay: 2s; } /* Embarqué */
+        .card-3 { bottom: 15%; left: 0%; animation-delay: 1s; } /* Énergie */
+
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
         /* MOBILE */
-        @media (max-width: 900px) {
-            .nav-container { justify-content: center; }
-            .nav-links { display: none; } /* On cache les liens sur mobile pour simplifier */
-            .btn-contact { position: absolute; top: 20px; right: 20px; }
-            
-            .hero h1 { font-size: 3rem; }
-            .subtitle { font-size: 1.1rem; padding: 0 20px; }
-            .hero-btns { flex-direction: column; gap: 15px; }
-            .btn-main, .btn-outline { width: 100%; justify-content: center; }
+        @media (max-width: 1024px) {
+            .hero-container { grid-template-columns: 1fr; text-align: center; padding-top: 100px; }
+            .hero-text { padding-right: 0; margin-bottom: 50px; }
+            .btn-group { justify-content: center; }
+            .subtitle-box { justify-content: center; flex-direction: column; }
+            .photo-wrapper { width: 300px; height: 300px; margin: 0 auto; }
+            .photo-crop { width: 260px; height: 260px; }
+            .nav-links { display: none; } /* Menu mobile simplifié */
+            h1 { font-size: 3.5rem; }
+            /* On cache les cartes flottantes sur mobile pour pas surcharger */
+            .float-card { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <canvas id="energy-canvas"></canvas>
-    <div class="vignette"></div>
+    <div class="tech-grid"></div>
+    <div class="glow-spot"></div>
 
     <nav>
-        <div class="nav-container">
-            <ul class="nav-links">
-                <li><a href="index.html" class="active"><i class="fas fa-home"></i> Accueil</a></li>
-                <li><a href="parcours.html"><i class="fas fa-graduation-cap"></i> Parcours</a></li>
-                <li><a href="experiences.html"><i class="fas fa-briefcase"></i> Expérience</a></li>
-                <li><a href="competences.html"><i class="fas fa-microchip"></i> Compétences</a></li>
-                <li><a href="projets.html"><i class="fas fa-project-diagram"></i> Projets</a></li>
-            </ul>
-            
-            <a href="contact.html" class="btn-contact"><i class="fas fa-paper-plane"></i> Contact</a>
-        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active"><i class="fas fa-home"></i> Accueil</a></li>
+            <li><a href="parcours.html"><i class="fas fa-graduation-cap"></i> Parcours</a></li>
+            <li><a href="experiences.html"><i class="fas fa-briefcase"></i> Expérience</a></li>
+            <li><a href="competences.html"><i class="fas fa-microchip"></i> Compétences</a></li>
+            <li><a href="projets.html"><i class="fas fa-project-diagram"></i> Projets</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
     </nav>
 
-    <section class="hero" data-aos="fade-up">
+    <div class="hero-container">
         
-        <div class="profile-wrapper">
-            <div class="energy-ring"></div>
-            <div class="profile-container">
-                <img src="profilee.png" alt="Bader el Berkaoui" class="hero-img">
+        <div class="hero-text" data-aos="fade-right">
+            <div class="badge-welcome"><i class="fas fa-check-circle"></i> Portfolio Officiel</div>
+            <h1>Bader el<br>Berkaoui</h1>
+            
+            <div class="subtitle-box">
+                Ingénieur Génie Électrique passionné par : <br>
+                <span class="highlight" id="typed-text"></span>
+            </div>
+
+            <div class="btn-group">
+                <a href="projets.html" class="btn-primary">Mes Projets</a>
+                <a href="parcours.html" class="btn-secondary"><i class="fas fa-user-astronaut"></i> Mon Parcours</a>
             </div>
         </div>
 
-        <div class="welcome-badge"><i class="fas fa-star"></i> Bienvenue sur mon Portfolio Professionnel</div>
+        <div class="hero-visual" data-aos="fade-left">
+            <div class="photo-wrapper">
+                <div class="circle-dashed"></div>
+                
+                <div class="photo-crop">
+                    <img src="profilee.png" alt="Bader el Berkaoui" class="hero-img">
+                </div>
 
-        <h1>Bader el Berkaoui</h1>
-
-        <div class="subtitle">
-            Ingénieur en Génie Électrique passionné par <br>
-            <span class="highlight" id="typed-text"></span>
+                <div class="float-card card-1">
+                    <i class="fas fa-robot"></i>
+                    <span>Automatisation</span>
+                </div>
+                <div class="float-card card-2">
+                    <i class="fas fa-car-battery"></i>
+                    <span>Systèmes Embarqués</span>
+                </div>
+                <div class="float-card card-3">
+                    <i class="fas fa-solar-panel"></i>
+                    <span>Énergies Renouvelables</span>
+                </div>
+            </div>
         </div>
 
-        <div class="hero-btns">
-            <a href="projets.html" class="btn-main">Voir mes Projets</a>
-            <a href="parcours.html" class="btn-outline"><i class="fas fa-user-graduate"></i> Mon Parcours</a>
-        </div>
-    </section>
+    </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
@@ -209,63 +227,19 @@
     <script>
         AOS.init({ duration: 1000, once: true });
 
-        // TEXTE DYNAMIQUE MIS À JOUR
         var typed = new Typed('#typed-text', {
             strings: [
                 "les Installations CFO/CFA.",
-                "l'Automatisation & Maintenance.",
-                "les Systèmes Embarqués & Automobile.",
-                "les Énergies Renouvelables."
+                "les Systèmes Embarqués & Automobile.", /* Affiché ensemble comme demandé */
+                "l'Automatisation Industrielle.",
+                "l'Intelligence Artificielle."
             ],
-            typeSpeed: 30, backSpeed: 15, backDelay: 2000, loop: true
+            typeSpeed: 30,
+            backSpeed: 15,
+            backDelay: 2000,
+            loop: true,
+            showCursor: true
         });
-
-        // --- ANIMATION FLUX D'ÉNERGIE (Optimisée) ---
-        const canvas = document.getElementById('energy-canvas');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
-
-        function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-        
-        class EnergyParticle {
-            constructor() { this.reset(); }
-            reset() {
-                this.x = Math.random() * width; this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 1.5; this.vy = (Math.random() - 0.5) * 1.5;
-                this.size = Math.random() * 2 + 1;
-                this.life = Math.random() * 100; this.maxLife = 100;
-            }
-            update() {
-                this.x += this.vx; this.y += this.vy; this.life++;
-                if (this.life > this.maxLife || this.x < 0 || this.x > width || this.y < 0 || this.y > height) this.reset();
-            }
-            draw() {
-                ctx.beginPath(); ctx.moveTo(this.x, this.y);
-                ctx.lineTo(this.x - this.vx * 3, this.y - this.vy * 3);
-                ctx.strokeStyle = `rgba(0, 242, 255, ${1 - this.life/this.maxLife})`;
-                ctx.lineWidth = this.size; ctx.stroke();
-            }
-        }
-        function init() { particles = []; for(let i=0; i<50; i++) particles.push(new EnergyParticle()); }
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            for(let i=0; i<particles.length; i++) {
-                let p = particles[i]; p.update(); p.draw();
-                for(let j=i; j<particles.length; j++) {
-                    let p2 = particles[j];
-                    let d = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if(d < 100) {
-                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y);
-                        ctx.strokeStyle = `rgba(0, 242, 255, ${0.15 * (1 - d/100)})`;
-                        ctx.lineWidth = 0.5; ctx.stroke();
-                    }
-                }
-            }
-            requestAnimationFrame(animate);
-        }
-        window.addEventListener('resize', () => { resize(); init(); });
-        resize(); init(); animate();
     </script>
 </body>
 </html>
