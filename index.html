@@ -2,102 +2,196 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Bader el Berkaoui | Ingénieur Génie Électrique</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bader el Berkaoui | Ingénieur Génie Électrique et Controle industriel </title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <style>
         :root {
-            --dark: #0f172a; --primary: #38bdf8; --text: #f1f5f9;
+            --bg-dark: #020617; /* Noir bleuté très profond */
+            --primary: #38bdf8; /* Bleu Ciel */
+            --secondary: #6366f1; /* Indigo vibrant */
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
         }
-        * { margin:0; box-sizing:border-box; font-family:'Outfit', sans-serif; }
-        
-        body { background: var(--dark); color: var(--text); overflow-x: hidden; }
 
-        /* NAVIGATION FIXE */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden; /* Pas de scroll sur l'accueil pour l'effet "Poster" */
+            position: relative;
+        }
+
+        /* --- FOND ANIMÉ (Le "Décor" amélioré) --- */
+        .background-glow {
+            position: absolute; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            top: -100px; right: -100px; border-radius: 50%; z-index: -1;
+            animation: pulse 10s infinite alternate;
+        }
+        .background-glow-2 {
+            position: absolute; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.1) 0%, transparent 70%);
+            bottom: -100px; left: -100px; border-radius: 50%; z-index: -1;
+            animation: pulse 8s infinite alternate-reverse;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        /* --- NAVIGATION --- */
         nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 20px 5%;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 5%; position: fixed; width: 100%; top: 0;
-            background: rgba(15, 23, 42, 0.95); z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .logo { font-weight: 800; font-size: 1.5rem; color: #fff; text-decoration: none; }
-        .logo span { color: var(--primary); }
-        
-        .nav-links { display: flex; gap: 30px; list-style: none; }
-        .nav-links a { color: #94a3b8; text-decoration: none; font-weight: 500; transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary); }
-        
-        .btn-cta { 
-            padding: 10px 25px; background: var(--primary); color: var(--dark); 
-            border-radius: 50px; text-decoration: none; font-weight: 700;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* HERO SECTION */
+        .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; letter-spacing: -0.5px; }
+        .logo span { background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { 
+            color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem;
+            transition: 0.3s; position: relative;
+        }
+        .nav-links a:hover, .nav-links a.active { color: #fff; text-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
+
+        .btn-contact {
+            padding: 10px 25px; 
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: #fff; border-radius: 50px; text-decoration: none; font-weight: 700;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); transition: 0.3s;
+        }
+        .btn-contact:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(56, 189, 248, 0.5); }
+
+        /* --- HERO SECTION --- */
         .hero {
             height: 100vh; display: flex; align-items: center; justify-content: space-between;
-            padding: 0 10%; margin-top: 60px;
+            padding: 0 10%; max-width: 1400px; margin: 0 auto;
         }
-        
-        .hero-text { flex: 1; padding-right: 50px; }
-        .hero-text h1 { font-size: 4rem; line-height: 1.1; margin-bottom: 20px; }
-        .hero-text h1 span { color: var(--primary); }
-        .hero-text p { font-size: 1.2rem; color: #94a3b8; margin-bottom: 30px; max-width: 500px; }
-        
-        .hero-btns { display: flex; gap: 20px; }
-        .btn-outline { 
-            padding: 12px 30px; border: 2px solid var(--primary); color: var(--primary);
-            border-radius: 50px; text-decoration: none; font-weight: 600; transition: 0.3s;
-        }
-        .btn-outline:hover { background: var(--primary); color: var(--dark); }
 
-        /* IMAGE PROFIL */
-        .hero-img-container { flex: 1; display: flex; justify-content: center; }
-        .hero-img {
-            width: 400px; height: 400px; object-fit: cover; border-radius: 50%;
-            border: 5px solid rgba(56, 189, 248, 0.3);
-            box-shadow: 0 0 50px rgba(56, 189, 248, 0.2);
+        /* Texte (Gauche) */
+        .hero-content { flex: 1; z-index: 2; padding-right: 20px; }
+        
+        .tagline {
+            display: inline-block; padding: 6px 12px; border-radius: 20px;
+            background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.2);
+            color: var(--primary); font-size: 0.85rem; font-weight: 600; letter-spacing: 1px;
+            margin-bottom: 20px; text-transform: uppercase;
         }
+
+        .hero h1 { 
+            font-size: 4.5rem; line-height: 1.1; margin-bottom: 25px; font-weight: 800;
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #fff 30%, var(--primary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .hero p { color: var(--text-muted); font-size: 1.15rem; line-height: 1.6; margin-bottom: 40px; max-width: 550px; }
+
+        .hero-btns { display: flex; gap: 20px; }
+        .btn-glass {
+            padding: 14px 35px; border: 1px solid rgba(255,255,255,0.1); color: #fff;
+            border-radius: 50px; text-decoration: none; font-weight: 600; transition: 0.3s;
+            background: rgba(255,255,255,0.03); backdrop-filter: blur(5px);
+        }
+        .btn-glass:hover { border-color: var(--primary); background: rgba(56, 189, 248, 0.1); color: var(--primary); }
+
+        /* Photo (Droite) */
+        .hero-image-container { 
+            flex: 1; display: flex; justify-content: center; position: relative; 
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* Le cercle lumineux derrière la photo */
+        .hero-image-bg {
+            position: absolute; width: 450px; height: 450px;
+            background: radial-gradient(closest-side, rgba(56, 189, 248, 0.15), transparent);
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+
+        .hero-img {
+            width: 420px; /* Taille ajustée */
+            height: auto;
+            /* Pas de border-radius 50% ici si l'image est détourée (transparente), sinon remettre 50% */
+            filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.3)); /* Ombre portée lumineuse */
+            transition: 0.5s;
+        }
+        .hero-img:hover { filter: drop-shadow(0 0 50px rgba(99, 102, 241, 0.5)); transform: scale(1.02); }
 
         /* MOBILE */
-        @media (max-width: 768px) {
-            .hero { flex-direction: column-reverse; justify-content: center; text-align: center; }
-            .hero-text { padding: 0; margin-top: 30px; }
-            .hero-text h1 { font-size: 3rem; }
-            .nav-links { display: none; } /* Menu caché sur mobile pour simplifier */
-            .hero-img { width: 250px; height: 250px; }
+        @media (max-width: 900px) {
+            body { overflow-y: auto; height: auto; }
+            .hero { flex-direction: column-reverse; justify-content: center; text-align: center; padding: 120px 5% 60px; height: auto; }
+            .hero-content { padding-right: 0; }
+            .hero h1 { font-size: 3rem; }
+            .hero-btns { justify-content: center; }
+            .hero-img { width: 300px; margin-bottom: 40px; }
+            .background-glow { width: 300px; height: 300px; }
+            .nav-links { display: none; } /* Menu caché sur mobile */
         }
     </style>
 </head>
 <body>
 
+    <div class="background-glow"></div>
+    <div class="background-glow-2"></div>
+
     <nav>
         <a href="index.html" class="logo">Bader<span>.Dev</span></a>
         <ul class="nav-links">
-            <li><a href="index.html" style="color:#fff">Accueil</a></li>
-            <li><a href="parcours.html">Parcours</a></li>
-            <li><a href="experiences.html">Expériences</a></li>
+            <li><a href="index.html" class="active">Accueil</a></li>
+            <li><a href="parcours.html">Formation</a></li>
+            <li><a href="experiences.html">Expérience</a></li>
             <li><a href="projets.html">Projets</a></li>
             <li><a href="competences.html">Compétences</a></li>
         </ul>
-        <a href="contact.html" class="btn-cta">Me Contacter</a>
+        <a href="contact.html" class="btn-contact">Me Contacter</a>
     </nav>
 
     <section class="hero">
-        <div class="hero-text">
-            <h4>INGÉNIEUR GÉNIE ÉLECTRIQUE</h4>
-            <h1>Bader el<br><span>Berkaoui</span></h1>
-            <p>Spécialisé en Innovation Durable, Automatisme Avancé et Systèmes Intelligents.</p>
-            
+        
+        <div class="hero-content" data-aos="fade-right">
+            <span class="tagline">Ingénieur Génie Électrique</span>
+            <h1>Bader el<br><span class="text-gradient">Berkaoui</span></h1>
+            <p>
+                Passionné par l'innovation durable et les systèmes intelligents. 
+                Je transforme des concepts complexes en solutions industrielles performantes.
+            </p>
             <div class="hero-btns">
-                <a href="projets.html" class="btn-cta">Voir mes Projets</a>
-                <a href="parcours.html" class="btn-outline">Mon Parcours</a>
+                <a href="projets.html" class="btn-contact">Voir mes Projets</a>
+                <a href="parcours.html" class="btn-glass">Mon Parcours</a>
             </div>
         </div>
 
-        <div class="hero-img-container">
-            <img src="profil.jpg" alt="Photo de Bader" class="hero-img" onerror="this.src='https://placehold.co/400x400/1e293b/38bdf8?text=Mets+ta+photo+profil.jpg'">
+        <div class="hero-image-container" data-aos="fade-left">
+            <div class="hero-image-bg"></div>
+            <img src="profil.png" alt="Bader el Berkaoui" class="hero-img" onerror="this.style.display='none'; alert('Image profil.png non trouvée ! Vérifie le nom sur GitHub.');">
         </div>
+
     </section>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, offset: 50, once: true });
+    </script>
 </body>
 </html>
