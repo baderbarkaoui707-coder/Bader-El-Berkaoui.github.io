@@ -17,7 +17,6 @@
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --border: rgba(255, 255, 255, 0.1);
-            --glass: rgba(15, 23, 42, 0.6);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,12 +37,12 @@
             background-size: 50px 50px;
         }
 
-        /* NAV (Style identique à l'accueil) */
+        /* NAV */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000; padding: 20px 5%;
             display: flex; justify-content: center;
             backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
-            background: rgba(2, 6, 23, 0.85);
+            background: rgba(2, 6, 23, 0.9);
         }
         .nav-links { display: flex; gap: 40px; list-style: none; }
         .nav-links a { 
@@ -60,76 +59,54 @@
         }
         .header-section h1 { font-size: 3rem; font-weight: 800; margin-bottom: 15px; }
         .highlight { color: var(--primary); text-shadow: 0 0 20px rgba(0, 242, 255, 0.3); }
-        .intro-text { font-size: 1.1rem; color: #cbd5e1; font-weight: 300; }
 
-        /* CONTAINER PRINCIPAL */
+        /* CONTAINER */
         .exp-container {
-            max-width: 1000px; margin: 0 auto 100px; padding: 0 20px;
+            max-width: 900px; margin: 0 auto 100px; padding: 0 20px;
             display: flex; flex-direction: column; gap: 80px;
         }
 
-        /* CARTE EXPÉRIENCE */
+        /* CARTE (Nouveau Design avec Grande Photo) */
         .exp-card {
-            background: var(--glass); border: 1px solid var(--border);
-            border-radius: 20px; padding: 35px; backdrop-filter: blur(10px); transition: 0.3s;
-            position: relative; overflow: hidden;
+            background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border);
+            border-radius: 20px; overflow: hidden; /* Important pour que l'image ne dépasse pas */
+            backdrop-filter: blur(10px); transition: 0.3s;
         }
         .exp-card:hover { border-color: var(--primary); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); }
 
-        /* En-tête de carte */
-        .exp-header { margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        /* IMAGE PRINCIPALE (Grande taille) */
+        .featured-img {
+            width: 100%; height: 300px; /* Hauteur fixe pour uniformiser */
+            object-fit: cover; border-bottom: 1px solid var(--border);
+            transition: 0.5s;
+        }
+        .exp-card:hover .featured-img { transform: scale(1.02); }
+
+        /* CONTENU DE LA CARTE */
+        .card-content { padding: 30px; }
+
+        .exp-header { margin-bottom: 15px; }
         .exp-info h2 { font-size: 1.8rem; color: #fff; margin-bottom: 5px; }
         .exp-role { 
             color: var(--primary); font-weight: 700; text-transform: uppercase; 
-            font-size: 0.9rem; letter-spacing: 1px; display: block; margin-bottom: 5px;
+            font-size: 0.9rem; letter-spacing: 1px; display: block; 
         }
+
         .exp-desc { color: #cbd5e1; line-height: 1.7; font-size: 1.05rem; margin-bottom: 25px; }
 
-        /* TAGS TECHNOLOGIQUES */
-        .tech-stack { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+        /* TAGS */
+        .tech-stack { display: flex; flex-wrap: wrap; gap: 10px; }
         .tech-badge {
             padding: 8px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 600;
             background: rgba(0, 242, 255, 0.05); color: var(--primary); border: 1px solid rgba(0, 242, 255, 0.2);
             display: flex; align-items: center; gap: 6px;
         }
 
-        /* --- STYLE GALERIE (ALBUM) --- */
-        .gallery-section {
-            background: rgba(0, 0, 0, 0.3); border-radius: 15px; padding: 20px; border: 1px solid var(--border);
-        }
-        .gallery-label { 
-            font-size: 0.9rem; color: #94a3b8; margin-bottom: 15px; display: block; 
-            text-transform: uppercase; font-weight: 700; letter-spacing: 1px;
-        }
-        
-        /* SCROLL HORIZONTAL (Pour les stages) */
-        .gallery-scroll {
-            display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px;
-            scroll-behavior: smooth;
-        }
-        .gallery-scroll::-webkit-scrollbar { height: 8px; }
-        .gallery-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
-        .gallery-scroll::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-
-        .gallery-item {
-            min-width: 280px; height: 180px; border-radius: 10px; overflow: hidden;
-            border: 1px solid var(--border); transition: 0.3s; position: relative;
-        }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .gallery-item:hover { border-color: var(--primary); }
-        .gallery-item:hover img { transform: scale(1.1); }
-
-        /* GRILLE (Pour le Club) */
-        .robot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-        .robot-img { height: 160px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); transition: 0.3s; }
-        .robot-img:hover { transform: translateY(-5px); border-color: var(--secondary); }
-        .robot-img img { width: 100%; height: 100%; object-fit: cover; }
-
         /* MOBILE */
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .gallery-item { min-width: 220px; height: 140px; }
-            .robot-grid { grid-template-columns: 1fr 1fr; }
+            .featured-img { height: 200px; }
+            .header-section h1 { font-size: 2.2rem; }
         }
     </style>
 </head>
@@ -158,110 +135,88 @@
     <div class="exp-container">
 
         <article class="exp-card" data-aos="fade-up">
-            <div class="exp-header">
-                <h2>EM ENERGIE</h2>
-                <span class="exp-role">Stage PFE - Ingénieur Électrique</span>
-            </div>
+            <img src="em.jpg" alt="Projet EM Energie" class="featured-img" onerror="this.style.display='none'">
             
-            <p class="exp-desc">
-                Conception complète d'une installation électrique industrielle. Réalisation des notes de calculs, 
-                plans d'implantation et simulation d'éclairage pour optimiser l'efficacité énergétique.
-            </p>
+            <div class="card-content">
+                <div class="exp-header">
+                    <h2>EM ENERGIE</h2>
+                    <span class="exp-role">Stage PFE - Ingénieur Électrique</span>
+                </div>
+                
+                <p class="exp-desc">
+                    Conception complète d'une installation électrique industrielle. Réalisation des notes de calculs, 
+                    plans d'implantation et simulation d'éclairage pour optimiser l'efficacité énergétique.
+                </p>
 
-            <div class="tech-stack">
-                <span class="tech-badge"><i class="fas fa-bolt"></i> Caneco BT</span>
-                <span class="tech-badge"><i class="fas fa-drafting-compass"></i> AutoCAD</span>
-                <span class="tech-badge"><i class="fas fa-lightbulb"></i> Dialux Evo</span>
-            </div>
-
-            <div class="gallery-section">
-                <span class="gallery-label"><i class="fas fa-images"></i> Album du Projet</span>
-                <div class="gallery-scroll">
-                    <div class="gallery-item"><img src="em1.jpg" alt="Plan AutoCAD" onerror="this.src='https://via.placeholder.com/300x200?text=Image+1'"></div>
-                    <div class="gallery-item"><img src="em2.jpg" alt="Simulation Dialux" onerror="this.src='https://via.placeholder.com/300x200?text=Image+2'"></div>
-                    <div class="gallery-item"><img src="em3.jpg" alt="Note de Calcul" onerror="this.src='https://via.placeholder.com/300x200?text=Image+3'"></div>
-                    <div class="gallery-item"><img src="em4.jpg" alt="Installation" onerror="this.src='https://via.placeholder.com/300x200?text=Image+4'"></div>
-                    <div class="gallery-item"><img src="em5.jpg" alt="Rendu Final" onerror="this.src='https://via.placeholder.com/300x200?text=Image+5'"></div>
+                <div class="tech-stack">
+                    <span class="tech-badge"><i class="fas fa-bolt"></i> Caneco BT</span>
+                    <span class="tech-badge"><i class="fas fa-drafting-compass"></i> AutoCAD</span>
+                    <span class="tech-badge"><i class="fas fa-lightbulb"></i> Dialux Evo</span>
                 </div>
             </div>
         </article>
 
         <article class="exp-card" data-aos="fade-up">
-            <div class="exp-header">
-                <h2>SRM</h2>
-                <span class="exp-role">Stage Technique - Maintenance & GMAO</span>
-            </div>
-            
-            <p class="exp-desc">
-                Optimisation des processus de maintenance via la mise en place d'une solution <strong>GMAO</strong>. 
-                Gestion des interventions préventives et analyse des pannes pour réduire les temps d'arrêt.
-            </p>
+            <img src="srm.jpg" alt="Projet SRM" class="featured-img" onerror="this.style.display='none'">
 
-            <div class="tech-stack">
-                <span class="tech-badge"><i class="fas fa-laptop-code"></i> GMAO</span>
-                <span class="tech-badge"><i class="fas fa-tools"></i> Maintenance</span>
-                <span class="tech-badge"><i class="fas fa-cogs"></i> Gestion Tech</span>
-            </div>
+            <div class="card-content">
+                <div class="exp-header">
+                    <h2>SRM</h2>
+                    <span class="exp-role">Stage Technique - Maintenance & GMAO</span>
+                </div>
+                
+                <p class="exp-desc">
+                    Optimisation des processus de maintenance via la mise en place d'une solution <strong>GMAO</strong>. 
+                    Gestion des interventions préventives et analyse des pannes pour réduire les temps d'arrêt.
+                </p>
 
-            <div class="gallery-section">
-                <span class="gallery-label"><i class="fas fa-tools"></i> Galerie Maintenance</span>
-                <div class="gallery-scroll">
-                    <div class="gallery-item"><img src="srm1.jpg" alt="Atelier SRM" onerror="this.src='https://via.placeholder.com/300x200?text=Atelier'"></div>
-                    <div class="gallery-item"><img src="srm2.jpg" alt="Intervention" onerror="this.src='https://via.placeholder.com/300x200?text=Intervention'"></div>
-                    <div class="gallery-item"><img src="srm3.jpg" alt="Logiciel GMAO" onerror="this.src='https://via.placeholder.com/300x200?text=GMAO'"></div>
+                <div class="tech-stack">
+                    <span class="tech-badge"><i class="fas fa-laptop-code"></i> GMAO</span>
+                    <span class="tech-badge"><i class="fas fa-tools"></i> Maintenance</span>
+                    <span class="tech-badge"><i class="fas fa-cogs"></i> Gestion Tech</span>
                 </div>
             </div>
         </article>
 
         <article class="exp-card" data-aos="fade-up">
-            <div class="exp-header">
-                <h2>EZZAHRI TECHNO SARL</h2>
-                <span class="exp-role">Câblage & Systèmes d'Irrigation</span>
-            </div>
-            
-            <p class="exp-desc">
-                Montage et câblage d'armoires de commande pour des systèmes de <strong>pompage solaire</strong> 
-                et d'irrigation intelligente pour l'École d'Agriculture de Settat.
-            </p>
+            <img src="zahri.jpg" alt="Projet Ezzahri" class="featured-img" onerror="this.style.display='none'">
 
-            <div class="tech-stack">
-                <span class="tech-badge"><i class="fas fa-random"></i> Câblage Industriel</span>
-                <span class="tech-badge"><i class="fas fa-solar-panel"></i> Énergie Solaire</span>
-                <span class="tech-badge"><i class="fas fa-water"></i> Irrigation</span>
-            </div>
+            <div class="card-content">
+                <div class="exp-header">
+                    <h2>EZZAHRI TECHNO SARL</h2>
+                    <span class="exp-role">Câblage & Systèmes d'Irrigation</span>
+                </div>
+                
+                <p class="exp-desc">
+                    Montage et câblage d'armoires de commande pour des systèmes de <strong>pompage solaire</strong> 
+                    et d'irrigation intelligente pour l'École d'Agriculture de Settat.
+                </p>
 
-            <div class="gallery-section">
-                <span class="gallery-label"><i class="fas fa-charging-station"></i> Réalisations</span>
-                <div class="gallery-scroll">
-                    <div class="gallery-item"><img src="zahri1.jpg" alt="Armoire Elec" onerror="this.src='https://via.placeholder.com/300x200?text=Armoire+1'"></div>
-                    <div class="gallery-item"><img src="zahri2.jpg" alt="Installation" onerror="this.src='https://via.placeholder.com/300x200?text=Armoire+2'"></div>
+                <div class="tech-stack">
+                    <span class="tech-badge"><i class="fas fa-random"></i> Câblage Industriel</span>
+                    <span class="tech-badge"><i class="fas fa-solar-panel"></i> Énergie Solaire</span>
+                    <span class="tech-badge"><i class="fas fa-water"></i> Irrigation</span>
                 </div>
             </div>
         </article>
 
-        <article class="exp-card" data-aos="fade-up" style="border-color: var(--secondary);">
-            <div class="exp-header">
-                <h2>Club Robothings FSTM</h2>
-                <span class="exp-role" style="color:var(--secondary);">Vice-Président & Chef de Projet</span>
-            </div>
-            
-            <p class="exp-desc">
-                Pilotage des projets robotiques, organisation de compétitions et formation des membres 
-                sur Arduino et l'impression 3D. Gestion d'équipe et leadership.
-            </p>
+        <article class="exp-card" data-aos="fade-up" style="border-top: 4px solid var(--secondary);">
+            <img src="club.jpg" alt="Club Robotique" class="featured-img" onerror="this.style.display='none'">
 
-            <div class="tech-stack">
-                <span class="tech-badge" style="color:var(--secondary); border-color:var(--secondary); background:rgba(67, 97, 238, 0.1)"><i class="fas fa-users"></i> Leadership</span>
-                <span class="tech-badge" style="color:var(--secondary); border-color:var(--secondary); background:rgba(67, 97, 238, 0.1)"><i class="fas fa-robot"></i> Robotique</span>
-            </div>
+            <div class="card-content">
+                <div class="exp-header">
+                    <h2>Club Robothings FSTM</h2>
+                    <span class="exp-role" style="color:var(--secondary);">Vice-Président & Chef de Projet</span>
+                </div>
+                
+                <p class="exp-desc">
+                    Pilotage des projets robotiques, organisation de compétitions et formation des membres 
+                    sur Arduino et l'impression 3D. Gestion d'équipe et leadership.
+                </p>
 
-            <div class="gallery-section">
-                <span class="gallery-label"><i class="fas fa-camera-retro"></i> Album Souvenirs</span>
-                <div class="robot-grid">
-                    <div class="robot-img"><img src="club1.jpg" alt="Club 1" onerror="this.src='https://via.placeholder.com/200?text=Club+1'"></div>
-                    <div class="robot-img"><img src="club2.jpg" alt="Club 2" onerror="this.src='https://via.placeholder.com/200?text=Club+2'"></div>
-                    <div class="robot-img"><img src="club3.jpg" alt="Club 3" onerror="this.src='https://via.placeholder.com/200?text=Club+3'"></div>
-                    <div class="robot-img"><img src="club4.jpg" alt="Club 4" onerror="this.style.display='none'"></div>
+                <div class="tech-stack">
+                    <span class="tech-badge" style="color:var(--secondary); border-color:var(--secondary); background:rgba(67, 97, 238, 0.1)"><i class="fas fa-users"></i> Leadership</span>
+                    <span class="tech-badge" style="color:var(--secondary); border-color:var(--secondary); background:rgba(67, 97, 238, 0.1)"><i class="fas fa-robot"></i> Robotique</span>
                 </div>
             </div>
         </article>
@@ -269,6 +224,6 @@
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script> AOS.init({ duration: 800, once: true }); </script>
+    <script> AOS.init(); </script>
 </body>
 </html>
