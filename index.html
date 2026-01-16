@@ -11,11 +11,11 @@
 
     <style>
         :root {
-            --bg-dark: #0b1121; /* Bleu nuit très sombre (plus élégant que le noir pur) */
-            --primary: #00e5ff; /* Cyan électrique */
-            --secondary: #2979ff; /* Bleu Roi */
-            --glass: rgba(255, 255, 255, 0.05);
-            --border: rgba(255, 255, 255, 0.1);
+            --bg-dark: #050a14;
+            --primary: #00f2ff; /* Cyan Électrique */
+            --secondary: #2979ff; /* Bleu Laser */
+            --text-main: #ffffff;
+            --text-muted: #a0aec0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,152 +23,120 @@
         body {
             font-family: 'Outfit', sans-serif;
             background-color: var(--bg-dark);
-            color: #fff;
+            color: var(--text-main);
             height: 100vh;
             overflow: hidden;
             position: relative;
         }
 
-        /* --- FOND CIRCUIT ÉLECTRIQUE --- */
-        #circuit-canvas {
+        /* --- FOND FLUX ÉLECTRIQUE --- */
+        #energy-canvas {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2; opacity: 0.4;
+            z-index: -2; opacity: 0.8;
         }
         
-        /* Vignette sombre pour focus sur le centre */
+        /* Vignette pour assombrir les bords */
         .vignette {
             position: absolute; width: 100%; height: 100%; top: 0; left: 0;
-            background: radial-gradient(circle, transparent 40%, var(--bg-dark) 90%);
+            background: radial-gradient(circle, transparent 30%, #050a14 90%);
             z-index: -1; pointer-events: none;
         }
 
-        /* --- NAVIGATION --- */
+        /* --- NAV --- */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000; padding: 25px 5%;
             display: flex; justify-content: space-between; align-items: center;
         }
 
-        .logo { 
-            font-size: 1.4rem; font-weight: 700; color: #fff; text-decoration: none; 
-            letter-spacing: 1px; text-transform: uppercase;
-        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
         .logo span { color: var(--primary); font-weight: 300; }
 
         .nav-links { display: flex; gap: 30px; list-style: none; }
         .nav-links a { 
-            color: #b0c4de; text-decoration: none; font-weight: 500; font-size: 0.9rem;
+            color: #a0aec0; text-decoration: none; font-weight: 500; font-size: 0.9rem;
             text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
         }
-        .nav-links a:hover { color: var(--primary); text-shadow: 0 0 8px var(--primary); }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
 
         .btn-contact {
             padding: 10px 25px; border: 1px solid var(--primary);
-            color: var(--primary); border-radius: 5px; text-decoration: none; font-weight: 600;
-            transition: 0.3s; background: rgba(0, 229, 255, 0.05);
+            color: var(--primary); border-radius: 4px; text-decoration: none; font-weight: 600;
+            transition: 0.3s; background: rgba(0, 242, 255, 0.05);
         }
         .btn-contact:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px var(--primary); }
 
-        /* --- HERO SECTION --- */
+        /* --- HERO --- */
         .hero {
             height: 100vh; display: flex; flex-direction: column; 
             justify-content: center; align-items: center; text-align: center;
             padding: 0 20px; z-index: 1;
         }
 
-        /* --- CERCLE PHOTO "HUBLOT" (Sans fond noir) --- */
+        /* PHOTO DANS L'ANNEAU D'ÉNERGIE */
         .profile-wrapper {
-            position: relative;
-            width: 280px; height: 280px;
-            margin-bottom: 40px;
+            position: relative; width: 280px; height: 280px; margin-bottom: 30px;
             display: flex; justify-content: center; align-items: center;
         }
-
-        /* Cercles rotatifs style "Radar" */
-        .radar-ring {
-            position: absolute; border-radius: 50%; border: 1px solid rgba(0, 229, 255, 0.3);
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
+        
+        /* Cercle d'énergie rotatif */
+        .energy-ring {
+            position: absolute; width: 100%; height: 100%; border-radius: 50%;
+            border: 2px solid transparent; border-top-color: var(--primary); border-right-color: var(--primary);
+            animation: spin 3s linear infinite; box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
         }
-        .r1 { width: 100%; height: 100%; animation: spin 10s linear infinite; border-top-color: var(--primary); }
-        .r2 { width: 115%; height: 115%; animation: spin 15s linear infinite reverse; border-bottom-color: var(--secondary); opacity: 0.5; }
-        .r3 { width: 130%; height: 130%; border: 1px dashed rgba(255,255,255,0.1); }
+        .energy-ring::before {
+            content:''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px; border-radius: 50%;
+            border: 2px solid transparent; border-bottom-color: var(--secondary); border-left-color: var(--secondary);
+            animation: spin 5s linear infinite reverse;
+        }
 
         .profile-container {
-            width: 260px; height: 260px;
-            border-radius: 50%;
-            /* Fond transparent style verre */
-            background: rgba(255, 255, 255, 0.02); 
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden; /* Coupe le bas de la photo proprement */
-            position: relative;
-            z-index: 2;
+            width: 250px; height: 250px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative; z-index: 2;
         }
-
         .hero-img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            /* Ajustement précis de ta photo */
-            object-position: center 20%; 
-            transform: scale(1.05);
-            /* Petit effet de lumière sur la photo elle-même */
-            filter: drop-shadow(0 0 20px rgba(0,0,0,0.5)); 
+            width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transform: scale(1.05);
         }
 
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- TEXTES --- */
+        /* TEXTES */
         .status-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 8px 16px; background: rgba(0, 229, 255, 0.1); 
-            border: 1px solid rgba(0, 229, 255, 0.2); border-radius: 30px;
-            color: var(--primary); font-size: 0.8rem; font-weight: 600; letter-spacing: 1px;
-            margin-bottom: 25px; text-transform: uppercase;
+            display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px;
+            background: rgba(0, 242, 255, 0.08); border: 1px solid rgba(0, 242, 255, 0.2);
+            border-radius: 20px; color: var(--primary); font-size: 0.8rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;
         }
-        .status-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); animation: blink 2s infinite; }
+        .status-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); animation: blink 1.5s infinite; }
+        @keyframes blink { 50% { opacity: 0.4; } }
 
         .hero h1 { 
-            font-size: 4.5rem; line-height: 1; margin-bottom: 15px; font-weight: 800;
-            background: linear-gradient(to bottom, #fff, #b3e5fc);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-size: 4.5rem; margin-bottom: 10px; font-weight: 800; letter-spacing: -1px;
+            background: linear-gradient(to bottom, #fff, #90cdf4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* TYPED TEXT STYLE */
-        .subtitle-container {
-            font-size: 1.5rem; color: #b0c4de; margin-bottom: 40px; font-weight: 300;
-            height: 30px; /* Fixe la hauteur pour éviter que ça saute */
-        }
-        .highlight { color: var(--primary); font-weight: 600; }
+        .subtitle { font-size: 1.5rem; color: #a0aec0; margin-bottom: 40px; font-weight: 300; height: 30px; }
+        .highlight { color: var(--primary); font-weight: 600; text-shadow: 0 0 15px rgba(0, 242, 255, 0.3); }
 
-        /* --- BOUTONS --- */
+        /* BOUTONS */
         .hero-btns { display: flex; gap: 20px; }
-        
         .btn-main {
-            padding: 14px 40px; background: var(--primary); color: #000;
-            border-radius: 4px; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.4); transition: 0.3s;
-            position: relative; overflow: hidden;
+            padding: 14px 40px; background: var(--primary); color: #050a14;
+            border-radius: 4px; text-decoration: none; font-weight: 700; text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4); transition: 0.3s;
         }
-        .btn-main::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: 0.5s;
-        }
-        .btn-main:hover::before { left: 100%; }
-        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(0, 229, 255, 0.6); }
-
+        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 0 40px rgba(0, 242, 255, 0.7); }
         .btn-outline {
             padding: 14px 40px; border: 1px solid rgba(255,255,255,0.2); color: #fff;
-            border-radius: 4px; text-decoration: none; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+            border-radius: 4px; text-decoration: none; font-weight: 600; text-transform: uppercase;
             background: rgba(255,255,255,0.02); transition: 0.3s;
         }
-        .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.05); }
-
-        @keyframes blink { 50% { opacity: 0.3; } }
+        .btn-outline:hover { background: rgba(255,255,255,0.05); border-color: #fff; }
 
         /* MOBILE */
         @media (max-width: 768px) {
             .hero h1 { font-size: 3rem; }
-            .subtitle-container { font-size: 1.1rem; height: auto; min-height: 60px; }
             .nav-links { display: none; }
             .profile-wrapper { width: 220px; height: 220px; }
             .profile-container { width: 200px; height: 200px; }
@@ -177,13 +145,13 @@
 </head>
 <body>
 
-    <canvas id="circuit-canvas"></canvas>
+    <canvas id="energy-canvas"></canvas>
     <div class="vignette"></div>
 
     <nav>
         <a href="index.html" class="logo">Bader <span>| Ingénieur</span></a>
         <ul class="nav-links">
-            <li><a href="index.html">Accueil</a></li>
+            <li><a href="index.html" class="active" style="color:var(--primary)">Accueil</a></li>
             <li><a href="parcours.html">Parcours</a></li>
             <li><a href="experiences.html">Expérience</a></li>
             <li><a href="projets.html">Projets</a></li>
@@ -195,23 +163,17 @@
     <section class="hero" data-aos="fade-up">
         
         <div class="profile-wrapper">
-            <div class="radar-ring r1"></div>
-            <div class="radar-ring r2"></div>
-            <div class="radar-ring r3"></div>
-            
+            <div class="energy-ring"></div>
             <div class="profile-container">
                 <img src="profilee.png" alt="Bader el Berkaoui" class="hero-img">
             </div>
         </div>
 
-        <div class="status-badge">
-            <div class="status-dot"></div>
-            Disponible pour opportunités
-        </div>
+        <div class="status-badge"><div class="status-dot"></div> Open to Work</div>
 
         <h1>Bader el Berkaoui</h1>
 
-        <div class="subtitle-container">
+        <div class="subtitle">
             Ingénieur spécialisé en <span class="highlight" id="typed-text"></span>
         </div>
 
@@ -219,7 +181,6 @@
             <a href="projets.html" class="btn-main">Mes Projets</a>
             <a href="parcours.html" class="btn-outline">Mon Parcours</a>
         </div>
-
     </section>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -228,114 +189,75 @@
     <script>
         AOS.init({ duration: 1000, once: true });
 
-        // TEXTE QUI CHANGE (CFO/CFA, IA, etc.)
         var typed = new Typed('#typed-text', {
-            strings: [
-                "Génie Électrique.",
-                "Installations CFO/CFA.",
-                "Systèmes Embarqués.",
-                "Énergies Renouvelables.",
-                "Intelligence Artificielle."
-            ],
-            typeSpeed: 40,
-            backSpeed: 20,
-            backDelay: 2000,
-            loop: true
+            strings: ["Génie Électrique.", "Systèmes Embarqués.", "Énergies Renouvelables.", "Intelligence Artificielle."],
+            typeSpeed: 40, backSpeed: 30, backDelay: 2000, loop: true
         });
 
-        // --- ANIMATION CIRCUIT ÉLECTRIQUE ---
-        const canvas = document.getElementById('circuit-canvas');
+        // --- ANIMATION FLUX D'ÉNERGIE ---
+        const canvas = document.getElementById('energy-canvas');
         const ctx = canvas.getContext('2d');
         let width, height;
-        let lines = [];
+        let particles = [];
 
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-
-        class CircuitLine {
+        function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+        
+        class EnergyParticle {
             constructor() {
                 this.reset();
             }
             reset() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.vx = (Math.random() < 0.5 ? -1 : 1) * (Math.random() * 2 + 1);
-                this.vy = 0; // Commence horizontalement
-                this.history = [];
-                this.maxLength = Math.random() * 100 + 50;
-                this.life = 0;
-                this.maxLife = Math.random() * 200 + 100;
-                this.color = `rgba(0, 229, 255, ${Math.random() * 0.5 + 0.1})`;
-                this.width = Math.random() * 2 + 0.5;
+                this.vx = (Math.random() - 0.5) * 2; // Vitesse rapide
+                this.vy = (Math.random() - 0.5) * 2;
+                this.size = Math.random() * 2 + 1;
+                this.life = Math.random() * 100;
+                this.maxLife = 100;
             }
             update() {
+                this.x += this.vx; this.y += this.vy;
                 this.life++;
-                if (this.life > this.maxLife) { this.reset(); return; }
-
-                this.x += this.vx;
-                this.y += this.vy;
-
-                // Changement de direction à 90 degrés (Effet Circuit)
-                if (Math.random() < 0.02) {
-                    if (this.vx !== 0) {
-                        this.vx = 0;
-                        this.vy = (Math.random() < 0.5 ? -1 : 1) * (Math.random() * 2 + 1);
-                    } else {
-                        this.vy = 0;
-                        this.vx = (Math.random() < 0.5 ? -1 : 1) * (Math.random() * 2 + 1);
-                    }
-                }
-
-                this.history.push({ x: this.x, y: this.y });
-                if (this.history.length > this.maxLength) {
-                    this.history.shift();
-                }
-
-                // Sortie d'écran
-                if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) this.reset();
+                if (this.life > this.maxLife || this.x < 0 || this.x > width || this.y < 0 || this.y > height) this.reset();
             }
             draw() {
+                // Effet de traînée électrique
                 ctx.beginPath();
-                ctx.strokeStyle = this.color;
-                ctx.lineWidth = this.width;
-                if (this.history.length > 0) {
-                    ctx.moveTo(this.history[0].x, this.history[0].y);
-                    for (let i = 1; i < this.history.length; i++) {
-                        ctx.lineTo(this.history[i].x, this.history[i].y);
-                    }
-                }
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - this.vx * 4, this.y - this.vy * 4);
+                ctx.strokeStyle = `rgba(0, 242, 255, ${1 - this.life/this.maxLife})`;
+                ctx.lineWidth = this.size;
                 ctx.stroke();
-                
-                // Petit point brillant au bout
-                ctx.fillStyle = '#fff';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.width, 0, Math.PI * 2);
-                ctx.fill();
             }
         }
 
-        function init() {
-            lines = [];
-            for (let i = 0; i < 30; i++) { // Nombre de lignes électriques
-                lines.push(new CircuitLine());
-            }
-        }
-
+        function init() { particles = []; for(let i=0; i<60; i++) particles.push(new EnergyParticle()); }
+        
         function animate() {
             ctx.clearRect(0, 0, width, height);
-            lines.forEach(line => {
-                line.update();
-                line.draw();
-            });
+            
+            // Connecter les particules proches (Arcs électriques)
+            for(let i=0; i<particles.length; i++) {
+                let p = particles[i];
+                p.update(); p.draw();
+                for(let j=i; j<particles.length; j++) {
+                    let p2 = particles[j];
+                    let d = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if(d < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = `rgba(0, 242, 255, ${0.2 * (1 - d/100)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
             requestAnimationFrame(animate);
         }
 
         window.addEventListener('resize', () => { resize(); init(); });
-        resize();
-        init();
-        animate();
+        resize(); init(); animate();
     </script>
 </body>
 </html>
