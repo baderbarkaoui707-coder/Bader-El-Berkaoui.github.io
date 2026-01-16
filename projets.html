@@ -5,176 +5,211 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projets | Bader el Berkaoui</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         :root {
-            --bg-dark: #020617;
-            --glass-panel: rgba(15, 23, 42, 0.85);
-            --border: rgba(255, 255, 255, 0.1);
-            --primary: #00f2ff;
-            --secondary: #4361ee;
+            --bg-deep: #02040a;
+            --bg-panel: rgba(13, 18, 30, 0.7);
+            --border-light: rgba(255, 255, 255, 0.08);
             --text-main: #ffffff;
             --text-muted: #94a3b8;
             
-            /* Couleurs Médailles */
-            --gold: #ffd700;
-            --silver: #c0c0c0;
-            --bronze: #cd7f32;
+            /* Couleurs Projets */
+            --col-drone: #00f2ff;
+            --col-water: #4cc9f0;
+            --col-robot: #ffd700;
+            --col-iot: #7b2cbf;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-dark);
+            background-color: var(--bg-deep);
             color: var(--text-main);
             overflow-x: hidden;
         }
 
-        /* --- FOND DYNAMIQUE --- */
-        .tech-bg {
+        /* --- FOND ANIMÉ --- */
+        .cyber-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: radial-gradient(circle at 50% 0%, #1e293b 0%, #020617 100%);
+            background: radial-gradient(circle at 50% 0%, #1a2236 0%, #02040a 100%);
         }
         .grid-overlay {
             position: absolute; width: 100%; height: 100%;
             background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 50px 50px; opacity: 0.3;
+            background-size: 40px 40px; opacity: 0.3;
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
         }
 
         /* --- NAVIGATION --- */
         nav {
-            position: fixed; top: 0; width: 100%; z-index: 1000; padding: 15px 5%;
+            position: fixed; top: 0; width: 100%; z-index: 1000; padding: 20px 5%;
             display: flex; justify-content: center;
-            backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
-            background: rgba(2, 6, 23, 0.9);
+            backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-light);
+            background: rgba(2, 4, 10, 0.85);
         }
-        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links { display: flex; gap: 40px; list-style: none; }
         .nav-links a { 
-            color: #94a3b8; text-decoration: none; font-weight: 600; font-size: 0.9rem;
-            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
-            display: flex; align-items: center; gap: 8px;
+            color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem;
+            text-transform: uppercase; letter-spacing: 1.5px; transition: 0.3s;
+            position: relative;
         }
-        .nav-links a:hover, .nav-links a.active { color: #fff; text-shadow: 0 0 15px var(--primary); }
-        .nav-links a i { color: var(--primary); }
+        .nav-links a:hover, .nav-links a.active { color: #fff; text-shadow: 0 0 15px var(--col-drone); }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
+            background: var(--col-drone); transition: 0.3s;
+        }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
         /* --- HEADER --- */
-        .header-section {
-            padding: 140px 20px 80px; text-align: center; max-width: 1000px; margin: 0 auto;
+        .hero-section {
+            padding: 160px 20px 100px; text-align: center; max-width: 1100px; margin: 0 auto;
         }
-        .header-section h1 { 
-            font-size: 3.5rem; font-weight: 900; margin-bottom: 20px; letter-spacing: -1px; text-transform: uppercase;
-            background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        .hero-title {
+            font-family: 'Rajdhani', sans-serif; font-size: 4.5rem; font-weight: 700; line-height: 1;
+            margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px;
+            background: linear-gradient(180deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .intro-text { font-size: 1.15rem; color: #cbd5e1; font-weight: 300; max-width: 750px; margin: 0 auto; }
+        .hero-subtitle {
+            font-size: 1.2rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;
+            line-height: 1.6; border-left: 3px solid var(--col-drone); padding-left: 20px; text-align: left;
+        }
 
         /* --- CONTENEUR PROJETS --- */
-        .projects-container {
-            max-width: 1300px; margin: 0 auto 100px; padding: 0 25px;
-            display: flex; flex-direction: column; gap: 100px;
+        .projects-wrapper {
+            max-width: 1400px; margin: 0 auto 100px; padding: 0 40px;
+            display: flex; flex-direction: column; gap: 150px;
         }
 
-        /* --- BLOC PROJET (ALBUM LAYOUT) --- */
+        /* --- CARTE PROJET (MASTERPIECE) --- */
         .project-card {
-            background: var(--glass-panel); border: 1px solid var(--border);
-            border-radius: 24px; padding: 40px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-            display: grid; grid-template-columns: 1fr 1fr; gap: 50px;
-            align-items: start; transition: transform 0.3s;
+            display: grid; grid-template-columns: 1fr 1.1fr; gap: 60px; align-items: center;
+            position: relative;
         }
-        .project-card:hover { border-color: rgba(0, 242, 255, 0.3); transform: translateY(-5px); }
+        .project-card.reverse { grid-template-columns: 1.1fr 1fr; }
+        
+        /* Câblage Visuel (Ligne décorative) */
+        .project-card::before {
+            content: ''; position: absolute; left: 50%; top: -80px; bottom: -80px; width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--border-light), transparent);
+            z-index: -1;
+        }
 
-        /* ALTERNANCE GAUCHE / DROITE */
-        .project-card.reverse { direction: rtl; }
-        .project-card.reverse .project-content { direction: ltr; } /* Texte reste LTR */
+        /* --- INFO GAUCHE/DROITE --- */
+        .project-details { position: relative; z-index: 2; }
+        
+        /* Titres & Badges */
+        .project-header { margin-bottom: 30px; }
+        .project-cat { 
+            font-family: 'Rajdhani', sans-serif; color: var(--accent-color); font-weight: 700; 
+            text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; display: block; margin-bottom: 10px;
+        }
+        .project-name { font-size: 3rem; font-weight: 800; line-height: 1.1; margin-bottom: 15px; }
+        
+        .awards-container { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 15px; }
+        .award-tag {
+            display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px;
+            border-radius: 4px; font-size: 0.85rem; font-weight: 700; color: #000;
+            background: linear-gradient(135deg, #e2e8f0, #94a3b8); /* Défaut Silver */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); position: relative; overflow: hidden;
+        }
+        /* Effet Brillant sur le badge */
+        .award-tag::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.8), transparent);
+            transform: translateX(-100%) rotate(45deg); animation: shine 3s infinite;
+        }
+        .award-gold { background: linear-gradient(135deg, #ffd700, #ffb300); }
+        .award-silver { background: linear-gradient(135deg, #e0e0e0, #bdc3c7); }
+        .award-bronze { background: linear-gradient(135deg, #cd7f32, #a0522d); color: #fff; }
 
-        /* --- COLONNE INFO (TEXTE) --- */
-        .project-content { display: flex; flex-direction: column; gap: 20px; }
-
-        .project-header h2 { font-size: 2.2rem; margin-bottom: 5px; color: #fff; line-height: 1.1; }
-        .subtitle { color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.85rem; }
+        @keyframes shine { 20% { transform: translateX(100%) rotate(45deg); } 100% { transform: translateX(100%) rotate(45deg); } }
 
         /* Description Technique */
-        .tech-desc { 
-            color: #cbd5e1; line-height: 1.7; font-size: 1rem; 
-            background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px;
-            border-left: 3px solid var(--primary);
+        .project-desc {
+            background: rgba(255,255,255,0.03); padding: 25px; border-radius: 16px;
+            border: 1px solid var(--border-light); backdrop-filter: blur(10px);
+            margin-bottom: 25px;
         }
-        .tech-desc strong { color: #fff; font-weight: 600; }
-        .tech-desc ul { margin-top: 10px; padding-left: 20px; }
-        .tech-desc li { margin-bottom: 8px; }
+        .project-desc p { color: #cbd5e1; line-height: 1.8; font-size: 1.05rem; margin-bottom: 15px; }
+        .highlight-text { color: #fff; font-weight: 600; border-bottom: 1px solid var(--accent-color); }
 
-        /* Badges Prix */
-        .awards-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 5px; }
-        .award-badge {
-            display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px;
-            border-radius: 50px; font-size: 0.8rem; font-weight: 700; color: #000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        /* Specs Techniques (Liste) */
+        .specs-list { list-style: none; display: grid; gap: 12px; }
+        .specs-list li {
+            position: relative; padding-left: 20px; color: #94a3b8; font-size: 0.95rem;
         }
-        .gold { background: linear-gradient(135deg, #ffd700, #ffec8b); }
-        .silver { background: linear-gradient(135deg, #c0c0c0, #e8e8e8); }
-        .bronze { background: linear-gradient(135deg, #cd7f32, #f4a460); }
-
-        /* Tags Tech */
-        .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-        .tag {
-            padding: 5px 12px; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px;
-            font-size: 0.75rem; color: #94a3b8; background: rgba(0,0,0,0.3);
+        .specs-list li::before {
+            content: '▹'; position: absolute; left: 0; color: var(--accent-color);
         }
 
-        /* --- COLONNE VISUELLE (ALBUM) --- */
-        .project-album {
-            display: flex; flex-direction: column; gap: 15px;
-            background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px;
-            border: 1px solid var(--border);
+        /* Stack Tech */
+        .tech-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+        .chip {
+            padding: 6px 14px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-light);
+            border-radius: 50px; font-size: 0.8rem; color: #fff; transition: 0.3s;
         }
+        .chip:hover { border-color: var(--accent-color); color: var(--accent-color); transform: translateY(-2px); }
+
+        /* --- VISUEL (ALBUM) --- */
+        .project-visual { position: relative; z-index: 1; perspective: 1000px; }
+        
+        .visual-frame {
+            background: var(--bg-panel); border: 1px solid var(--border-light); padding: 15px;
+            border-radius: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            transition: transform 0.5s ease;
+        }
+        .project-card:hover .visual-frame { transform: rotateY(2deg) rotateX(2deg); border-color: var(--accent-color); }
 
         /* Vidéo */
-        .video-box {
-            width: 100%; border-radius: 10px; overflow: hidden;
-            border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        .video-container {
+            width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.1); position: relative;
         }
         video { width: 100%; display: block; }
 
-        /* Grille Photos (Visible Complètement) */
+        /* Grille Photos */
         .photo-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
         }
-        
         .photo-item {
-            /* LE SECRET : Hauteur auto pour ne pas couper, ou contain pour adapter */
-            background: #000; border-radius: 8px; overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1); cursor: pointer;
-            transition: 0.3s; position: relative;
-            /* On force un ratio ou on laisse libre ? Ici on laisse libre pour voir TOUT */
-            display: flex; align-items: center; justify-content: center;
-            height: 120px; /* Hauteur fixe pour l'harmonie de la grille */
+            height: 100px; border-radius: 8px; overflow: hidden; cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1); position: relative;
         }
-        
         .photo-item img {
-            width: 100%; height: 100%; 
-            object-fit: contain; /* ESSENTIEL : L'image s'adapte sans être coupée */
-            transition: 0.5s;
+            width: 100%; height: 100%; object-fit: cover; transition: 0.5s;
         }
-        
-        .photo-item:hover { border-color: var(--primary); transform: scale(1.02); z-index: 5; }
+        .photo-item:hover img { transform: scale(1.1); }
+        .photo-item:hover { border-color: var(--accent-color); z-index: 2; }
+
+        /* IMAGE SEULE (Pour les projets sans vidéo) */
+        .main-photo {
+            width: 100%; height: 350px; border-radius: 12px; overflow: hidden; margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .main-photo img { width: 100%; height: 100%; object-fit: cover; }
 
         /* MOBILE */
         @media (max-width: 1024px) {
             .nav-links { display: none; }
-            .project-card, .project-card.reverse { grid-template-columns: 1fr; direction: ltr; }
-            .header-section h1 { font-size: 2.5rem; }
-            .photo-grid { grid-template-columns: repeat(2, 1fr); }
+            .hero-title { font-size: 3rem; }
+            .hero-subtitle { padding-left: 0; border-left: none; text-align: center; }
+            .projects-wrapper { padding: 0 20px; gap: 80px; }
+            .project-card, .project-card.reverse { grid-template-columns: 1fr; gap: 40px; }
+            .project-card::before { display: none; }
+            .visual-frame { padding: 10px; }
+            .photo-grid { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
 </head>
 <body>
 
-    <div class="tech-bg"><div class="grid-overlay"></div></div>
+    <div class="cyber-bg"><div class="grid-overlay"></div></div>
 
     <nav>
         <ul class="nav-links">
@@ -187,180 +222,190 @@
         </ul>
     </nav>
 
-    <section class="header-section" data-aos="zoom-in">
-        <h1>Galerie de <span style="color:var(--primary)">Projets</span></h1>
-        <p class="intro-text">
-            Une immersion dans mes réalisations techniques : Robotique autonome, Intelligence Artificielle et Solutions IoT primées au niveau national.
+    <header class="hero-section" data-aos="zoom-out">
+        <h1 class="hero-title">Ingénierie & <span style="color:var(--col-drone)">Innovation</span></h1>
+        <p class="hero-subtitle">
+            Une collection de solutions technologiques concrètes, primées lors de compétitions nationales. 
+            Alliant <strong>Intelligence Artificielle</strong>, <strong>IoT</strong> et <strong>Robotique Avancée</strong>.
         </p>
-    </section>
+    </header>
 
-    <div class="projects-container">
+    <div class="projects-wrapper">
 
-        <article class="project-card" data-aos="fade-up">
-            <div class="project-content">
+        <article class="project-card" style="--accent-color: var(--col-drone);" data-aos="fade-up">
+            <div class="project-details">
                 <div class="project-header">
-                    <span class="subtitle">Robotique Aérienne & Secours</span>
-                    <h2>Drone AMANE</h2>
-                </div>
-                
-                <div class="awards-list">
-                    <span class="award-badge gold"><i class="fas fa-trophy"></i> 1er Prix FS Ben M'sik</span>
-                    <span class="award-badge silver"><i class="fas fa-medal"></i> 2ème Prix ENSA Oujda</span>
+                    <span class="project-cat">Robotique Aérienne & Secours</span>
+                    <h2 class="project-name">Drone AMANE</h2>
+                    <div class="awards-container">
+                        <span class="award-tag award-gold"><i class="fas fa-trophy"></i> 1er Prix FS Ben M'sik</span>
+                        <span class="award-tag award-silver"><i class="fas fa-medal"></i> 2ème Prix ENSA Oujda</span>
+                    </div>
                 </div>
 
-                <div class="tech-desc">
+                <div class="project-desc">
                     <p>
-                        Drone multiservice autonome conçu pour intervenir dans des <strong>zones sinistrées</strong> (séismes, inondations). Une solution vitale pour l'accès aux zones isolées.
+                        Drone autonome multiservice conçu pour les opérations critiques. Une réponse technologique aux catastrophes naturelles (Séismes, Inondations) et à l'isolement géographique.
                     </p>
-                    <ul>
-                        <li><strong>Système de Largage :</strong> Mécanisme de précision pour délivrer des bouées de sauvetage aux noyés ou des médicaments.</li>
-                        <li><strong>Vision Intelligente :</strong> Détection de victimes par analyse d'image thermique.</li>
-                        <li><strong>Architecture :</strong> Contrôleur de vol Pixhawk couplé à une Raspberry Pi pour le traitement de mission.</li>
+                    <ul class="specs-list">
+                        <li><strong>Sauvetage :</strong> Système de largage de précision pour bouées ou kits médicaux.</li>
+                        <li><strong>Vision IA :</strong> Détection de victimes par analyse d'image thermique.</li>
+                        <li><strong>Vol Autonome :</strong> Planification de mission via Pixhawk et télémétrie longue portée.</li>
                     </ul>
                 </div>
 
-                <div class="tech-stack">
-                    <span class="tag">Pixhawk 4</span>
-                    <span class="tag">Raspberry Pi</span>
-                    <span class="tag">Python OpenCV</span>
-                    <span class="tag">Fusion 360</span>
+                <div class="tech-chips">
+                    <span class="chip">Pixhawk 4</span>
+                    <span class="chip">Raspberry Pi</span>
+                    <span class="chip">Python OpenCV</span>
+                    <span class="chip">Impression 3D</span>
                 </div>
             </div>
 
-            <div class="project-album">
-                <div class="video-box">
-                    <video controls poster="ar1.jpeg">
-                        <source src="vid.mp4" type="video/mp4">
-                        Votre navigateur ne supporte pas la vidéo.
-                    </video>
-                </div>
-                <div class="photo-grid">
-                    <div class="photo-item"><img src="ar1.jpeg" alt="Drone Vue 1"></div>
-                    <div class="photo-item"><img src="ar2.jpeg" alt="Drone Vue 2"></div>
-                    <div class="photo-item"><img src="ar3.jpeg" alt="Drone Vue 3"></div>
-                    <div class="photo-item"><img src="ar4.jpeg" alt="Drone Vue 4"></div>
-                    <div class="photo-item"><img src="ar5.jpeg" alt="Drone Vue 5"></div>
+            <div class="project-visual">
+                <div class="visual-frame">
+                    <div class="video-container">
+                        <video controls poster="ar1.jpeg">
+                            <source src="vid.mp4" type="video/mp4">
+                            Vidéo non supportée.
+                        </video>
+                    </div>
+                    <div class="photo-grid">
+                        <div class="photo-item"><img src="ar1.jpeg" alt="Drone Vue 1"></div>
+                        <div class="photo-item"><img src="ar2.jpeg" alt="Drone Vue 2"></div>
+                        <div class="photo-item"><img src="ar3.jpeg" alt="Drone Vue 3"></div>
+                        <div class="photo-item"><img src="ar4.jpeg" alt="Drone Vue 4"></div>
+                        <div class="photo-item"><img src="ar5.jpeg" alt="Drone Vue 5"></div>
+                        <div class="photo-item" style="background:#000; display:flex; justify-content:center; align-items:center;">
+                            <i class="fas fa-plus" style="color:#fff;"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </article>
 
 
-        <article class="project-card reverse" data-aos="fade-up">
-            <div class="project-content">
+        <article class="project-card reverse" style="--accent-color: var(--col-water);" data-aos="fade-up">
+            <div class="project-details">
                 <div class="project-header">
-                    <span class="subtitle">Smart Water Management (IoT/IA)</span>
-                    <h2>Projet TAWFIR</h2>
+                    <span class="project-cat">Smart Water Management (AI + IoT)</span>
+                    <h2 class="project-name">Projet TAWFIR</h2>
+                    <div class="awards-container">
+                        <span class="award-tag award-bronze"><i class="fas fa-medal"></i> 3ème Prix ENSA El Jadida</span>
+                    </div>
                 </div>
 
-                <div class="awards-list">
-                    <span class="award-badge bronze"><i class="fas fa-medal"></i> 3ème Prix ENSA El Jadida</span>
-                </div>
-
-                <div class="tech-desc">
+                <div class="project-desc">
                     <p>
-                        Système intelligent de gestion de l'eau pour lutter contre le stress hydrique. Il détecte les fuites domestiques en temps réel grâce à l'analyse comportementale.
+                        Solution intelligente pour la <span class="highlight-text">gestion de la crise hydrique</span>. Le système détecte les fuites domestiques en temps réel en analysant les habitudes de consommation.
                     </p>
-                    <ul>
-                        [cite_start]<li><strong>Algorithme IA :</strong> Utilisation de l'<strong>Isolation Forest</strong> pour isoler les anomalies de débit (signatures de fuites). [cite: 67]</li>
-                        [cite_start]<li><strong>Couche IoT :</strong> Capteur de débit relié à un <strong>ESP32</strong> transmettant les données via le protocole léger <strong>MQTT</strong>. [cite: 58]</li>
-                        [cite_start]<li><strong>Backend :</strong> Serveur Python/Flask avec base de données MongoDB pour l'historique de consommation. [cite: 50]</li>
+                    <ul class="specs-list">
+                        <li><strong>IA Détective :</strong> Algorithme <em>Isolation Forest</em> pour isoler les anomalies de débit.</li>
+                        <li><strong>Architecture IoT :</strong> Capteur de débit + Arduino (Acquisition) + ESP32 (Transmission MQTT).</li>
+                        <li><strong>Backend :</strong> API Python/Flask et base de données MongoDB pour l'historique.</li>
+                        <li><strong>Contexte :</strong> Analyse vectorielle sur 60 minutes pour une précision maximale.</li>
                     </ul>
                 </div>
 
-                <div class="tech-stack">
-                    <span class="tag">Machine Learning</span>
-                    <span class="tag">ESP32 & MQTT</span>
-                    <span class="tag">Python Flask</span>
-                    <span class="tag">MongoDB</span>
+                <div class="tech-chips">
+                    <span class="chip">Machine Learning</span>
+                    <span class="chip">ESP32 / MQTT</span>
+                    <span class="chip">Python Flask</span>
+                    <span class="chip">MongoDB</span>
                 </div>
             </div>
 
-            <div class="project-album">
-                <div class="photo-item" style="height: 250px;">
-                    <img src="ae1.jpeg" alt="Interface Tawfir">
-                </div>
-                <div class="photo-grid" style="grid-template-columns: 1fr 1fr;">
-                    <div class="photo-item" style="height: 150px;"><img src="ae2.jpeg" alt="Hardware Tawfir"></div>
-                    <div class="photo-item" style="height: 150px;"><img src="ae1.jpeg" alt="Dashboard Tawfir"></div>
+            <div class="project-visual">
+                <div class="visual-frame">
+                    <div class="main-photo">
+                        <img src="ae1.jpeg" alt="Interface Tawfir">
+                    </div>
+                    <div class="photo-grid" style="grid-template-columns: 1fr 1fr;">
+                        <div class="photo-item" style="height: 120px;"><img src="ae2.jpeg" alt="Hardware Tawfir"></div>
+                        <div class="photo-item" style="height: 120px;"><img src="ae1.jpeg" alt="Zoom Interface"></div>
+                    </div>
                 </div>
             </div>
         </article>
 
 
-        <article class="project-card" data-aos="fade-up">
-            <div class="project-content">
+        <article class="project-card" style="--accent-color: var(--col-robot);" data-aos="fade-up">
+            <div class="project-details">
                 <div class="project-header">
-                    <span class="subtitle">Robotique Mobile & Vision</span>
-                    <h2>Robot Autonome & Bras</h2>
+                    <span class="project-cat">Robotique Mobile & Vision</span>
+                    <h2 class="project-name">Robot Autonome</h2>
+                    <div class="awards-container">
+                        <span class="award-tag award-gold"><i class="fas fa-trophy"></i> 1er Prix ENIM Rabat</span>
+                        <span class="award-tag award-bronze"><i class="fas fa-medal"></i> 3ème Prix ENSA Khouribga</span>
+                    </div>
                 </div>
 
-                <div class="awards-list">
-                    <span class="award-badge gold"><i class="fas fa-trophy"></i> 1er Prix ENIM Rabat</span>
-                    <span class="award-badge bronze"><i class="fas fa-medal"></i> 3ème Prix ENSA Khouribga</span>
-                </div>
-
-                <div class="tech-desc">
+                <div class="project-desc">
                     <p>
-                        Robot mobile capable de navigation complexe (suivi de ligne, intersections) et de manipulation d'objets.
+                        Robot mobile intelligent combinant navigation autonome et manipulation. Il surpasse les suiveurs classiques grâce à la <span class="highlight-text">Vision par Ordinateur</span>.
                     </p>
-                    <ul>
-                        <li><strong>Vision par Ordinateur :</strong> Caméra embarquée sur Raspberry Pi traitant les images en temps réel (OpenCV) pour guider le robot.</li>
-                        <li><strong>Manipulation :</strong> Bras robotique 4 axes piloté pour saisir et trier des objets selon leur couleur.</li>
-                        <li><strong>Algorithme :</strong> Asservissement PID pour une trajectoire fluide et précise.</li>
+                    <ul class="specs-list">
+                        <li><strong>Navigation :</strong> Traitement d'image temps réel (OpenCV) sur Raspberry Pi pour le suivi de ligne complexe.</li>
+                        <li><strong>Manipulation :</strong> Bras robotique 4 axes avec cinématique inverse pour le tri d'objets.</li>
+                        <li><strong>Contrôle :</strong> Asservissement PID pour des trajectoires fluides et précises.</li>
                     </ul>
                 </div>
 
-                <div class="tech-stack">
-                    <span class="tech-tag">Raspberry Pi 4</span>
-                    <span class="tech-tag">OpenCV</span>
-                    <span class="tech-tag">Cinématique Inverse</span>
-                    <span class="tech-tag">Python</span>
+                <div class="tech-chips">
+                    <span class="chip">Raspberry Pi 4</span>
+                    <span class="chip">OpenCV</span>
+                    <span class="chip">Python</span>
+                    <span class="chip">Cinématique Inverse</span>
                 </div>
             </div>
 
-            <div class="project-album">
-                <div class="photo-item" style="height: 250px;">
-                    <img src="az1.jpeg" alt="Robot Global">
-                </div>
-                <div class="photo-grid">
-                    <div class="photo-item"><img src="az2.jpeg" alt="Détail Bras"></div>
-                    <div class="photo-item"><img src="az3.jpeg" alt="Vue Caméra"></div>
-                    <div class="photo-item"><img src="az1.jpeg" alt="Robot Action"></div>
+            <div class="project-visual">
+                <div class="visual-frame">
+                    <div class="main-photo">
+                        <img src="az1.jpeg" alt="Robot Vue Globale">
+                    </div>
+                    <div class="photo-grid">
+                        <div class="photo-item"><img src="az2.jpeg" alt="Bras Manipulateur"></div>
+                        <div class="photo-item"><img src="az3.jpeg" alt="Caméra Vision"></div>
+                        <div class="photo-item"><img src="az1.jpeg" alt="Robot Action"></div>
+                    </div>
                 </div>
             </div>
         </article>
 
 
-        <article class="project-card reverse" data-aos="fade-up">
-            <div class="project-content">
+        <article class="project-card reverse" style="--accent-color: var(--col-iot);" data-aos="fade-up">
+            <div class="project-details">
                 <div class="project-header">
-                    <span class="subtitle">Systèmes Embarqués & IoT</span>
-                    <h2>Station Météo Connectée</h2>
+                    <span class="project-cat">Systèmes Embarqués & IoT</span>
+                    <h2 class="project-name">Station Météo IoT</h2>
                 </div>
 
-                <div class="tech-desc">
+                <div class="project-desc">
                     <p>
-                        Station de surveillance environnementale temps réel utilisant une architecture bi-processeur pour la performance.
+                        Station de surveillance environnementale haute performance basée sur une architecture bi-cœur pour optimiser l'acquisition et la transmission.
                     </p>
-                    <ul>
-                        <li><strong>Acquisition :</strong> Microcontrôleur <strong>STM32</strong> pour la lecture précise des capteurs (Température, Humidité, Pression).</li>
-                        <li><strong>Communication :</strong> Transmission des données au module <strong>ESP32</strong> via liaison UART.</li>
-                        <li><strong>Cloud :</strong> Envoi des données vers un Dashboard Web pour visualisation en direct via Wi-Fi.</li>
+                    <ul class="specs-list">
+                        <li><strong>Acquisition :</strong> Microcontrôleur <strong>STM32</strong> pour la lecture précise des capteurs (Temp/Hum/Pression).</li>
+                        <li><strong>Communication :</strong> Liaison UART optimisée vers le module de communication.</li>
+                        <li><strong>Connectivité :</strong> Module <strong>ESP32</strong> pour l'envoi sécurisé des données vers le Cloud (Dashboard Web).</li>
                     </ul>
                 </div>
 
-                <div class="tech-stack">
-                    <span class="tech-tag">STM32 (C/C++)</span>
-                    <span class="tech-tag">ESP32</span>
-                    <span class="tech-tag">UART / I2C</span>
-                    <span class="tech-tag">Web Dashboard</span>
+                <div class="tech-chips">
+                    <span class="chip">STM32 (C/C++)</span>
+                    <span class="chip">ESP32 (Wi-Fi)</span>
+                    <span class="chip">UART / I2C</span>
+                    <span class="chip">IoT Dashboard</span>
                 </div>
             </div>
 
-            <div class="project-album" style="justify-content:center; align-items:center; min-height:300px; background:rgba(0,0,0,0.3);">
-                <div style="text-align:center; color:rgba(255,255,255,0.1);">
-                    <i class="fas fa-microchip" style="font-size: 5rem; margin-bottom:15px;"></i>
-                    <p>Architecture STM32 + ESP32</p>
+            <div class="project-visual">
+                <div class="visual-frame" style="display:flex; justify-content:center; align-items:center; min-height:350px; background:rgba(0,0,0,0.2);">
+                    <div style="text-align:center; opacity:0.3;">
+                        <i class="fas fa-microchip" style="font-size: 6rem; color:var(--col-iot); margin-bottom:20px;"></i>
+                        <p style="font-family:'Rajdhani'; font-size:1.5rem; text-transform:uppercase;">Architecture Dual-Core</p>
+                    </div>
                 </div>
             </div>
         </article>
@@ -368,6 +413,8 @@
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script> AOS.init({ duration: 800, once: true }); </script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
 </body>
 </html>
