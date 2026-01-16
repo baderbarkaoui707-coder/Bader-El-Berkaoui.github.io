@@ -33,6 +33,10 @@
             color: var(--text-main);
             overflow-x: hidden;
             perspective: 1000px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* FORCE LE CENTRAGE GLOBAL */
         }
 
         /* --- FOND ANIMÉ (GRID INFINI) --- */
@@ -56,14 +60,14 @@
             100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
         }
 
-        /* --- NAV --- */
+        /* --- NAV CENTRÉE --- */
         nav {
-            position: fixed; top: 0; width: 100%; z-index: 1000; padding: 15px 5%;
-            display: flex; justify-content: center;
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 15px 0;
+            display: flex; justify-content: center; align-items: center;
             backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
             background: rgba(2, 6, 23, 0.9);
         }
-        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links { display: flex; gap: 30px; list-style: none; padding: 0; margin: 0; }
         .nav-links a { 
             color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem;
             text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
@@ -72,9 +76,10 @@
         .nav-links a:hover, .nav-links a.active { color: #fff; text-shadow: 0 0 15px var(--neon-cyan); }
         .nav-links a i { color: var(--neon-cyan); }
 
-        /* --- HEADER --- */
+        /* --- HEADER CENTRÉ --- */
         .header-section {
-            padding: 150px 20px 60px; text-align: center; max-width: 1000px; margin: 0 auto;
+            padding: 150px 20px 60px; text-align: center; 
+            width: 100%; max-width: 1000px; margin: 0 auto; /* Centrage */
         }
         .header-section h1 { 
             font-size: 4rem; font-weight: 900; margin-bottom: 15px; letter-spacing: -2px; text-transform: uppercase;
@@ -83,12 +88,17 @@
         }
         @keyframes glowText { from { text-shadow: 0 0 10px rgba(255,255,255,0.1); } to { text-shadow: 0 0 20px rgba(0, 242, 255, 0.3); } }
         
-        .intro-text { font-size: 1.2rem; color: var(--text-muted); font-weight: 300; }
+        .intro-text { font-size: 1.2rem; color: var(--text-muted); font-weight: 300; margin: 0 auto; }
 
-        /* --- GRILLE --- */
+        /* --- GRILLE CENTRÉE --- */
         .skills-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 40px; max-width: 1300px; margin: 0 auto 100px; padding: 0 30px;
+            display: grid; 
+            /* Ajustement minmax pour éviter le décalage sur écrans moyens */
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+            gap: 40px; 
+            width: 100%; max-width: 1300px; 
+            margin: 0 auto 100px; padding: 0 30px;
+            justify-content: center; /* IMPORTANT : Centre les éléments */
         }
 
         /* --- CARTE 3D INTERACTIVE --- */
@@ -98,9 +108,10 @@
             transform-style: preserve-3d; transform: perspective(1000px);
             backdrop-filter: blur(15px);
             transition: all 0.3s ease;
+            /* Assure que la carte prend toute la place disponible dans sa colonne */
+            width: 100%; 
         }
         
-        /* Lumière ambiante sur la carte */
         .skill-card::before {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: radial-gradient(circle, rgba(255,255,255,0.03), transparent 60%);
@@ -123,29 +134,29 @@
             display: flex; justify-content: center; align-items: center; font-size: 1.8rem;
             background: rgba(255,255,255,0.05); border: 1px solid var(--border);
             animation: pulseIcon 3s infinite ease-in-out;
+            flex-shrink: 0; /* Empêche l'icône de s'écraser */
         }
         
         @keyframes pulseIcon { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-        /* Couleurs icônes */
         .card-cyan .icon-box { color: var(--neon-cyan); box-shadow: 0 0 20px rgba(0, 242, 255, 0.1); }
         .card-purple .icon-box { color: var(--neon-purple); box-shadow: 0 0 20px rgba(188, 19, 254, 0.1); }
         .card-orange .icon-box { color: var(--neon-orange); box-shadow: 0 0 20px rgba(255, 170, 0, 0.1); }
         .card-green .icon-box { color: var(--neon-green); box-shadow: 0 0 20px rgba(0, 255, 157, 0.1); }
 
-        .card-title h2 { font-size: 1.8rem; margin: 0; color: #fff; }
-        .card-title span { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; }
+        .card-title h2 { font-size: 1.6rem; margin: 0; color: #fff; line-height: 1.2; }
+        .card-title span { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; }
 
         /* LISTE SKILLS */
         .skill-list { 
             display: flex; flex-direction: column; gap: 25px; 
-            transform: translateZ(40px); /* Effet flottant */
+            transform: translateZ(40px);
         }
 
         .skill-item { position: relative; }
         .skill-info { display: flex; justify-content: space-between; margin-bottom: 8px; }
         .skill-name { font-weight: 500; color: #e2e8f0; font-size: 1rem; display: flex; align-items: center; gap: 10px; }
-        .skill-name i { opacity: 0.8; }
+        .skill-name i { opacity: 0.8; width: 20px; text-align: center; }
         .skill-percent { font-weight: 700; font-size: 0.9rem; }
 
         /* BARRE DE PROGRESSION ANIMÉE */
@@ -160,17 +171,14 @@
             transition: width 2s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        /* Animation de lumière qui passe */
         .progress-fill::after {
             content: ''; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
             transform: translateX(-100%);
             animation: shimmer 2.5s infinite;
         }
-
         @keyframes shimmer { 100% { transform: translateX(100%); } }
 
-        /* Couleurs barres */
         .card-cyan .progress-fill { background: linear-gradient(90deg, transparent, var(--neon-cyan)); box-shadow: 0 0 15px var(--neon-cyan); }
         .card-cyan .skill-percent { color: var(--neon-cyan); }
 
@@ -188,6 +196,7 @@
             .nav-links { display: none; }
             .skills-grid { grid-template-columns: 1fr; padding: 0 20px; }
             .header-section h1 { font-size: 3rem; }
+            .skill-card { padding: 30px 20px; }
         }
     </style>
 </head>
@@ -332,22 +341,22 @@
 
         // Initialisation Tilt 3D
         VanillaTilt.init(document.querySelectorAll(".js-tilt"), {
-            max: 12,            // Inclinaison max
-            speed: 500,         // Vitesse
-            glare: true,        // Reflet activé
-            "max-glare": 0.2,   // Opacité du reflet
-            scale: 1.02         // Zoom léger au survol
+            max: 12,            
+            speed: 500,         
+            glare: true,        
+            "max-glare": 0.2,   
+            scale: 1.02         
         });
 
-        // Animation des Barres au chargement
+        // Animation des Barres
         window.addEventListener('load', () => {
             const bars = document.querySelectorAll('.progress-fill');
             bars.forEach(bar => {
                 const targetWidth = bar.style.width;
-                bar.style.width = '0'; // On réinitialise à 0
+                bar.style.width = '0'; 
                 setTimeout(() => {
-                    bar.style.width = targetWidth; // On lance l'animation
-                }, 500); // Petit délai pour laisser le temps à la page de charger
+                    bar.style.width = targetWidth; 
+                }, 500); 
             });
         });
     </script>
